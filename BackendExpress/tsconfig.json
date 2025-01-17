@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "target": "ESNext",
+        "isolatedModules": true,
+        "resolveJsonModule": true,
+        "allowImportingTsExtensions": true,
+        "noEmit": true,
+        "outDir": "./dist",
+        "lib": [
+            "esnext"
+        ],
+        "types": [
+            "node",
+            "express"
+        ],
+        "baseUrl": "./",
+        "strict": true,
+    },
+    "exclude": [
+        "node_modules",
+    ],
+    "include": [
+        "./src/**/*.ts",
+        "./src/index.ts",
+        "src/**/*"
+    ]
+}
