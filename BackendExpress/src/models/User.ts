@@ -34,7 +34,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["Free", "Premium"],
         default: "Free",
-    }
+    },
+    apartments:[
+        
+    ]
+
 }, { timestamps: true });
 
 export const User = mongoose.model('User', userSchema, "users");
