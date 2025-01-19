@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema({
         enum: ["Free", "Premium"],
         default: "Free",
     },
-    apartments:[
+    buildings:[
         
     ]
 

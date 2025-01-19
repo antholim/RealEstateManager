@@ -1,18 +1,15 @@
 export interface IBuildingService {
-    createBuilding: (any:any) => any;
+    createBuilding: (decoded:any, buildingInfo:Building) => any;
     removeBuilding: () => any;
     editBuilding: () => any;
     readBuilding: () => any;
 }
 export interface Building {
-    address: {
-        type: String,
-    },
-    city: {
-        type:String,
-    },
-    postalCode: {
-        type:String,
-    },
+    name:String;
+    address:String;
+    city: String;
+    postalCode:String;
+    buildingType:buildingType;
+
 }
 export type buildingType = string;
