@@ -3,7 +3,8 @@ import { Request, Response } from "express";
 
 const buildingCreateController = () => {
     return function (req:Request, res:Response) {
-        const response = buildingService.createBuilding(req.body.decoded, req.body.buildingInfo)
+        const email:string =req.body.decoded;
+        const response = buildingService.createBuilding(email, req.body.buildingInfo)
         if (!response?.statusCode) {
             res.status(500).json({message: 'Internal server error'});
         } else if (response.statusCode === 404) {

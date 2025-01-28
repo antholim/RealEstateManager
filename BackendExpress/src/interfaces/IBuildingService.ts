@@ -1,8 +1,8 @@
 export interface IBuildingService {
-    createBuilding: (decoded:any, buildingInfo:Building) => any;
+    createBuilding: (email:string, buildingInfo:Building) => any;
     removeBuilding: () => any;
     editBuilding: () => any;
-    readBuilding: () => any;
+    readBuilding: (email:string) => any;
 }
 export interface Building {
     name:String;

@@ -8,14 +8,14 @@ export default class BuildingService implements IBuildingService {
         this.EnvService = EnvService;
     }
 
-    createBuilding(decoded:any, buildingInfo:Building) {
+    createBuilding(email:string, buildingInfo:Building) {
         try {
-            const email:string = decoded.email;
-            User.findOne({email: email}, (err, user) => {
+            User.findOne({email: email}, (err:Error, user) => {
                 if (err) {
                     console.log(err)
                 } else {
                     user.buildings.push(buildingInfo);
+                    return {message : "Building successfully created", statusCode : 200}
                 }
             })
         } catch (error) {
@@ -28,7 +28,17 @@ export default class BuildingService implements IBuildingService {
     editBuilding () {
 
     }
-    readBuilding () {
-
+    readBuilding (email:string) {
+        try {
+            User.findOne({email: email}, (err : Error, user) => {
+                if (err) {
+                    console.log(err)
+                } else {
+                    return {message:"Read successfully", statusCode : 200, data : user.buildings};
+                }
+            })
+        } catch (error) {
+            return { message: 'User not found', statusCode : 404 }
+        }
     }
 }
