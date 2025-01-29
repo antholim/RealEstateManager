@@ -1,111 +1,58 @@
-import React, {useState} from 'react';
-import {useForm} from 'react-hook-form';
-import axios from 'axios';
-import {REACT_APP_ENDPOINT_BASE_URL} from "../../../../variables"
-import { TextField, Button } from '@mui/material';
+import React, { useState } from 'react';
+import { TextField, Button, Typography, Container, Paper } from '@mui/material';
+import styles from './styles/Register.module.css';
 
-function RegisterComponent() {
-    const {register, handleSubmit} = useForm();
-    const onSubmit = async (data:any) => {
-        try {
-            await axios.post(`${REACT_APP_ENDPOINT_BASE_URL}/register`, {
-                email: data.email,
-                password: data.password,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                dateOfBirth: data.dateOfBirth,
-                phoneNumber: data.phoneNumber
-            }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-        } catch (error) {
-            console.error('Error : ', error);
-        }
-    }
-    return (
-        <>
-        <h1>Register</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
-      <TextField
-        label="Email"
-        type="email"
-        {...register('email', { required: true })}
-        placeholder="Email"
-        fullWidth
-        margin="normal"
-        variant="outlined"
-        size="small" // Adjust size
-        sx={{ width: '250px' }}
-      />
-      <TextField
-        label="Password"
-        type="password"
-        {...register('password', { required: true })}
-        placeholder="Password"
-        fullWidth
-        margin="normal"
-        variant="outlined"
-        size="small" // Adjust size
-        sx={{ width: '250px' }}
-      />
-      <TextField
-        label="First Name"
-        type="text"
-        {...register('firstName', { required: true })}
-        placeholder="First name"
-        fullWidth
-        margin="normal"
-        variant="outlined"
-        size="small" // Adjust size
-        sx={{ width: '250px' }}
-      />
-      <TextField
-        label="Last Name"
-        type="text"
-        {...register('lastName', { required: true })}
-        placeholder="Last name"
-        fullWidth
-        margin="normal"
-        variant="outlined"
-        size="small" // Adjust size
-        sx={{ width: '250px' }}
-      />
-      <TextField
-        label="Date of Birth"
-        type="text"
-        {...register('dateOfBirth', { required: true })}
-        placeholder="YYYY-MM-DD"
-        fullWidth
-        margin="normal"
-        variant="outlined"
-        size="small" // Adjust size
-        sx={{ width: '250px' }}
-      />
-      <TextField
-        label="Phone Number"
-        type="text"
-        {...register('phoneNumber', { required: true })}
-        placeholder="Phone number"
-        fullWidth
-        margin="normal"
-        variant="outlined"
-        size="small" // Adjust size
-        sx={{ width: '250px' }}
-      />
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        fullWidth
-        size="large" // Adjust button size
-        style={{ marginTop: '16px' }}
-        sx={{ width: '250px' }}
-      >
-        Register
-      </Button>
-    </form>
-        </>
-    )
-} export default RegisterComponent;
+const Register = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Register Submitted:', { email, password, confirmPassword });
+  };
+
+  return (
+    <Container maxWidth="sm" className={styles.container}>
+      <Paper elevation={3} className={styles.paper}>
+        <Typography variant="h4" align="center" gutterBottom>
+          Register
+        </Typography>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <TextField
+            label="Email"
+            type="email"
+            fullWidth
+            margin="normal"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <TextField
+            label="Password"
+            type="password"
+            fullWidth
+            margin="normal"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <TextField
+            label="Confirm Password"
+            type="password"
+            fullWidth
+            margin="normal"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+          <Button type="submit" variant="contained" color="primary" fullWidth className={styles.button}>
+            Register
+          </Button>
+        </form>
+      </Paper>
+    </Container>
+  );
+};
+
+export default Register;

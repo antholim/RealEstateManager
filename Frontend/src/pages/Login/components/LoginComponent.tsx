@@ -1,65 +1,48 @@
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import { REACT_APP_ENDPOINT_BASE_URL } from '../../../../variables';
-import { TextField, Button } from '@mui/material';
+import React, { useState } from 'react';
+import { TextField, Button, Typography, Container, Paper } from '@mui/material';
+import styles from './styles/Login.module.css';
 
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-function LoginComponent() {
-    const { register, handleSubmit } = useForm();
-    const onSubmit = async (data: any) => {
-        try {
-            const response = await axios.post(`${REACT_APP_ENDPOINT_BASE_URL}/login`, {
-                email: data.email,
-                password: data.password
-            }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            localStorage.setItem('token', response.data.accessToken);
-            console.log(response);
-        } catch {
-            console.log('Error');
-        }
-    }
-    return (
-        <>
-            <h1>Login</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <TextField
-                    label="Email"
-                    type="email"
-                    {...register('email', { required: true })}
-                    placeholder="Email"
-                    fullWidth
-                    margin="normal"
-                    variant="outlined"
-                    size="small" // Adjust size
-                    sx={{ width: '250px' }}
-                />
-                <TextField
-                    label="Password"
-                    type="password"
-                    {...register('password', { required: true })}
-                    placeholder="Password"
-                    fullWidth
-                    margin="normal"
-                    variant="outlined"
-                    size="small" // Adjust size
-                    sx={{ width: '250px' }}
-                />
-                <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    size="large" // Adjust button size
-                    style={{ marginTop: '16px' }}
-                    sx={{ width: '250px' }}
-                >
-                    Login
-                </Button>
-            </form>
-        </>
-    )
-} export default LoginComponent;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Login Submitted:', { email, password });
+  };
+
+  return (
+    <Container maxWidth="sm" className={styles.container}>
+      <Paper elevation={3} className={styles.paper}>
+        <Typography variant="h4" align="center" gutterBottom>
+          Login
+        </Typography>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <TextField
+            label="Email"
+            type="email"
+            fullWidth
+            margin="normal"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <TextField
+            label="Password"
+            type="password"
+            fullWidth
+            margin="normal"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <Button type="submit" variant="contained" color="primary" fullWidth className={styles.button}>
+            Login
+          </Button>
+        </form>
+      </Paper>
+    </Container>
+  );
+};
+
+export default Login;
