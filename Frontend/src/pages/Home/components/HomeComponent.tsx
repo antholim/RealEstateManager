@@ -1,4 +1,3 @@
-import React from 'react';
 import { Typography, Button, Container, Paper, Grid, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 import styles from './styles/HomeComponent.module.css';
