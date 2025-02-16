@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
-import { Card } from "@/components/ui/card"
+import { Card } from "../components/ui/card"
 import styles from "./add-tenant.module.css"
 
 export function AddTenant() {
@@ -13,6 +13,8 @@ export function AddTenant() {
     phone: "",
     property: "",
     unit: "",
+    rent: "",
+    type: ""
   })
 
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -49,6 +51,8 @@ export function AddTenant() {
         phone: "",
         property: "",
         unit: "",
+        rent: "",
+        type: ""
       })
     } else {
       setErrors(newErrors)

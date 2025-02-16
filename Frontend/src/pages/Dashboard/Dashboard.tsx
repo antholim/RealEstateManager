@@ -3,13 +3,14 @@ import { DashboardContent } from "./components/dashboard-content"
 import styles from "./Dashboard.module.css"
 import { useState } from "react"
 import { PropertyList } from "./components/property-list"
+import { TenantList } from "./components/tenant-list"
 
 export default function DashboardPage() {
   const [dashboardContent, setDashboardContent] = useState("");
   let content = <DashboardContent />
   console.log(dashboardContent)
   if (dashboardContent === "Tenants") {
-    content = <>test</>
+    content = <TenantList/>
   } else if (dashboardContent === "Properties") {
     content = <PropertyList/>
   }

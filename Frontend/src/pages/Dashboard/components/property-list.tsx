@@ -11,9 +11,10 @@ interface Property {
     address: string
     units: number
     occupancyRate: number
+    tenants:[]
   }
 const propertiesInitial:Property[] = [
-  { id: 1, name: "Appartment Hochelaga", address: "920 Rue Bossuet", units: 8, occupancyRate: 100 },
+  { id: 1, name: "Appartment Hochelaga", address: "920 Rue Bossuet", units: 8, occupancyRate: 100, tenants:[] },
 ]
 
 export function PropertyList() {
