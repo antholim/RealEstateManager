@@ -8,8 +8,8 @@ export function DashboardContent() {
     <div className={styles.container}>
       <h2 className={styles.title}>Dashboard</h2>
       <div className={styles.metricsGrid}>
-        <MetricCard title="Total Properties" value="15" />
-        <MetricCard title="Occupancy Rate" value="92%" />
+        <MetricCard title="Total Tenants" value="8" />
+        <MetricCard title="Occupancy Rate" value="100%" />
         <MetricCard title="Total Revenue" value="$52,500" />
         <MetricCard title="Pending Requests" value="7" />
       </div>

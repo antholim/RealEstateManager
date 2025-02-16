@@ -4,12 +4,12 @@ import styles from "./sidebar.module.css"
 const navItems = [
   { icon: Home, label: "Dashboard" },
   { icon: Users, label: "Tenants" },
-  { icon: FileText, label: "Documents" },
+  { icon: FileText, label: "Documents",  },
   { icon: Tool, label: "Maintenance" },
   { icon: BarChart, label: "Analytics" },
 ]
 
-export function Sidebar() {
+export function Sidebar({setDashboardContent, dashboardContent}) {
   return (
     <div className={styles.sidebar}>
       <div className={styles.header}>
@@ -19,10 +19,12 @@ export function Sidebar() {
         <ul>
           {navItems.map((item, index) => (
             <li key={index}>
-              <a href="#" className={`${styles.navItem} ${index === 0 ? styles.active : ""}`}>
+              <div onClick={()=> {
+                setDashboardContent(item.label)
+              }} className={`${styles.navItem} ${item.label === dashboardContent ? styles.active : ""}`}>
                 <item.icon className={styles.icon} />
                 {item.label}
-              </a>
+              </div>
             </li>
           ))}
         </ul>
