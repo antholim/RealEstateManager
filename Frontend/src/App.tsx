@@ -4,6 +4,7 @@ import Login from "./pages/Login/Login"
 import Register from "./pages/Register/Register"
 import MyBuilding from "./pages/MyBuilding/MyBuilding";
 import Home from "./pages/Home/Home";
+import DashboardPage from "./pages/Dashboard/Dashboard";
 
 const router = createBrowserRouter([
   {path : "/", element : undefined},
@@ -11,6 +12,7 @@ const router = createBrowserRouter([
   {path : "/register", element : <Register />},
   {path : "/home", element : <Home />},
   {path : "/my-building", element : <MyBuilding />},
+  {path : "/dashboard", element : <DashboardPage />},
 
 ]);
 function App() {

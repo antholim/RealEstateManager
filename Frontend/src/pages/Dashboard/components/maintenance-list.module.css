@@ -1,0 +1,51 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+}
+
+.issue {
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.priority {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.pending {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.inprogress {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.completed {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
