@@ -1,8 +1,9 @@
-import { Home, Users, FileText, PenToolIcon as Tool, BarChart } from "lucide-react"
+import { Home, Users, FileText, PenToolIcon as Tool, BarChart, Building } from "lucide-react"
 import styles from "./sidebar.module.css"
 
 const navItems = [
   { icon: Home, label: "Dashboard" },
+  { icon: Building, label: "Properties" },
   { icon: Users, label: "Tenants" },
   { icon: FileText, label: "Documents",  },
   { icon: Tool, label: "Maintenance" },
