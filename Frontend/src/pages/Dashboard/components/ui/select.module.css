@@ -1,0 +1,68 @@
+.selectContainer {
+    position: relative;
+    width: 100%;
+    font-size: 1rem;
+}
+
+.selectTrigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: white;
+    border: 1px solid #d1d5db;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.selectTrigger:hover {
+    border-color: #9ca3af;
+}
+
+.selectTrigger:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.chevron {
+    width: 1.25rem;
+    height: 1.25rem;
+    transition: transform 0.2s;
+}
+
+.chevronOpen {
+    transform: rotate(180deg);
+}
+
+.optionsList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 0.25rem;
+    padding: 0.5rem 0;
+    background-color: white;
+    border: 1px solid #d1d5db;
+    border-radius: 0.25rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    z-index: 10;
+    max-height: 15rem;
+    overflow-y: auto;
+}
+
+.option {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.option:hover {
+    background-color: #f3f4f6;
+}
+
+.option[aria-selected="true"] {
+    background-color: #e5e7eb;
+    font-weight: 500;
+}

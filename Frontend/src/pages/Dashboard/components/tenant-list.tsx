@@ -2,6 +2,7 @@ import { Card } from "../components/ui/card"
 import styles from "./tenant-list.module.css"
 import { ITenant } from "../interfaces/interfaces"
 import { AddTenant } from "./add-tenant"
+import { Select } from "./ui/select"
 
 const tenants:ITenant[] = [
   {
@@ -70,10 +71,17 @@ const tenants:ITenant[] = [
   },
 ]
 
+const options = [
+  {value : "All Tenants", label : "All Tenants"},
+  {value : "Apartment Hochelaga", label : "Apartment Hochelaga"}
+]
+
 export function TenantList() {
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>All Tenants</h2>
+      <Select options={options} onChange={()=> {
+        
+      }}/>
       <div className={styles.grid}>
         {tenants.map((tenant:ITenant) => (
           <Card key={tenant.id} className={styles.card}>
