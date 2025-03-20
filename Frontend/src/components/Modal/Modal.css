@@ -1,0 +1,29 @@
+.modal {
+    position: fixed;  /* Ensure it stays in place */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centers both vertically & horizontally */
+    width: 400px;
+    background: #d3b17b;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    animation: fade-slide-in-from-top 0.3s ease-in-out;
+}
+
+.modal::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
