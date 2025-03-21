@@ -1,5 +1,5 @@
 import { Card } from "./ui/card"
-import { RevenueChart } from "./revenue-chart"
+import RevenueChart from "./RevenueChart"
 import { MaintenanceList } from "./maintenance-list"
 import styles from "./dashboard-content.module.css"
 
