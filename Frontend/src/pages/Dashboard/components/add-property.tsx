@@ -9,7 +9,6 @@ export function AddProperty() {
     name: "",
     address: "",
     units: "",
-    occupancyRate: "",
   })
 
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -28,14 +27,6 @@ export function AddProperty() {
     if (!formData.address.trim()) newErrors.address = "Address is required"
     if (!formData.units.trim()) newErrors.units = "Number of units is required"
     else if (isNaN(Number(formData.units))) newErrors.units = "Units must be a number"
-    if (!formData.occupancyRate.trim()) newErrors.occupancyRate = "Occupancy rate is required"
-    else if (
-      isNaN(Number(formData.occupancyRate)) ||
-      Number(formData.occupancyRate) < 0 ||
-      Number(formData.occupancyRate) > 100
-    ) {
-      newErrors.occupancyRate = "Occupancy rate must be a number between 0 and 100"
-    }
     return newErrors
   }
 
@@ -50,7 +41,6 @@ export function AddProperty() {
         name: "",
         address: "",
         units: "",
-        occupancyRate: "",
       })
     } else {
       setErrors(newErrors)
@@ -102,20 +92,6 @@ export function AddProperty() {
             className={styles.input}
           />
           {errors.units && <span className={styles.error}>{errors.units}</span>}
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="occupancyRate" className={styles.label}>
-            Occupancy Rate (%)
-          </label>
-          <input
-            type="number"
-            id="occupancyRate"
-            name="occupancyRate"
-            value={formData.occupancyRate}
-            onChange={handleChange}
-            className={styles.input}
-          />
-          {errors.occupancyRate && <span className={styles.error}>{errors.occupancyRate}</span>}
         </div>
         <button type="submit" className={styles.submitButton}>
           Add Property
