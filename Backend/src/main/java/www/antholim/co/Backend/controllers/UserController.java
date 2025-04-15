@@ -1,15 +1,28 @@
 package www.antholim.co.Backend.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import www.antholim.co.Backend.dto.response.Response;
+import www.antholim.co.Backend.models.User;
+import www.antholim.co.Backend.services.UserService;
 
 @Controller
 @RestController
 public class UserController {
+    @Autowired
+    private final UserService userService;
     private final String helloWorld = "Hello World !";
     public UserController() {
 
+    }
+    @PostMapping("/api/v1/register")
+    public Response<?> register(@RequestBody User user) {
+        //Register user
+        return Response.ok().setPayload("Logged in");
     }
     @GetMapping("/api/v1/hello-world")
     public String getHelloWorld() {
