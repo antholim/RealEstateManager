@@ -1,5 +1,7 @@
 package www.antholim.co.Backend.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -10,10 +12,12 @@ import java.lang.annotation.Documented;
 import java.util.Collection;
 import java.util.List;
 
+@Entity
 @Accessors(chain = true)
 @Setter
 @Getter
 public class User implements UserDetails {
+    @Id
     private String _id;
     private String username;
     private String password;
@@ -25,13 +29,4 @@ public class User implements UserDetails {
         return List.of();
     }
 
-    @Override
-    public String getPassword() {
-        return "";
-    }
-
-    @Override
-    public String getUsername() {
-        return "";
-    }
 }

@@ -1,5 +1,6 @@
 package www.antholim.co.Backend.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import www.antholim.co.Backend.dto.response.Response;
 import www.antholim.co.Backend.models.User;
 import www.antholim.co.Backend.services.UserService;
 
+@Slf4j
 @Controller
 @RestController
 public class UserController {
@@ -21,7 +23,7 @@ public class UserController {
     }
     @PostMapping("/api/v1/register")
     public Response<?> register(@RequestBody User user) {
-        //Register user
+        log.error(user.toString(), "ICI");
         return Response.ok().setPayload("Logged in");
     }
     @GetMapping("/api/v1/hello-world")
