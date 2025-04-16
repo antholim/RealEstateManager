@@ -14,7 +14,7 @@ import www.antholim.co.Backend.services.UserService;
 @RestController
 public class UserController {
     @Autowired
-    private final UserService userService;
+    private UserService userService;
     private final String helloWorld = "Hello World !";
     public UserController() {
 

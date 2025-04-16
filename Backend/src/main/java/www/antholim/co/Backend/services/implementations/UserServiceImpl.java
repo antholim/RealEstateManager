@@ -17,8 +17,8 @@ import www.antholim.co.Backend.services.UserService;
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
-    private final AuthenticationManager authenticationManager;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private AuthenticationManager authenticationManager;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Override
     public boolean verifyToken(String token) {
         return false;
