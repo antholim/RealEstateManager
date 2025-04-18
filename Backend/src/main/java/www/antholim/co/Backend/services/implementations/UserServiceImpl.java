@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import www.antholim.co.Backend.models.User;
 import www.antholim.co.Backend.repository.UserRepository;
+import www.antholim.co.Backend.services.CookieService;
 import www.antholim.co.Backend.services.UserService;
 
 @Slf4j
@@ -21,6 +22,8 @@ public class UserServiceImpl implements UserService {
     private AuthenticationManager authenticationManager;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private UserRepository userRepository;
+    private CookieService cookieService;
+
     @Override
     public boolean verifyToken(String token) {
         return false;
@@ -30,6 +33,9 @@ public class UserServiceImpl implements UserService {
         user.setUsername(username).setPassword(bCryptPasswordEncoder.encode(password)).setEmail(email);
         userRepository.save(user);
         return user;
+    }
+    public void login() {
+
     }
     private void authenticate(String username, String password) {
         try {
