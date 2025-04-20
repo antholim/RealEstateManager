@@ -1,8 +1,8 @@
-import { Card } from "../components/ui/card"
-import styles from "./tenant-list.module.css"
-import { ITenant } from "../interfaces/interfaces"
-import { AddTenant } from "./add-tenant"
-import { Select } from "./ui/select"
+import { Card } from "../ui/card"
+import styles from "./tenantList.module.css"
+import { ITenant } from "../../interfaces/interfaces"
+import { AddTenant } from "./addTenant"
+import { Select } from "../ui/select"
 
 const tenants:ITenant[] = [
   {

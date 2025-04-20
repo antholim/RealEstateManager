@@ -1,7 +1,7 @@
 import { Card } from "../components/ui/card"
 import styles from "./property-list.module.css"
 import { useState } from "react"
-import { AddProperty } from "./add-property"
+import { AddProperty } from "../components/AddProperty/addProperty"
 import { Trash2 } from "lucide-react"
 
 

@@ -1,8 +1,8 @@
 import type React from "react"
 
 import { useState } from "react"
-import { Card } from "../components/ui/card"
-import styles from "./add-property.module.css"
+import { Card } from "../ui/card"
+import styles from "./addProperty.module.css"
 
 export function AddProperty() {
   const [formData, setFormData] = useState({

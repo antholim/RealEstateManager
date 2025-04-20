@@ -3,8 +3,8 @@
 import type React from "react"
 
 import { useState } from "react"
-import { Card } from "../components/ui/card"
-import styles from "./add-tenant.module.css"
+import { Card } from "../ui/card"
+import styles from "./addTenant.module.css"
 
 export function AddTenant() {
   const [formData, setFormData] = useState({
