@@ -17,6 +17,7 @@ import www.antholim.co.Backend.enums.TokenType;
 import www.antholim.co.Backend.models.User;
 import www.antholim.co.Backend.repository.UserRepository;
 import www.antholim.co.Backend.services.CookieService;
+import www.antholim.co.Backend.services.TokenService;
 import www.antholim.co.Backend.services.UserService;
 
 @Slf4j
@@ -27,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private UserRepository userRepository;
     private CookieService cookieService;
+    private TokenService tokenService;
 
     @Override
     public boolean verifyToken(String token) {
@@ -48,8 +50,8 @@ public class UserServiceImpl implements UserService {
 
     }
     private AuthenticationResponse generateAuthenticationResponse(User user) {
-        String jwtToken = jwtService.generateToken(user, TokenType.ACCESS_TOKEN);
-        String refreshToken = jwtService.generateToken(user, TokenType.REFRESH_TOKEN);
+        String jwtToken = tokenService.generateToken(user, TokenType.ACCESS_TOKEN);
+        String refreshToken = tokenService.generateToken(user, TokenType.REFRESH_TOKEN);
         return new AuthenticationResponse(jwtToken, refreshToken);
     }
     private void authenticate(String username, String password) {
