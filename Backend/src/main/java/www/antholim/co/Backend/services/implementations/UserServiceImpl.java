@@ -45,7 +45,8 @@ public class UserServiceImpl implements UserService {
     public void login(LoginRequest loginRequest, HttpServletResponse response) {
         authenticate(loginRequest.getUsername(), loginRequest.getPassword());
         User user = getAuthenticatedUser();
-        Authentication auth = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
+        AuthenticationResponse res = generateAuthenticationResponse(user);
+        cookieService.addTokenCookies(response, res);
 
 
     }
