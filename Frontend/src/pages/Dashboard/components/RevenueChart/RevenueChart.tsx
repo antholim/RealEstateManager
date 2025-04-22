@@ -1,6 +1,6 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
-import styles from "./revenue-chart.module.css"
-import { IMonthData } from "../../../interfaces/RevenueChart";
+import styles from "./revenueChart.module.css"
+import { IMonthData } from "../../../../interfaces/RevenueChart";
 
 const RevenueChart: React.FC<{ monthData: IMonthData[] }> = ({ monthData }) => {
   return (

@@ -1,4 +1,4 @@
-import { Sidebar } from "./components/sidebar"
+import { Sidebar } from "./components/Sidebar/sidebar"
 import { DashboardContent } from "./components/dashboard-content"
 import styles from "./Dashboard.module.css"
 import { useState } from "react"
