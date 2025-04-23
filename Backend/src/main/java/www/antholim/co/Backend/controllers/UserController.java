@@ -24,6 +24,11 @@ public class UserController {
     @PostMapping("/api/v1/register")
     public Response<?> register(@RequestBody User user) {
         log.error(user.toString(), "ICI");
+        return Response.ok().setPayload("Register...");
+    }
+    @PostMapping("/api/v1/login")
+    public Response<?> login(@RequestBody User user) {
+        log.error(user.toString(), "ICI");
         return Response.ok().setPayload("Logged in");
     }
     @GetMapping("/api/v1/hello-world")
