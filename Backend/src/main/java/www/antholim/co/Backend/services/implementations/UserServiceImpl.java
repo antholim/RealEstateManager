@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
     public boolean verifyToken(String token) {
         return false;
     }
+
     @Override
     public User createUser(String username, String email, String password) {
         User user = new User();
@@ -47,8 +48,16 @@ public class UserServiceImpl implements UserService {
         User user = getAuthenticatedUser();
         AuthenticationResponse res = generateAuthenticationResponse(user);
         cookieService.addTokenCookies(response, res);
+    }
+    @Override
+    public AuthenticationResponse register(String username, String email, String password) {
+        log.info("Sign up for", username);
+        User user = createUser(username, email, password);
+        //Generate token here
 
 
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        return generateAuthenticationResponse(user);
     }
     private AuthenticationResponse generateAuthenticationResponse(User user) {
         String jwtToken = tokenService.generateToken(user, TokenType.ACCESS_TOKEN);

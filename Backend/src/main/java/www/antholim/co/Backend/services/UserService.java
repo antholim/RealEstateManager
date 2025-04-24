@@ -2,6 +2,7 @@ package www.antholim.co.Backend.services;
 
 import jakarta.servlet.http.HttpServletResponse;
 import www.antholim.co.Backend.dto.request.LoginRequest;
+import www.antholim.co.Backend.dto.response.AuthenticationResponse;
 import www.antholim.co.Backend.models.User;
 
 public interface UserService {
@@ -9,4 +10,5 @@ public interface UserService {
     User getAuthenticatedUser();
     User createUser(String username, String email, String password);
     void login(LoginRequest loginRequest, HttpServletResponse response);
+    AuthenticationResponse register(String username, String email, String password);
 }
