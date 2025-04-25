@@ -8,7 +8,7 @@ import www.antholim.co.Backend.models.User;
 public interface UserService {
     boolean verifyToken(String token);
     User getAuthenticatedUser();
-    User createUser(String username, String email, String password);
+    User createUser(User user);
     void login(LoginRequest loginRequest, HttpServletResponse response);
-    AuthenticationResponse register(String username, String email, String password);
+    AuthenticationResponse register(User user);
 }

@@ -36,10 +36,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(String username, String email, String password) {
-        User user = new User();
-        user.setUsername(username).setPassword(bCryptPasswordEncoder.encode(password)).setEmail(email);
-        userRepository.save(user);
+    public User createUser(User user) {
+        User newUser = new User();
+        newUser.setUsername(user.getUsername()).setPassword(bCryptPasswordEncoder.encode(user.getPassword())).setEmail(user.getEmail());
+        userRepository.save(newUser);
         return user;
     }
     @Override
@@ -50,9 +50,9 @@ public class UserServiceImpl implements UserService {
         cookieService.addTokenCookies(response, res);
     }
     @Override
-    public AuthenticationResponse register(String username, String email, String password) {
-        log.info("Sign up for", username);
-        User user = createUser(username, email, password);
+    public AuthenticationResponse register(User user) {
+        log.info("Sign up for", user.getUsername());
+        User user = createUser(user);
         //Generate token here
 
 
