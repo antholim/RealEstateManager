@@ -2,7 +2,7 @@ import { Sidebar } from "./components/Sidebar/sidebar"
 import { DashboardContent } from "./components/dashboard-content"
 import styles from "./Dashboard.module.css"
 import { useState } from "react"
-import { PropertyList } from "./components/property-list"
+import { PropertyList } from "./components/PropertyList/PropertyList"
 import { TenantList } from "./components/Tenants/tenantList"
 
 export default function DashboardPage() {
