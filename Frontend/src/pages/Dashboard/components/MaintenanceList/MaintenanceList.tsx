@@ -1,4 +1,4 @@
-import styles from "./maintenance-list.module.css"
+import styles from "./MaintenanceList.module.css"
 
 const maintenanceRequests = [
   { id: 1, issue: "Leaky faucet", status: "Pending", priority: "Low" },
