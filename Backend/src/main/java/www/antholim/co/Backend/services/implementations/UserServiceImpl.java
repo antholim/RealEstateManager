@@ -52,11 +52,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public AuthenticationResponse register(User user) {
         log.info("Sign up for", user.getUsername());
-        User user = createUser(user);
+        User userNew = createUser(user);
         //Generate token here
 
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userNew.getUsername(), userNew.getPassword()));
         return generateAuthenticationResponse(user);
     }
     private AuthenticationResponse generateAuthenticationResponse(User user) {
