@@ -1,7 +1,7 @@
-import { Card } from "./ui/card"
-import RevenueChart from "./RevenueChart/RevenueChart"
-import { MaintenanceList } from "./maintenance-list"
-import styles from "./dashboard-content.module.css"
+import { Card } from "../ui/card"
+import RevenueChart from "../RevenueChart/RevenueChart"
+import { MaintenanceList } from "../MaintenanceList/MaintenanceList"
+import styles from "./DashboardContent.module.css"
 
 const generateCurrentMonthsData = () => {
   const months = [];
