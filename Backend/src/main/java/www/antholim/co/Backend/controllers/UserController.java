@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import www.antholim.co.Backend.dto.model.UserDto;
 import www.antholim.co.Backend.dto.response.AuthenticationResponse;
 import www.antholim.co.Backend.dto.response.Response;
 import www.antholim.co.Backend.models.User;
@@ -23,9 +24,9 @@ public class UserController {
 
     }
     @PostMapping("/api/v1/register")
-    public Response<?> register(@RequestBody User user) {
-        log.error(user.toString(), "ICI");
-        AuthenticationResponse authenticationResponse = userService.register(user);
+    public Response<?> register(@RequestBody UserDto userDto) {
+        log.error(userDto.toString(), "ICI");
+        AuthenticationResponse authenticationResponse = userService.register(userDto);
         return Response.ok().setPayload("Register...").setToken(authenticationResponse.getToken());
     }
     @PostMapping("/api/v1/login")

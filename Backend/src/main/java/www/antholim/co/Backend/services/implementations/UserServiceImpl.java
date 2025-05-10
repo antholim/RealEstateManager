@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import www.antholim.co.Backend.dto.model.UserDto;
 import www.antholim.co.Backend.dto.request.LoginRequest;
 import www.antholim.co.Backend.dto.response.AuthenticationResponse;
 import www.antholim.co.Backend.enums.TokenType;
@@ -36,11 +37,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(User user) {
+    public User createUser(UserDto userDto) {
         User newUser = new User();
-        newUser.setUsername(user.getUsername()).setPassword(bCryptPasswordEncoder.encode(user.getPassword())).setEmail(user.getEmail());
+        newUser.setUsername(userDto.getUsername()).setPassword(bCryptPasswordEncoder.encode(userDto.getPassword())).setEmail(userDto.getEmail());
         userRepository.save(newUser);
-        return user;
+        return newUser;
     }
     @Override
     public void login(LoginRequest loginRequest, HttpServletResponse response) {
@@ -50,14 +51,14 @@ public class UserServiceImpl implements UserService {
         cookieService.addTokenCookies(response, res);
     }
     @Override
-    public AuthenticationResponse register(User user) {
-        log.info("Sign up for", user.getUsername());
-        User userNew = createUser(user);
+    public AuthenticationResponse register(UserDto userDto) {
+        log.info("Sign up for", userDto.getUsername());
+        User userNew = createUser(userDto);
         //Generate token here
 
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userNew.getUsername(), userNew.getPassword()));
-        return generateAuthenticationResponse(user);
+        return generateAuthenticationResponse(userNew);
     }
     private AuthenticationResponse generateAuthenticationResponse(User user) {
         String jwtToken = tokenService.generateToken(user, TokenType.ACCESS_TOKEN);
