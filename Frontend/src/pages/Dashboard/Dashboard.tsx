@@ -1,5 +1,5 @@
 import { Sidebar } from "./components/Sidebar/sidebar"
-import { DashboardContent } from "./components/dashboard-content"
+import { DashboardContent } from "./components/DashboardContent/DashboardContent"
 import styles from "./Dashboard.module.css"
 import { useState } from "react"
 import { PropertyList } from "./components/PropertyList/PropertyList"
