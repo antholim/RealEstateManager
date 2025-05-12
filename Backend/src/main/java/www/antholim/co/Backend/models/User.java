@@ -2,6 +2,7 @@ package www.antholim.co.Backend.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -16,6 +17,7 @@ import java.util.List;
 @Accessors(chain = true)
 @Setter
 @Getter
+@Table(name = "user")
 public class User implements UserDetails {
     @Id
     private String _id;

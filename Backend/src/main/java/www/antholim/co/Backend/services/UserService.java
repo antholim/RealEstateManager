@@ -6,10 +6,13 @@ import www.antholim.co.Backend.dto.request.LoginRequest;
 import www.antholim.co.Backend.dto.response.AuthenticationResponse;
 import www.antholim.co.Backend.models.User;
 
+import java.util.ArrayList;
+
 public interface UserService {
     boolean verifyToken(String token);
     User getAuthenticatedUser();
     User createUser(UserDto userDto);
     void login(LoginRequest loginRequest, HttpServletResponse response);
     AuthenticationResponse register(UserDto userDto);
+    ArrayList<User> getUsers();
 }

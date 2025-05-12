@@ -21,6 +21,8 @@ import www.antholim.co.Backend.services.CookieService;
 import www.antholim.co.Backend.services.TokenService;
 import www.antholim.co.Backend.services.UserService;
 
+import java.util.ArrayList;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -79,6 +81,10 @@ public class UserServiceImpl implements UserService {
             log.error("Authentication failed for user: {}", username, e);
 //            throw new Exception("Authentication failed.");
         }
+    }
+    @Override
+    public ArrayList<User> getUsers() {
+        return (ArrayList<User>) userRepository.findAll();
     }
     @Override
     public User getAuthenticatedUser() {

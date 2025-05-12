@@ -13,6 +13,8 @@ import www.antholim.co.Backend.dto.response.Response;
 import www.antholim.co.Backend.models.User;
 import www.antholim.co.Backend.services.UserService;
 
+import java.util.ArrayList;
+
 @Slf4j
 @Controller
 @RestController
@@ -37,5 +39,10 @@ public class UserController {
     @GetMapping("/api/v1/hello-world")
     public String getHelloWorld() {
         return helloWorld;
+    }
+
+    @GetMapping("/api/v1/users")
+    public Response<?> getUsers() {
+        return Response.ok().setPayload(userService.getUsers());
     }
 }
