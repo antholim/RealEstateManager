@@ -1,6 +1,7 @@
 package www.antholim.co.Backend.services.implementations;
 
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 import www.antholim.co.Backend.config.RtConfigProperties;
 import www.antholim.co.Backend.config.TokenConfigProperties;
 import www.antholim.co.Backend.enums.TokenType;
@@ -14,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class TokenServiceImpl implements TokenService {
 
     //

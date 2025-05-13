@@ -43,6 +43,7 @@ public class UserController {
 
     @GetMapping("/api/v1/users")
     public Response<?> getUsers() {
+        log.error("Get Users");
         return Response.ok().setPayload(userService.getUsers());
     }
 }

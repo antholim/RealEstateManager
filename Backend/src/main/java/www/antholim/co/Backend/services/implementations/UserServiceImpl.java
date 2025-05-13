@@ -3,6 +3,7 @@ package www.antholim.co.Backend.services.implementations;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -24,15 +25,29 @@ import www.antholim.co.Backend.services.UserService;
 import java.util.ArrayList;
 
 @Slf4j
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
     private AuthenticationManager authenticationManager;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private UserRepository userRepository;
-    private CookieService cookieService;
-    private TokenService tokenService;
+    private final UserRepository userRepository;
+    private final CookieService cookieService;
+    private final TokenService tokenService;
 
+    @Autowired
+    public UserServiceImpl(
+            AuthenticationManager authenticationManager,
+            BCryptPasswordEncoder bCryptPasswordEncoder,
+            UserRepository userRepository,
+            CookieService cookieService,
+            TokenService tokenService
+    ) {
+        this.authenticationManager = authenticationManager;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userRepository = userRepository;
+        this.cookieService = cookieService;
+        this.tokenService = tokenService;
+    }
     @Override
     public boolean verifyToken(String token) {
         return false;

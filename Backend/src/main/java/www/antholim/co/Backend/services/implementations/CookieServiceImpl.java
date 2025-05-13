@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
+import org.springframework.stereotype.Service;
 import www.antholim.co.Backend.config.CookieConfigProperties;
 import www.antholim.co.Backend.config.RtConfigProperties;
 import www.antholim.co.Backend.config.TokenConfigProperties;
@@ -14,6 +15,7 @@ import www.antholim.co.Backend.services.CookieService;
 
 import java.util.Arrays;
 
+@Service
 public class CookieServiceImpl implements CookieService {
 
     private TokenConfigProperties tokenConfigProperties;
