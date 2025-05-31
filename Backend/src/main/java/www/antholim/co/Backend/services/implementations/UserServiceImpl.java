@@ -69,12 +69,17 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public AuthenticationResponse register(UserDto userDto) {
-        log.info("Sign up for", userDto.getUsername());
+        log.info("Sign up for {}", userDto.getUsername()); // Fixed log statement
         User userNew = createUser(userDto);
-        //Generate token here
 
+        // FIXED: Use the original plain text password for authentication
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword())
+        );
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userNew.getUsername(), userNew.getPassword()));
+        // Set the authentication context
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         return generateAuthenticationResponse(userNew);
     }
     private AuthenticationResponse generateAuthenticationResponse(User user) {

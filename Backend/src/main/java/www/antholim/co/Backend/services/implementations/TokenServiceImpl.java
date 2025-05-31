@@ -1,5 +1,6 @@
 package www.antholim.co.Backend.services.implementations;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import www.antholim.co.Backend.config.RtConfigProperties;
@@ -23,7 +24,6 @@ public class TokenServiceImpl implements TokenService {
     private RtConfigProperties rtConfigProperties;
     private Key signInKey;
     private Key refreshKey;
-
     public TokenServiceImpl(TokenConfigProperties tokenConfigProperties, RtConfigProperties rtConfigProperties) {
         this.tokenConfigProperties = tokenConfigProperties;
         this.rtConfigProperties = rtConfigProperties;
