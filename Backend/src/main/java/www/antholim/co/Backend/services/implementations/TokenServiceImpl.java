@@ -22,11 +22,17 @@ public class TokenServiceImpl implements TokenService {
     //
     private TokenConfigProperties tokenConfigProperties;
     private RtConfigProperties rtConfigProperties;
-    private Key signInKey;
-    private Key refreshKey;
+    private final Key signInKey;
+    private final Key refreshKey;
     public TokenServiceImpl(TokenConfigProperties tokenConfigProperties, RtConfigProperties rtConfigProperties) {
+        if (tokenConfigProperties.getSecret() == null || rtConfigProperties.getSecret() == null) {
+            throw new IllegalArgumentException("Secret properties cannot be null!");
+        }
         this.tokenConfigProperties = tokenConfigProperties;
         this.rtConfigProperties = rtConfigProperties;
+        this.signInKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(tokenConfigProperties.getSecret()));
+        this.refreshKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(rtConfigProperties.getSecret()));
+
     }
 
     @Override

@@ -44,7 +44,7 @@ public class CookieServiceImpl implements CookieService {
         long maxAge = tokenType == TokenType.ACCESS_TOKEN ?
                 tokenConfigProperties.getExp() : rtConfigProperties.getExp();
         String cookieName = tokenType == TokenType.ACCESS_TOKEN ?
-                tokenConfigProperties.getTokenName() : rtConfigProperties.getTokenName();
+                tokenConfigProperties.getSignInKey() : rtConfigProperties.getRefreshKey();
 
         ResponseCookie cookie = ResponseCookie.from(cookieName, token)
                 .httpOnly(cookieConfigProperties.isHttpOnly())

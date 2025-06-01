@@ -28,8 +28,8 @@ import java.util.ArrayList;
 //@RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
-    private AuthenticationManager authenticationManager;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
     private final CookieService cookieService;
     private final TokenService tokenService;
