@@ -1,6 +1,7 @@
 package www.antholim.co.Backend.services.implementations;
 
-import org.springframework.beans.factory.annotation.Value;
+import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import www.antholim.co.Backend.config.RtConfigProperties;
@@ -11,68 +12,121 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
-import java.security.Key;
+
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 @Service
+@Slf4j
 public class TokenServiceImpl implements TokenService {
 
-    //
-    private TokenConfigProperties tokenConfigProperties;
-    private RtConfigProperties rtConfigProperties;
-    private final Key signInKey;
-    private final Key refreshKey;
+    private final TokenConfigProperties tokenConfigProperties;
+    private final RtConfigProperties rtConfigProperties;
+    private SecretKey signInKey;
+    private SecretKey refreshKey;
+
     public TokenServiceImpl(TokenConfigProperties tokenConfigProperties, RtConfigProperties rtConfigProperties) {
         if (tokenConfigProperties.getSecret() == null || rtConfigProperties.getSecret() == null) {
             throw new IllegalArgumentException("Secret properties cannot be null!");
         }
         this.tokenConfigProperties = tokenConfigProperties;
         this.rtConfigProperties = rtConfigProperties;
-        this.signInKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(tokenConfigProperties.getSecret()));
-        this.refreshKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(rtConfigProperties.getSecret()));
+    }
 
+    @PostConstruct
+    public void initializeKeys() {
+        try {
+            log.debug("Initializing JWT keys...");
+
+            this.signInKey = createKey(tokenConfigProperties.getSecret());
+            this.refreshKey = createKey(rtConfigProperties.getSecret());
+
+            log.info("JWT keys initialized successfully");
+        } catch (Exception e) {
+            log.error("Failed to initialize JWT keys: {}", e.getMessage());
+            throw new RuntimeException("Failed to initialize JWT keys", e);
+        }
+    }
+
+    private SecretKey createKey(String secret) {
+        try {
+            // Try standard Base64 first
+            return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
+        } catch (Exception e) {
+            log.warn("Standard Base64 decoding failed, trying URL-safe Base64...");
+            try {
+                return Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(secret));
+            } catch (Exception e2) {
+                log.error("Both Base64 decodings failed for secret");
+                throw new RuntimeException("Invalid Base64 secret: " + e2.getMessage(), e2);
+            }
+        }
+    }
+
+    private SecretKey getKey(TokenType tokenType) {
+        return tokenType == TokenType.ACCESS_TOKEN ? signInKey : refreshKey;
+    }
+
+    private Claims extractAllClaims(String token, TokenType tokenType) {
+        return Jwts.parser()
+                .verifyWith(getKey(tokenType))
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
+
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver, TokenType tokenType) {
+        final Claims claims = extractAllClaims(token, tokenType);
+        return claimsResolver.apply(claims);
     }
 
     @Override
     public String extractUsername(String token) {
-        return "";
+        return extractUsername(token, TokenType.ACCESS_TOKEN);
     }
 
     @Override
     public String extractUsername(String token, TokenType tokenType) {
-        return "";
+        return extractClaim(token, Claims::getSubject, tokenType);
     }
 
     @Override
     public String generateToken(UserDetails userDetails, TokenType tokenType) {
         return generateToken(new HashMap<>(), userDetails, tokenType);
     }
+
     public String generateToken(Map<String, Object> claims, UserDetails userDetails, TokenType tokenType) {
         long expirationTimeLong = (tokenType == TokenType.ACCESS_TOKEN)
-                ? tokenConfigProperties.getExp() * 1000 // Convert seconds to milliseconds
+                ? tokenConfigProperties.getExp() * 1000
                 : rtConfigProperties.getExp() * 1000;
 
         final Date createdDate = new Date();
         final Date expirationDate = new Date(createdDate.getTime() + expirationTimeLong);
 
         return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(createdDate)
-                .setExpiration(expirationDate)
-                .signWith(tokenType == TokenType.ACCESS_TOKEN ? signInKey : refreshKey, SignatureAlgorithm.HS256)
+                .claims(claims)
+                .subject(userDetails.getUsername())
+                .issuedAt(createdDate)
+                .expiration(expirationDate)
+                .signWith(getKey(tokenType), Jwts.SIG.HS256)
                 .compact();
     }
 
     @Override
     public boolean isTokenExpired(String token, TokenType tokenType) {
-        return false;
+        return extractExpiration(token, tokenType).before(new Date());
     }
 
     @Override
     public Date extractExpiration(String token, TokenType tokenType) {
-        return null;
+        return extractClaim(token, Claims::getExpiration, tokenType);
+    }
+
+    public boolean isTokenValid(String token, UserDetails userDetails, TokenType tokenType) {
+        final String username = extractUsername(token, tokenType);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token, tokenType));
     }
 }
