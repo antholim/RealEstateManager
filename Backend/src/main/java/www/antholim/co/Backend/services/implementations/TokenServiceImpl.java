@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-@Service
 @Slf4j
+@Service
 public class TokenServiceImpl implements TokenService {
 
     private final TokenConfigProperties tokenConfigProperties;
@@ -39,14 +39,15 @@ public class TokenServiceImpl implements TokenService {
     @PostConstruct
     public void initializeKeys() {
         try {
-            log.debug("Initializing JWT keys...");
-
-            this.signInKey = createKey(tokenConfigProperties.getSecret());
-            this.refreshKey = createKey(rtConfigProperties.getSecret());
+            if (tokenConfigProperties.getSignInKey() == null || rtConfigProperties.getRefreshKey() == null) {
+                throw new IllegalStateException("Secrets are null - check your configuration properties");
+            }
+            this.signInKey = createKey(tokenConfigProperties.getSignInKey());
+            this.refreshKey = createKey(rtConfigProperties.getRefreshKey());
 
             log.info("JWT keys initialized successfully");
         } catch (Exception e) {
-            log.error("Failed to initialize JWT keys: {}", e.getMessage());
+            log.error("Failed to initialize JWT keys: {}", e.getMessage(), e);
             throw new RuntimeException("Failed to initialize JWT keys", e);
         }
     }
