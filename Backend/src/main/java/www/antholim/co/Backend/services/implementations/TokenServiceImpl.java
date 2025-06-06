@@ -10,21 +10,26 @@ import www.antholim.co.Backend.services.TokenService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 
-
+import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+
+
+
 @Service
 @Slf4j
 public class TokenServiceImpl implements TokenService {
     private final TokenConfigProperties tokenConfigProperties;
     private final RtConfigProperties rtConfigProperties;
-    private final Key signInKey;
-    private final Key refreshKey;
+    private final SecretKey signInKey;
+    private final SecretKey refreshKey;
 
     /**
      * Initializes the service with JWT and RT (Refresh Token) configuration properties.
@@ -154,12 +159,14 @@ public class TokenServiceImpl implements TokenService {
 
     // Helper method to extract all claims from a token
     private Claims extractAllClaims(String token, TokenType tokenType) throws JwtException{
+        isTokenExpired(token, tokenType);
+        getKey(TokenType.ACCESS_TOKEN);
         try {
-            return Jwts.parserBuilder()
-                    .setSigningKey(tokenType == TokenType.ACCESS_TOKEN ? signInKey : refreshKey)
+            return Jwts.parser()  // ✅ correct for 0.12.x
+                    .verifyWith(getKey(TokenType.ACCESS_TOKEN)) // expects a SecretKey or PublicKey
                     .build()
-                    .parseClaimsJws(token)
-                    .getBody();
+                    .parseSignedClaims(token)
+                    .getPayload();
         } catch (ExpiredJwtException e) {
             log.info("Token expired: {}", e.getMessage());
             throw e;
@@ -167,5 +174,8 @@ public class TokenServiceImpl implements TokenService {
             log.error("Could not parse token: {}", e.getMessage());
             throw e;
         }
+    }
+    private SecretKey getKey(TokenType tokenType) {
+        return tokenType == TokenType.ACCESS_TOKEN ? signInKey : refreshKey;
     }
 }
