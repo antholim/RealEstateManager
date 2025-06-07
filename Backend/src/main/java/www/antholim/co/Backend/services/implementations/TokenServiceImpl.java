@@ -88,6 +88,7 @@ public class TokenServiceImpl implements TokenService {
      * @return A new JWT token.
      */
     public String generateToken(UserDetails userDetails, TokenType tokenType) {
+        log.info("GENERATE");
         return generateToken(new HashMap<>(), userDetails, tokenType);
     }
 
@@ -104,6 +105,7 @@ public class TokenServiceImpl implements TokenService {
             UserDetails userDetails,
             TokenType tokenType
     ) {
+        log.info("GENERATE FRRR"); // Fixed log statement
         long expirationTimeLong = (tokenType == TokenType.ACCESS_TOKEN)
                 ? tokenConfigProperties.getExp() * 1000 // Convert seconds to milliseconds
                 : rtConfigProperties.getExp() * 1000;
@@ -158,12 +160,11 @@ public class TokenServiceImpl implements TokenService {
     }
 
     // Helper method to extract all claims from a token
-    private Claims extractAllClaims(String token, TokenType tokenType) throws JwtException{
-        isTokenExpired(token, tokenType);
-        getKey(TokenType.ACCESS_TOKEN);
+// Fixed extractAllClaims method - remove the recursive call and fix token type usage
+    private Claims extractAllClaims(String token, TokenType tokenType) throws JwtException {
         try {
-            return Jwts.parser()  // ✅ correct for 0.12.x
-                    .verifyWith(getKey(TokenType.ACCESS_TOKEN)) // expects a SecretKey or PublicKey
+            return Jwts.parser()
+                    .verifyWith(getKey(tokenType)) // Use the correct key based on token type
                     .build()
                     .parseSignedClaims(token)
                     .getPayload();
