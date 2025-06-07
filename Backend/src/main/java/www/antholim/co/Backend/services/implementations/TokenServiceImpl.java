@@ -39,9 +39,9 @@ public class TokenServiceImpl implements TokenService {
      */
     public TokenServiceImpl(TokenConfigProperties tokenConfigProperties, RtConfigProperties rtConfigProperties) {
         this.tokenConfigProperties = tokenConfigProperties;
-        this.signInKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(this.tokenConfigProperties.getSecret()));
+        this.signInKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(this.tokenConfigProperties.getSignInKey()));
         this.rtConfigProperties = rtConfigProperties;
-        this.refreshKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(rtConfigProperties.getSecret()));
+        this.refreshKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(this.rtConfigProperties.getRefreshKey()));
     }
 
     /**
