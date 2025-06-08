@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
         cookieService.addTokenCookies(response, res);
     }
     @Override
-    public AuthenticationResponse register(UserDto userDto) {
+    public User register(UserDto userDto) {
         log.info("Sign up for {}", userDto.getUsername()); // Fixed log statement
         User userNew = createUser(userDto);
         log.info("STEP 1");
@@ -79,9 +79,9 @@ public class UserServiceImpl implements UserService {
         log.info("STEP 2");
         // Set the authentication context
 //        SecurityContextHolder.getContext().setAuthentication(authentication);
-        authenticate(userNew.getUsername(), userNew.getPassword());
+//        authenticate(userNew.getUsername(), userNew.getPassword());
         log.info("DONE");
-        return generateAuthenticationResponse(userNew);
+        return userNew;
     }
     private AuthenticationResponse generateAuthenticationResponse(User user) {
         String jwtToken = tokenService.generateToken(user, TokenType.ACCESS_TOKEN);

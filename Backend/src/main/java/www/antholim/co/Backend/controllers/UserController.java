@@ -27,8 +27,8 @@ public class UserController {
     }
     @PostMapping("/api/v1/register")
     public Response<?> register(@RequestBody UserDto userDto) {
-        AuthenticationResponse authenticationResponse = userService.register(userDto);
-        return Response.ok().setPayload("Register...").setToken(authenticationResponse.getToken());
+        User user = userService.register(userDto);
+        return Response.ok().setPayload(user);
     }
     @PostMapping("/api/v1/login")
     public Response<?> login(@RequestBody User user) {

@@ -13,6 +13,6 @@ public interface UserService {
     User getAuthenticatedUser();
     User createUser(UserDto userDto);
     void login(LoginRequest loginRequest, HttpServletResponse response);
-    AuthenticationResponse register(UserDto userDto);
+    User register(UserDto userDto);
     ArrayList<User> getUsers();
 }
