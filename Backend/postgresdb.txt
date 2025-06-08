@@ -1,0 +1,4 @@
+docker exec -it 955 bash
+psql -U admin -d postgres
+\dt
+SELECT * FROM users;

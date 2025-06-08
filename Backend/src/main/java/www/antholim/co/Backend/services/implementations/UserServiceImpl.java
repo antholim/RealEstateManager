@@ -73,12 +73,13 @@ public class UserServiceImpl implements UserService {
         User userNew = createUser(userDto);
         log.info("STEP 1");
         // FIXED: Use the original plain text password for authentication
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword())
-        );
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword())
+//        );
         log.info("STEP 2");
         // Set the authentication context
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+        authenticate(userNew.getUsername(), userNew.getPassword());
         log.info("DONE");
         return generateAuthenticationResponse(userNew);
     }
