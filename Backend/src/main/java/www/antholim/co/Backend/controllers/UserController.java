@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import www.antholim.co.Backend.dto.model.UserDto;
+import www.antholim.co.Backend.dto.model.UserResponseDto;
 import www.antholim.co.Backend.dto.response.AuthenticationResponse;
 import www.antholim.co.Backend.dto.response.Response;
 import www.antholim.co.Backend.models.User;
@@ -27,7 +28,7 @@ public class UserController {
     }
     @PostMapping("/api/v1/register")
     public Response<?> register(@RequestBody UserDto userDto) {
-        User user = userService.register(userDto);
+        UserResponseDto user = userService.register(userDto);
         return Response.ok().setPayload(user);
     }
     @PostMapping("/api/v1/login")

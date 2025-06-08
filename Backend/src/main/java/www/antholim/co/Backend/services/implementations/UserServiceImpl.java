@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import www.antholim.co.Backend.dto.model.UserDto;
+import www.antholim.co.Backend.dto.model.UserResponseDto;
 import www.antholim.co.Backend.dto.request.LoginRequest;
 import www.antholim.co.Backend.dto.response.AuthenticationResponse;
 import www.antholim.co.Backend.enums.TokenType;
@@ -68,7 +69,7 @@ public class UserServiceImpl implements UserService {
         cookieService.addTokenCookies(response, res);
     }
     @Override
-    public User register(UserDto userDto) {
+    public UserResponseDto register(UserDto userDto) {
         log.info("Sign up for {}", userDto.getUsername()); // Fixed log statement
         User userNew = createUser(userDto);
         log.info("STEP 1");
@@ -81,7 +82,11 @@ public class UserServiceImpl implements UserService {
 //        SecurityContextHolder.getContext().setAuthentication(authentication);
 //        authenticate(userNew.getUsername(), userNew.getPassword());
         log.info("DONE");
-        return userNew;
+        UserResponseDto userResponseDto = new UserResponseDto();
+        userResponseDto.setUsername(userDto.getUsername());
+        userResponseDto.setEmail(userDto.getEmail());
+
+        return userResponseDto;
     }
     private AuthenticationResponse generateAuthenticationResponse(User user) {
         String jwtToken = tokenService.generateToken(user, TokenType.ACCESS_TOKEN);
