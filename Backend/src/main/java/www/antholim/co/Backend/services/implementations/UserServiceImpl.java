@@ -1,6 +1,7 @@
 package www.antholim.co.Backend.services.implementations;
 
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,12 +55,36 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Transactional
     @Override
     public User createUser(UserDto userDto) {
-        User newUser = new User();
-        newUser.setUsername(userDto.getUsername()).setPassword(bCryptPasswordEncoder.encode(userDto.getPassword())).setEmail(userDto.getEmail());
-        userRepository.save(newUser);
-        return newUser;
+        log.info("=== Starting createUser transaction ===");
+        try {
+            // Check if user already exists
+            if (userRepository.findByUsername(userDto.getUsername()).isPresent()) {
+                log.error("Username already exists: {}", userDto.getUsername());
+                throw new RuntimeException("Username already exists");
+            }
+
+            if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
+                log.error("Email already exists: {}", userDto.getEmail());
+                throw new RuntimeException("Email already exists");
+            }
+
+            User newUser = new User();
+            newUser.setUsername(userDto.getUsername())
+                    .setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()))
+                    .setEmail(userDto.getEmail());
+
+            log.info("About to save user: {} with email: {}", userDto.getUsername(), userDto.getEmail());
+            User savedUser = userRepository.save(newUser);
+            log.info("User saved with ID: {}", savedUser.getId());
+
+            return savedUser;
+        } catch (Exception e) {
+            log.error("=== Exception in createUser ===", e);
+            throw e;
+        }
     }
     @Override
     public void login(LoginRequest loginRequest, HttpServletResponse response) {

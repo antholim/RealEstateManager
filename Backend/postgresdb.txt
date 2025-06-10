@@ -1,4 +1,3 @@
-docker exec -it 955 bash
-psql -U admin -d postgres
+docker exec -it RealEstateManager psql -U admin -d RealEstateDb
 \dt
 SELECT * FROM users;
