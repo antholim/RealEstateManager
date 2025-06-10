@@ -13,7 +13,7 @@ public interface UserService {
     boolean verifyToken(String token);
     User getAuthenticatedUser();
     User createUser(UserDto userDto);
-    void login(LoginRequest loginRequest, HttpServletResponse response);
+    AuthenticationResponse login(LoginRequest loginRequest, HttpServletResponse response);
     UserResponseDto register(UserDto userDto);
     ArrayList<User> getUsers();
 }

@@ -87,11 +87,15 @@ public class UserServiceImpl implements UserService {
         }
     }
     @Override
-    public void login(LoginRequest loginRequest, HttpServletResponse response) {
+    public AuthenticationResponse login(LoginRequest loginRequest, HttpServletResponse response) {
+        log.info("=== Starting login transaction ===");
+
         authenticate(loginRequest.getUsername(), loginRequest.getPassword());
         User user = getAuthenticatedUser();
         AuthenticationResponse res = generateAuthenticationResponse(user);
         cookieService.addTokenCookies(response, res);
+
+        return generateAuthenticationResponse(user);
     }
     @Override
     public UserResponseDto register(UserDto userDto) {
