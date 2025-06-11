@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "rt")
 @Component
 public class RtConfigProperties {
+    private String tokenName;
     private String refreshKey;
     private String secret;
     private long exp;

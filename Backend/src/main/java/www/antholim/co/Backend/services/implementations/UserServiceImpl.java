@@ -89,13 +89,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public AuthenticationResponse login(LoginRequest loginRequest, HttpServletResponse response) {
         log.info("=== Starting login transaction ===");
-
+        System.out.println("ICI 1");
         authenticate(loginRequest.getUsername(), loginRequest.getPassword());
+        System.out.println("ICI 2");
         User user = getAuthenticatedUser();
+        System.out.println("ICI 3");
         AuthenticationResponse res = generateAuthenticationResponse(user);
+        System.out.println("ICI 4");
         cookieService.addTokenCookies(response, res);
+        System.out.println("DONE");
 
-        return generateAuthenticationResponse(user);
+        return res;
     }
     @Override
     public UserResponseDto register(UserDto userDto) {
@@ -127,13 +131,13 @@ public class UserServiceImpl implements UserService {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (BadCredentialsException e) {
-            log.error("Invalid credentials for user: {}", username, e);
+//            log.error("Invalid credentials for user: {}", username, e);
 //            throw Exception(USER, CUSTOM_EXCEPTION, "Wrong credentials.");
         } catch (DisabledException e) {
-            log.error("Authentication failed, account is disabled: {}", username, e);
+//            log.error("Authentication failed, account is disabled: {}", username, e);
 //            throw new Exception("Account is disabled.");
         } catch (Exception e) {
-            log.error("Authentication failed for user: {}", username, e);
+//            log.error("Authentication failed for user: {}", username, e);
 //            throw new Exception("Authentication failed.");
         }
     }

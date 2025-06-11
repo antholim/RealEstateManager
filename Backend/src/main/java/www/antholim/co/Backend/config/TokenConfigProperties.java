@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "token")
 @Component
 public class TokenConfigProperties {
+    private String tokenName;
     private String signInKey;  // This should match token.signInKey
     private String secret;     // Ensure it's populated if required
     private long exp;
