@@ -89,6 +89,10 @@ public class TokenServiceImpl implements TokenService {
      */
     public String generateToken(UserDetails userDetails, TokenType tokenType) {
         log.info("GENERATE");
+        System.out.println(userDetails.toString());
+        System.out.println(userDetails.getUsername());
+        log.info(userDetails.getUsername());
+        log.info(userDetails.getPassword());
         return generateToken(new HashMap<>(), userDetails, tokenType);
     }
 
@@ -106,6 +110,8 @@ public class TokenServiceImpl implements TokenService {
             TokenType tokenType
     ) {
         log.info("GENERATE FRRR"); // Fixed log statement
+        log.info(userDetails.getUsername());
+        log.info(userDetails.getPassword());
         long expirationTimeLong = (tokenType == TokenType.ACCESS_TOKEN)
                 ? tokenConfigProperties.getExp() * 1000 // Convert seconds to milliseconds
                 : rtConfigProperties.getExp() * 1000;

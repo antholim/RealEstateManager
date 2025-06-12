@@ -11,6 +11,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import www.antholim.co.Backend.dto.model.UserDto;
@@ -89,15 +90,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public AuthenticationResponse login(LoginRequest loginRequest, HttpServletResponse response) {
         log.info("=== Starting login transaction ===");
-        System.out.println("ICI 1");
-        authenticate(loginRequest.getUsername(), loginRequest.getPassword());
-        System.out.println("ICI 2");
-        User user = getAuthenticatedUser();
-        System.out.println("ICI 3");
+
+        Authentication authentication = authenticate(loginRequest.getUsername(), loginRequest.getPassword());
+        User user = (User) authentication.getPrincipal();
+
         AuthenticationResponse res = generateAuthenticationResponse(user);
-        System.out.println("ICI 4");
         cookieService.addTokenCookies(response, res);
-        System.out.println("DONE");
 
         return res;
     }
@@ -122,23 +120,28 @@ public class UserServiceImpl implements UserService {
         return userResponseDto;
     }
     private AuthenticationResponse generateAuthenticationResponse(User user) {
+        log.info("Generating JWT");
         String jwtToken = tokenService.generateToken(user, TokenType.ACCESS_TOKEN);
+        log.info("Generating refreshToken");
         String refreshToken = tokenService.generateToken(user, TokenType.REFRESH_TOKEN);
         return new AuthenticationResponse(jwtToken, refreshToken);
     }
-    private void authenticate(String username, String password) {
+    private Authentication authenticate(String username, String password) {
         try {
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, password)
+            );
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            return authentication; // Return it so you can use it directly
         } catch (BadCredentialsException e) {
-//            log.error("Invalid credentials for user: {}", username, e);
-//            throw Exception(USER, CUSTOM_EXCEPTION, "Wrong credentials.");
+            // handle exceptions
+            throw e; // or your custom exception
         } catch (DisabledException e) {
-//            log.error("Authentication failed, account is disabled: {}", username, e);
-//            throw new Exception("Account is disabled.");
+            // handle exceptions
+            throw e;
         } catch (Exception e) {
-//            log.error("Authentication failed for user: {}", username, e);
-//            throw new Exception("Authentication failed.");
+            // handle exceptions
+            throw e;
         }
     }
     @Override
