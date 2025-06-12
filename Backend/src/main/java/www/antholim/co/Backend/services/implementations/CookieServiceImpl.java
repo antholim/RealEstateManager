@@ -18,9 +18,15 @@ import java.util.Arrays;
 @Service
 public class CookieServiceImpl implements CookieService {
 
-    private TokenConfigProperties tokenConfigProperties;
-    private RtConfigProperties rtConfigProperties;
-    private CookieConfigProperties cookieConfigProperties;
+    private final TokenConfigProperties tokenConfigProperties;
+    private final RtConfigProperties rtConfigProperties;
+    private final CookieConfigProperties cookieConfigProperties;
+
+    public CookieServiceImpl(TokenConfigProperties tokenConfigProperties, RtConfigProperties rtConfigProperties, CookieConfigProperties cookieConfigProperties) {
+        this.tokenConfigProperties = tokenConfigProperties;
+        this.rtConfigProperties = rtConfigProperties;
+        this.cookieConfigProperties = cookieConfigProperties;
+    }
     @Override
     public String getTokenFromCookie(HttpServletRequest request, String tokenName) {
         if (request.getCookies() == null) return null;

@@ -37,7 +37,7 @@ public class UserController {
     @PostMapping("/api/v1/login")
     public Response<?> login(@RequestBody UserDto userDto, HttpServletResponse response) {
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setUsername(userDto.getEmail()).setPassword(userDto.getPassword());
+        loginRequest.setUsername(userDto.getUsername()).setPassword(userDto.getPassword());
         userService.login(loginRequest, response);
         return Response.ok().setPayload("Logged in");
     }

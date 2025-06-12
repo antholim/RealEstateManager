@@ -91,7 +91,9 @@ public class UserServiceImpl implements UserService {
     public AuthenticationResponse login(LoginRequest loginRequest, HttpServletResponse response) {
         log.info("=== Starting login transaction ===");
 
-        Authentication authentication = authenticate(loginRequest.getUsername(), loginRequest.getPassword());
+        System.out.println(loginRequest.getUsername());
+        System.out.println(loginRequest.getPassword());
+        Authentication authentication = authenticate(loginRequest.getUsername(), loginRequest.getPassword()); //Bad credentials
         User user = (User) authentication.getPrincipal();
 
         AuthenticationResponse res = generateAuthenticationResponse(user);
@@ -134,13 +136,13 @@ public class UserServiceImpl implements UserService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return authentication; // Return it so you can use it directly
         } catch (BadCredentialsException e) {
-            // handle exceptions
-            throw e; // or your custom exception
+            System.out.println("Bad credientials");
+            throw e;
         } catch (DisabledException e) {
-            // handle exceptions
+            System.out.println("Disabled credentials");
             throw e;
         } catch (Exception e) {
-            // handle exceptions
+            System.out.println("Exception");
             throw e;
         }
     }
