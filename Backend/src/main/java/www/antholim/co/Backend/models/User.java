@@ -1,5 +1,6 @@
 package www.antholim.co.Backend.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,8 +9,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,6 +42,9 @@ public class User implements UserDetails {
     @Column(name = "email", unique = true, nullable = false)
     @ToString.Include
     private String email;
+
+    @OneToMany(mappedBy = "user")
+    private List<Property> properties;
 
     @Override
     @JsonIgnore
@@ -69,6 +76,11 @@ public class User implements UserDetails {
         return true;
     }
 
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdAt;
     @Override
     @JsonIgnore
     public String getPassword() {
