@@ -13,6 +13,7 @@ import www.antholim.co.Backend.dto.model.UserDto;
 import www.antholim.co.Backend.dto.model.UserResponseDto;
 import www.antholim.co.Backend.dto.response.Response;
 import www.antholim.co.Backend.services.PropertyService;
+import www.antholim.co.Backend.services.TokenService;
 
 @Slf4j
 @Controller
@@ -20,6 +21,8 @@ import www.antholim.co.Backend.services.PropertyService;
 public class PropertyController {
     @Autowired
     private PropertyService propertyService;
+    @Autowired
+    private TokenService tokenService;
     public PropertyController() {
 
     }

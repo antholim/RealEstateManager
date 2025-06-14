@@ -87,13 +87,10 @@ public class TokenServiceImpl implements TokenService {
      * @param tokenType   The type of the token (ACCESS or REFRESH).
      * @return A new JWT token.
      */
-    public String generateToken(UserDetails userDetails, TokenType tokenType) {
-        log.info("GENERATE");
-        System.out.println(userDetails.toString());
-        System.out.println(userDetails.getUsername());
-        log.info(userDetails.getUsername());
-        log.info(userDetails.getPassword());
-        return generateToken(new HashMap<>(), userDetails, tokenType);
+    public String generateToken(Long userId,UserDetails userDetails, TokenType tokenType) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", userId);
+        return generateToken(claims, userDetails, tokenType);
     }
 
     /**

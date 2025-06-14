@@ -95,7 +95,6 @@ public class UserServiceImpl implements UserService {
         System.out.println(loginRequest.getPassword());
         Authentication authentication = authenticate(loginRequest.getUsername(), loginRequest.getPassword()); //Bad credentials
         User user = (User) authentication.getPrincipal();
-
         AuthenticationResponse res = generateAuthenticationResponse(user);
         cookieService.addTokenCookies(response, res);
 
@@ -106,14 +105,8 @@ public class UserServiceImpl implements UserService {
         log.info("Sign up for {}", userDto.getUsername()); // Fixed log statement
         User userNew = createUser(userDto);
         log.info("STEP 1");
-        // FIXED: Use the original plain text password for authentication
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword())
-//        );
         log.info("STEP 2");
-        // Set the authentication context
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        authenticate(userNew.getUsername(), userNew.getPassword());
+
         log.info("DONE");
         UserResponseDto userResponseDto = new UserResponseDto();
         userResponseDto.setUsername(userDto.getUsername());
@@ -123,9 +116,9 @@ public class UserServiceImpl implements UserService {
     }
     private AuthenticationResponse generateAuthenticationResponse(User user) {
         log.info("Generating JWT");
-        String jwtToken = tokenService.generateToken(user, TokenType.ACCESS_TOKEN);
+        String jwtToken = tokenService.generateToken(user.getId(),user, TokenType.ACCESS_TOKEN);
         log.info("Generating refreshToken");
-        String refreshToken = tokenService.generateToken(user, TokenType.REFRESH_TOKEN);
+        String refreshToken = tokenService.generateToken(user.getId(),user, TokenType.REFRESH_TOKEN);
         return new AuthenticationResponse(jwtToken, refreshToken);
     }
     private Authentication authenticate(String username, String password) {

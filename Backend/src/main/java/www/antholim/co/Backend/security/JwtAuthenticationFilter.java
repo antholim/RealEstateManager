@@ -11,16 +11,20 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import www.antholim.co.Backend.config.RtConfigProperties;
 import www.antholim.co.Backend.config.TokenConfigProperties;
 import www.antholim.co.Backend.enums.TokenType;
+import www.antholim.co.Backend.models.User;
+import www.antholim.co.Backend.repository.UserRepository;
 import www.antholim.co.Backend.services.CookieService;
 import www.antholim.co.Backend.services.TokenService;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -31,6 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     private final TokenConfigProperties tokenConfigProperties;
     private final RtConfigProperties rtConfigProperties;
+    private final UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -84,7 +89,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 if (tokenService.isTokenValid(refreshToken, userDetails, TokenType.REFRESH_TOKEN)) {
                     log.debug("Generating new access token for user: {}", userDetails.getUsername());
-                    String newJwtToken = tokenService.generateToken(userDetails, TokenType.ACCESS_TOKEN);
+                    User user = userRepository.findByUsername(userDetails.getUsername())
+                            .orElseThrow(() -> new UsernameNotFoundException("User not found with username: ${}"));
+                    String newJwtToken = tokenService.generateToken(user.getId(),userDetails, TokenType.ACCESS_TOKEN);
                     cookieService.addTokenCookie(response, newJwtToken, TokenType.ACCESS_TOKEN);
                     setAuthenticationContext(userDetails, request);
                     return userDetails;
