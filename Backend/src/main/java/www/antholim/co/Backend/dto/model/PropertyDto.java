@@ -18,6 +18,7 @@ import java.util.List;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PropertyDto {
+    private Long id;
     private double purchasePrice;
     private PropertyType propertyType;
     private String address;
@@ -25,6 +26,7 @@ public class PropertyDto {
 
     public static PropertyDto toDto(Property property) {
         PropertyDto dto = new PropertyDto();
+        dto.setId(property.getId());
         dto.setAddress(property.getAddress());
         dto.setPropertyName(property.getPropertyName());
         dto.setPurchasePrice(property.getPurchasePrice());

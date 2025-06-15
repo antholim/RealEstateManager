@@ -1,0 +1,44 @@
+package www.antholim.co.Backend.enums;
+
+public enum UnitType {
+    STUDIO,
+    ONE_BR_ONE_BA,
+    ONE_BR_TWO_BA,
+    TWO_BR_ONE_BA,
+    TWO_BR_TWO_BA,
+    TWO_BR_THREE_BA,
+    THREE_BR_ONE_BA,
+    THREE_BR_TWO_BA,
+    THREE_BR_THREE_BA,
+    FOUR_BR_TWO_BA,
+    FOUR_BR_THREE_BA,
+    FOUR_BR_FOUR_BA,
+
+    // House Types
+    SINGLE_FAMILY_HOME,
+    TOWNHOUSE,
+    DUPLEX_UNIT,
+    BASEMENT_APARTMENT,
+    IN_LAW_SUITE,
+    LOFT,
+    PENTHOUSE,
+
+    // Commercial Units
+    SMALL_OFFICE,
+    EXECUTIVE_SUITE,
+    OPEN_OFFICE,
+    MEDICAL_OFFICE,
+    DENTAL_OFFICE,
+    RETAIL_GROUND_FLOOR,
+    RETAIL_UPPER_FLOOR,
+    RESTAURANT_SPACE,
+    WAREHOUSE,
+    STORAGE_UNIT,
+    SHOWROOM,
+    WORKSHOP,
+
+    // Special Types
+    PARKING_SPACE,
+    GARAGE,
+    OTHER
+}

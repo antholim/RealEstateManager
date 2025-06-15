@@ -15,6 +15,7 @@ import www.antholim.co.Backend.models.Property;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TenantDto {
+    private Long id;
     private String firstName;
     private String lastName;
     private double rentPayment;
