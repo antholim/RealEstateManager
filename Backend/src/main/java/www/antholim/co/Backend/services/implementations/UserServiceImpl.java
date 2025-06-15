@@ -90,16 +90,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public AuthenticationResponse login(LoginRequest loginRequest, HttpServletResponse response) {
         log.info("=== Starting login transaction ===" + loginRequest.getUsername());
-        try {
-            Authentication authentication = authenticate(loginRequest.getUsername(), loginRequest.getPassword()); //Bad credentials
-            User user = (User) authentication.getPrincipal();
-            AuthenticationResponse res = generateAuthenticationResponse(user);
-            cookieService.addTokenCookies(response, res);
-
-            return res;
-        } catch (Exception e) {
-            return generateAuthenticationResponse(null);
-        }
+        Authentication authentication = authenticate(loginRequest.getUsername(), loginRequest.getPassword()); //Bad credentials
+        User user = (User) authentication.getPrincipal();
+        AuthenticationResponse res = generateAuthenticationResponse(user);
+        cookieService.addTokenCookies(response, res);
+        return res;
     }
     @Override
     public UserResponseDto register(UserDto userDto) {

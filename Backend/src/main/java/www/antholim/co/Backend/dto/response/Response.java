@@ -26,6 +26,11 @@ public class Response<T> {
         response.setStatus(status);
         return response;
     }
+    public static <T> Response<T> error(String message) {
+        Response<T> response = new Response<>();
+        response.setErrors(message);
+        return response;
+    }
 
     // Error with message
     public static <T> Response<T> error(Status status, String message) {

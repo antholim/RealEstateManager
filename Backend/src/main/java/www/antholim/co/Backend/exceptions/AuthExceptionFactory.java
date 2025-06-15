@@ -5,12 +5,12 @@ package www.antholim.co.Backend.exceptions;
  */
 public class AuthExceptionFactory {
 
-    public static class InvalidCredentialsException extends RuntimeException {
-        public InvalidCredentialsException() {
+    public static class BadCredentialsException extends RuntimeException {
+        public BadCredentialsException() {
             super("Invalid username or password");
         }
 
-        public InvalidCredentialsException(String message) {
+        public BadCredentialsException(String message) {
             super(message);
         }
     }

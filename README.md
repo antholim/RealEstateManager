@@ -13,3 +13,4 @@ docker start 955
 
 2. Run Spring application
 
+docker run --name RealEstateManager            -e POSTGRES_DB=myapp_db            -e POSTGRES_USER=myapp_user            -e POSTGRES_PASSWORD=strongpassword            -p 5432:5432 \
