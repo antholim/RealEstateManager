@@ -23,11 +23,9 @@ import java.util.ArrayList;
 @Controller
 @RestController
 public class UserController {
-    @Autowired
-    private UserService userService;
-    private final String helloWorld = "Hello World !";
-    public UserController() {
-
+    private final UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
     @PostMapping("/api/v1/register")
     public Response<?> register(@RequestBody UserDto userDto) {
@@ -43,7 +41,7 @@ public class UserController {
     }
     @GetMapping("/api/v1/hello-world")
     public String getHelloWorld() {
-        return helloWorld;
+        return "Hello world!";
     }
 
     @GetMapping("/api/v1/users")

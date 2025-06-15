@@ -1,5 +1,6 @@
 package www.antholim.co.Backend.services;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import www.antholim.co.Backend.enums.TokenType;
 
@@ -16,4 +17,8 @@ public interface TokenService {
     String generateToken(Long userId,UserDetails userDetails, TokenType tokenType);
     boolean isTokenExpired(String token, TokenType tokenType);
     Date extractExpiration(String token, TokenType tokenType);
+    String extractJwtFromCookie(HttpServletRequest request, String cookieName);
+    Long extractUserId(String token);
+    Long extractUserId(String token, TokenType tokenType);
+
 }

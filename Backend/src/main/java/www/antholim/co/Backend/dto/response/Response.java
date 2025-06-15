@@ -21,4 +21,25 @@ public class Response<T> {
         response.setStatus(Status.OK);
         return response;
     }
+    public static <T> Response<T> error(Status status) {
+        Response<T> response = new Response<>();
+        response.setStatus(status);
+        return response;
+    }
+
+    // Error with message
+    public static <T> Response<T> error(Status status, String message) {
+        Response<T> response = new Response<>();
+        response.setStatus(status);
+        response.setErrors(message);
+        return response;
+    }
+
+    // Error with errors object
+    public static <T> Response<T> error(Status status, Object errors) {
+        Response<T> response = new Response<>();
+        response.setStatus(status);
+        response.setErrors(errors);
+        return response;
+    }
 }

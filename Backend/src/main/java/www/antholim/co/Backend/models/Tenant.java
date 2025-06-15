@@ -2,11 +2,20 @@ package www.antholim.co.Backend.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Accessors(chain = true)
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(onlyExplicitlyIncluded = true)  // Only include fields marked with @ToString.Include
+@Table(name = "tenants")
 public class Tenant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

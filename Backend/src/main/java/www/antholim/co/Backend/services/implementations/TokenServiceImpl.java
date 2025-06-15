@@ -1,5 +1,7 @@
 package www.antholim.co.Backend.services.implementations;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -66,7 +68,22 @@ public class TokenServiceImpl implements TokenService {
     public String extractUsername(String token, TokenType tokenType) {
         return extractClaim(token, Claims::getSubject, tokenType);
     }
+    @Override
+    public Long extractUserId(String token) {
+        return extractUserId(token, TokenType.ACCESS_TOKEN);
+    }
 
+    /**
+     * Extracts the userId from a token of a specified type.
+     *
+     * @param token     The JWT token.
+     * @param tokenType The type of the token (ACCESS or REFRESH).
+     * @return The userId extracted from the token.
+     */
+    @Override
+    public Long extractUserId(String token, TokenType tokenType) {
+        return extractClaim(token, claims -> claims.get("userId", Long.class), tokenType);
+    }
     /**
      * Extracts a specific claim from a token.
      *
@@ -181,5 +198,15 @@ public class TokenServiceImpl implements TokenService {
     }
     private SecretKey getKey(TokenType tokenType) {
         return tokenType == TokenType.ACCESS_TOKEN ? signInKey : refreshKey;
+    }
+    public String extractJwtFromCookie(HttpServletRequest request, String cookieName) {
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if (cookieName.equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
     }
 }
