@@ -8,5 +8,5 @@ import java.util.List;
 public interface PropertyService {
     Property getProperty(Long id);
     List<Property> getProperties(Long userId);
-    Property createProperty(PropertyDto propertyDto, Long id);
+    PropertyDto createProperty(PropertyDto propertyDto, Long id);
 }

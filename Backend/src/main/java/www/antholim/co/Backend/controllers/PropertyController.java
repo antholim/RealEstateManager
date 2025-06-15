@@ -41,7 +41,7 @@ public class PropertyController {
         Long userId = tokenService.extractUserId(jwt);
         System.out.println(userId);
         // Create property with userId
-        Property property = propertyService.createProperty(propertyDto, userId);
+        PropertyDto property = propertyService.createProperty(propertyDto, userId);
 
         return Response.ok().setPayload(property);
     }

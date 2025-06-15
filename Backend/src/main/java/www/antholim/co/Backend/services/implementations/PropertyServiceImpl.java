@@ -31,7 +31,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public Property createProperty(PropertyDto propertyDto, Long userId) {
+    public PropertyDto createProperty(PropertyDto propertyDto, Long userId) {
         User userReference = userRepository.getReferenceById(userId);
         Property newProperty = new Property();
         newProperty.setPropertyName(propertyDto.getPropertyName())
@@ -41,6 +41,6 @@ public class PropertyServiceImpl implements PropertyService {
                 .setUser(userReference);
 
         Property savedProperty = propertyRepository.save(newProperty);  // Save the entity, not the DTO
-        return savedProperty;  // Return the saved entity
+        return PropertyDto.toDto(savedProperty);
     }
 }
