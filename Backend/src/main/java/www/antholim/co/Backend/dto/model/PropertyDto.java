@@ -7,6 +7,9 @@ import lombok.experimental.Accessors;
 import www.antholim.co.Backend.enums.PropertyType;
 import www.antholim.co.Backend.models.Property;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Accessors
@@ -27,5 +30,12 @@ public class PropertyDto {
         dto.setPurchasePrice(property.getPurchasePrice());
         dto.setPropertyType(property.getPropertyType());
         return dto;
+    }
+    public static List<PropertyDto> toDto(List<Property> properties) {
+        List<PropertyDto> dtos = new ArrayList<>();
+        for (Property property : properties) {
+            dtos.add(toDto(property));
+        }
+        return dtos;
     }
 }

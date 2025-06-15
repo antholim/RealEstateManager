@@ -26,8 +26,8 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public List<Property> getProperties(Long userId) {
-        return List.of();
+    public List<PropertyDto> getProperties(Long userId) {
+        return PropertyDto.toDto(propertyRepository.findByUserId(userId));
     }
 
     @Override
