@@ -42,4 +42,20 @@ public class Response<T> {
         response.setErrors(errors);
         return response;
     }
+    public static <T> Response<T> duplicateEntity() {
+        Response<T> response = new Response<>();
+        response.setStatus(Status.DUPLICATE_ENTITY);
+        return response;
+    }
+
+    public static <T> Response<T> exception() {
+        Response<T> response = new Response<>();
+        response.setStatus(Status.EXCEPTION);
+        return response;
+    }
+
+    // Method to add error messages (used in your exception handler)
+    public void addErrorMsgToResponse(String message, Exception ex) {
+        this.setErrors(message);
+    }
 }
