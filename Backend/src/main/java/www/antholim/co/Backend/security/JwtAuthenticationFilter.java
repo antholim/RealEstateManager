@@ -92,7 +92,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     User user = userRepository.findByUsername(userDetails.getUsername())
                             .orElseThrow(() -> new UsernameNotFoundException("User not found with username: ${}"));
                     String newJwtToken = tokenService.generateToken(user.getId(),userDetails, TokenType.ACCESS_TOKEN);
-                    cookieService.addTokenCookie(response, newJwtToken, TokenType.ACCESS_TOKEN);
+                    cookieService.addTokenCookie(response, newJwtToken, TokenType.ACCESS_TOKEN, "authToken");
                     setAuthenticationContext(userDetails, request);
                     return userDetails;
                 }

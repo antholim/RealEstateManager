@@ -17,7 +17,6 @@ public interface TokenService {
     String generateToken(Long userId,UserDetails userDetails, TokenType tokenType);
     boolean isTokenExpired(String token, TokenType tokenType);
     Date extractExpiration(String token, TokenType tokenType);
-    String extractJwtFromCookie(HttpServletRequest request, String cookieName);
     Long extractUserId(String token);
     Long extractUserId(String token, TokenType tokenType);
 

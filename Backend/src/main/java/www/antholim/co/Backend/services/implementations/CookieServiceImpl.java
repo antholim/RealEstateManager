@@ -28,16 +28,18 @@ public class CookieServiceImpl implements CookieService {
         this.cookieConfigProperties = cookieConfigProperties;
     }
     @Override
-    public String getTokenFromCookie(HttpServletRequest request, String tokenName) {
-        if (request.getCookies() == null) return null;
-
-        return Arrays.stream(request.getCookies())
-                .filter(cookie -> tokenName.equals(cookie.getName()))
-                .findFirst()
-                .map(Cookie::getValue)
-                .orElse(null);
+    public String getTokenFromCookie(HttpServletRequest request, String cookieName) {
+        System.out.println(cookieName);
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                System.out.println(cookie.getName() + ": " + cookie.getValue());
+                if (cookieName.equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
     }
-
     @Override
     public void clearTokenCookie(HttpServletResponse response) {
 
@@ -45,12 +47,10 @@ public class CookieServiceImpl implements CookieService {
 
 
     @Override
-    public void addTokenCookie(HttpServletResponse response, String token, TokenType tokenType) {
+    public void addTokenCookie(HttpServletResponse response, String token, TokenType tokenType, String cookieName) {
 
         long maxAge = tokenType == TokenType.ACCESS_TOKEN ?
                 tokenConfigProperties.getExp() : rtConfigProperties.getExp();
-        String cookieName = tokenType == TokenType.ACCESS_TOKEN ?
-                tokenConfigProperties.getSignInKey() : rtConfigProperties.getRefreshKey();
 
         ResponseCookie cookie = ResponseCookie.from(cookieName, token)
                 .httpOnly(cookieConfigProperties.isHttpOnly())
@@ -63,8 +63,8 @@ public class CookieServiceImpl implements CookieService {
 
     @Override
     public void addTokenCookies(HttpServletResponse response, AuthenticationResponse res) {
-        addTokenCookie(response, res.getToken(), TokenType.ACCESS_TOKEN);
-        addTokenCookie(response, res.getToken(), TokenType.REFRESH_TOKEN);
+        addTokenCookie(response, res.getToken(), TokenType.ACCESS_TOKEN, "authToken");
+        addTokenCookie(response, res.getToken(), TokenType.REFRESH_TOKEN, "refreshToken");
     }
 
     @Override

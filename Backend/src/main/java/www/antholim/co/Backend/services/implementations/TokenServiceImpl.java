@@ -199,14 +199,4 @@ public class TokenServiceImpl implements TokenService {
     private SecretKey getKey(TokenType tokenType) {
         return tokenType == TokenType.ACCESS_TOKEN ? signInKey : refreshKey;
     }
-    public String extractJwtFromCookie(HttpServletRequest request, String cookieName) {
-        if (request.getCookies() != null) {
-            for (Cookie cookie : request.getCookies()) {
-                if (cookieName.equals(cookie.getName())) {
-                    return cookie.getValue();
-                }
-            }
-        }
-        return null;
-    }
 }
