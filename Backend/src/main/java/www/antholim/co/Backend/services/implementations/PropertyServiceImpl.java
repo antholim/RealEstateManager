@@ -1,6 +1,5 @@
 package www.antholim.co.Backend.services.implementations;
 
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import www.antholim.co.Backend.dto.model.PropertyDto;
 import www.antholim.co.Backend.models.Property;
