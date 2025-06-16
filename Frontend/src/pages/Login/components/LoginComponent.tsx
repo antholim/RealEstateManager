@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Container, Paper } from '@mui/material';
 import styles from './styles/Login.module.css';
+import { fetchPost } from '../../../services/FetchService';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [username, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login Submitted:', { email, password });
+    const response = await fetchPost("/api/v1/login", {
+      body : { 
+        username: username, 
+        password: password 
+      }
+    })
+    console.log(response)
+    console.log('Login Submitted:', { username: username, password: password });
   };
 
   return (
@@ -19,11 +27,11 @@ const Login = () => {
         </Typography>
         <form onSubmit={handleSubmit} className={styles.form}>
           <TextField
-            label="Email"
-            type="email"
+            label="Username"
+            type="string"
             fullWidth
             margin="normal"
-            value={email}
+            value={username}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
