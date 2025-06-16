@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
-import www.antholim.co.Backend.enums.PropertyType;
 import www.antholim.co.Backend.enums.UnitType;
 
 import java.time.LocalDateTime;
@@ -26,7 +25,7 @@ public class Unit {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "property_id", nullable = false)
-    private User user;
+    private Property property;
 
     @Column(name = "unit_number", nullable = false)
     @ToString.Include
