@@ -7,23 +7,21 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Accessors(chain = true)
-@Setter
+@Table(name = "tenants")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(onlyExplicitlyIncluded = true)  // Only include fields marked with @ToString.Include
-@Table(name = "tenants")
+@ToString(onlyExplicitlyIncluded = true)
 public class Tenant {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ToString.Include
     private Long id;
-
-    @ManyToOne
-    private Property property;
 
     @Column(name = "first_name", nullable = false)
     @ToString.Include
@@ -33,12 +31,16 @@ public class Tenant {
     @ToString.Include
     private String lastName;
 
-    @Column(name = "rent_payment", nullable = false)
-    @ToString.Include
-    private double rentPayment;
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String phone;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Lease> leases;
 }
