@@ -3,12 +3,15 @@ import type React from "react"
 import { useState } from "react"
 import { Card } from "../ui/card"
 import styles from "./addProperty.module.css"
+import { TextField, Button, Typography, Container, Paper } from '@mui/material';
 
 export function AddProperty() {
   const [formData, setFormData] = useState({
     name: "",
     address: "",
     units: "",
+    purchasePrice: "",
+    propertyType: ""
   })
 
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -41,6 +44,8 @@ export function AddProperty() {
         name: "",
         address: "",
         units: "",
+        purchasePrice: "",
+        propertyType: ""
       })
     } else {
       setErrors(newErrors)
@@ -52,44 +57,59 @@ export function AddProperty() {
       <h2 className={styles.title}>Add New Property</h2>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
-          <label htmlFor="name" className={styles.label}>
-            Property Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className={styles.input}
-          />
           {errors.name && <span className={styles.error}>{errors.name}</span>}
         </div>
         <div className={styles.formGroup}>
-          <label htmlFor="address" className={styles.label}>
-            Address
-          </label>
-          <input
-            type="text"
-            id="address"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            className={styles.input}
-          />
           {errors.address && <span className={styles.error}>{errors.address}</span>}
         </div>
         <div className={styles.formGroup}>
-          <label htmlFor="units" className={styles.label}>
-            Number of Units
-          </label>
-          <input
+          <TextField
+            label="Property Name"
+            type="text"
+            fullWidth
+            margin="normal"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
+          <TextField
+            label="Address"
+            type="text"
+            fullWidth
+            margin="normal"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            required
+          />
+
+          <TextField
+            label="Number of Units"
             type="number"
-            id="units"
-            name="units"
+            fullWidth
+            margin="normal"
             value={formData.units}
             onChange={handleChange}
-            className={styles.input}
+            required
+          />
+          <TextField
+            label="Purchase Price"
+            type="text"
+            fullWidth
+            margin="normal"
+            value={formData.purchasePrice}
+            onChange={handleChange}
+            required
+          />
+          <TextField
+            label="Property Type"
+            type="text"
+            fullWidth
+            margin="normal"
+            value={formData.purchasePrice}
+            onChange={handleChange}
+            required
           />
           {errors.units && <span className={styles.error}>{errors.units}</span>}
         </div>
