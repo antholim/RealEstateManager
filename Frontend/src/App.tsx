@@ -5,6 +5,7 @@ import Register from "./pages/Register/Register"
 import MyBuilding from "./pages/MyBuilding/MyBuilding";
 import Home from "./pages/Home/Home";
 import DashboardPage from "./pages/Dashboard/Dashboard";
+import PropertyPage from "./pages/PropertyPage/PropertyPage";
 
 const router = createBrowserRouter([
   {path : "/", element : undefined},
@@ -13,6 +14,7 @@ const router = createBrowserRouter([
   {path : "/home", element : <Home />},
   {path : "/my-building", element : <MyBuilding />},
   {path : "/dashboard", element : <DashboardPage />},
+  {path : "/property", element : <PropertyPage />},
 
 ]);
 function App() {
