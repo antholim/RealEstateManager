@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './AddPropertyModal.css';
-import { TextField, Button, Typography, Container, Paper } from '@mui/material';
+import { TextField, Button, Typography, Container, Paper, MenuItem } from '@mui/material';
+import { propertyTypeOptions } from '../../../data/PropertyType/propertyType';
 
 
 const AddPropertyModal = ({
@@ -72,86 +73,96 @@ const AddPropertyModal = ({
     };
 
     return (
-        isOpen ?         
+        isOpen ?
             (
                 <div className="modal-overlay" onClick={handleOverlayClick}>
-            <div className="modal-container">
-                <div className="modal-header">
-                    <h2 className="modal-title">{title}</h2>
-                    <button className="modal-close" onClick={onClose}>×</button>
-                </div>
-                <form onSubmit={handleSubmit}>
-                    <div className="modal-content">
-                        <div className="modal-input-group">
-                            <TextField
-                                label="Property Name"
-                                type="text"
-                                fullWidth
-                                margin="normal"
-                                name="name"
-                                value={formData.name}
-                                onChange={handleChange}
-                                required
-                            />
-                            <TextField
-                                label="Address"
-                                type="text"
-                                fullWidth
-                                margin="normal"
-                                name="address"
-                                value={formData.address}
-                                onChange={handleChange}
-                                required
-                            />
-
-                            <TextField
-                                label="Number of Units"
-                                type="number"
-                                fullWidth
-                                margin="normal"
-                                value={formData.units}
-                                onChange={handleChange}
-                                required
-                            />
-                            <TextField
-                                label="Purchase Price"
-                                type="text"
-                                fullWidth
-                                margin="normal"
-                                value={formData.purchasePrice}
-                                onChange={handleChange}
-                                required
-                            />
-                            <TextField
-                                label="Property Type"
-                                type="text"
-                                fullWidth
-                                margin="normal"
-                                value={formData.purchasePrice}
-                                onChange={handleChange}
-                                required
-                            />
+                    <div className="modal-container">
+                        <div className="modal-header">
+                            <h2 className="modal-title">{title}</h2>
+                            <button className="modal-close" onClick={onClose}>×</button>
                         </div>
+                        <form onSubmit={handleSubmit}>
+                            <div className="modal-content">
+                                <div className="modal-input-group">
+                                    <TextField
+                                        label="Property Name"
+                                        type="text"
+                                        fullWidth
+                                        margin="normal"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <TextField
+                                        label="Address"
+                                        type="text"
+                                        fullWidth
+                                        margin="normal"
+                                        name="address"
+                                        value={formData.address}
+                                        onChange={handleChange}
+                                        required
+                                    />
+
+                                    <TextField
+                                        label="Number of Units"
+                                        type="number"
+                                        fullWidth
+                                        margin="normal"
+                                        name="units"
+                                        value={formData.units}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <TextField
+                                        label="Purchase Price"
+                                        type="text"
+                                        fullWidth
+                                        name="purchasePrice"
+                                        margin="normal"
+                                        value={formData.purchasePrice}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <TextField
+                                        select
+                                        label="Property Type"
+                                        type="text"
+                                        fullWidth
+                                        name="propertyType"
+                                        margin="normal"
+                                        value={formData.propertyType}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        {propertyTypeOptions.map((option) => (
+                                            <MenuItem key={option.value} value={option.value}>
+                                                {option.label}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
+                                </div>
+                            </div>
+                            <div className="modal-actions">
+                                <button
+                                    type="button"
+                                    className="modal-button modal-button-cancel"
+                                    onClick={onClose}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="modal-button modal-button-submit"
+                                    disabled={!inputValue.trim()}
+                                >
+                                    {submitButtonText}
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                    <div className="modal-actions">
-                        <button
-                            type="button"
-                            className="modal-button modal-button-cancel"
-                            onClick={onClose}
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            type="submit"
-                            className="modal-button modal-button-submit"
-                            disabled={!inputValue.trim()}
-                        >
-                            {submitButtonText}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>) : <></>
+                </div>) : <></>
     );
 };
 
