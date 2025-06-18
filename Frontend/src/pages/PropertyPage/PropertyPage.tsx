@@ -2,6 +2,7 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import AddProperty from "./components/AddProperty"
 import styles from "./PropertyPage.module.css"
 import { useState } from "react"
+import AddPropertyModal from "./components/AddPropertyModal";
 import Modal from "../../components/Modal/Modal";
 
 export default function PropertyPage() {
@@ -18,14 +19,12 @@ export default function PropertyPage() {
                     Add Property
                 </button>
             </header>
-            <Modal
+            <AddPropertyModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 onSubmit={handleSubmit}
-                title="Add New Item"
-                inputLabel="Item Name"
-                inputPlaceholder="Enter item name..."
-                submitButtonText="Add Item"
+                title="Add New Property"
+                submitButtonText="Create Property"
             />
             <main className={styles.main}>
                 <AddProperty />
