@@ -12,10 +12,10 @@ interface Property {
     address: string
     units: number
     occupancyRate: number
-    tenants:[]
-  }
-const propertiesInitial:Property[] = [
-  { id: 1, name: "Appartment Hochelaga", address: "920 Rue Bossuet", units: 8, occupancyRate: 100, tenants:[] },
+    tenants: []
+}
+const propertiesInitial: Property[] = [
+    { id: 1, name: "Appartment Hochelaga", address: "920 Rue Bossuet", units: 8, occupancyRate: 100, tenants: [] },
 ]
 export default function PropertyPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,18 +24,23 @@ export default function PropertyPage() {
         setIsModalOpen(false);
     };
     const [properties, setProperties] = useState<Property[]>(propertiesInitial)
-  
+
     const handleDelete = (id: number) => {
-      setProperties(properties.filter((property) => property.id !== id))
+        setProperties(properties.filter((property) => property.id !== id))
     }
-    useEffect(()=> {
-        let response;
+    useEffect(() => {
         const fetch = async () => {
-            response = await fetchGet("/api/v1/property");
-        }
-        fetch()
-        console.log(response)
-    })
+            try {
+                const response = await fetchGet("/api/v1/property", {
+                    credentials: "include"
+                });
+                console.log("Fetched response:", response);
+            } catch (error) {
+                console.error("Fetch failed:", error);
+            }
+        };
+        fetch();
+    }, []);
     return (
         <div className={styles.container}>
             <Sidebar />
@@ -53,7 +58,7 @@ export default function PropertyPage() {
             />
             <main className={styles.main}>
                 {/* <AddProperty /> */}
-                <PropertyCard handleDelete={handleDelete} property={propertiesInitial[0]}/>
+                <PropertyCard handleDelete={handleDelete} property={propertiesInitial[0]} />
             </main>
         </div>
     )

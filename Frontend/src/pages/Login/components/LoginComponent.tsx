@@ -13,7 +13,8 @@ const Login = () => {
       body : { 
         username: username, 
         password: password 
-      }
+      },
+      credentials: "include"
     })
     console.log(response)
     console.log('Login Submitted:', { username: username, password: password });
