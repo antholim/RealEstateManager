@@ -1,16 +1,18 @@
 import { Home, Users, FileText, PenToolIcon as Tool, BarChart, Building } from "lucide-react"
 import styles from "./sidebar.module.css"
+import { useNavigate } from "react-router-dom"
 
 const navItems = [
-  { icon: Home, label: "Dashboard" },
-  { icon: Building, label: "Properties" },
-  { icon: Users, label: "Tenants" },
-  { icon: FileText, label: "Documents",  },
-  { icon: Tool, label: "Maintenance" },
-  { icon: BarChart, label: "Analytics" },
+  { icon: Home, label: "Dashboard", route : "/dashboard" },
+  { icon: Building, label: "Properties", route : "/properties" },
+  { icon: Users, label: "Tenants", route : "/tenants" },
+  { icon: FileText, label: "Documents", route : "/dashboard"  },
+  { icon: Tool, label: "Maintenance", route : "/dashboard" },
+  { icon: BarChart, label: "Analytics", route : "/dashboard" },
 ]
 
 export function Sidebar({setDashboardContent, dashboardContent}) {
+  const navigate = useNavigate();
   return (
     <div className={styles.sidebar}>
       <div className={styles.header}>

@@ -1,16 +1,35 @@
 import Sidebar from "../../components/Sidebar/Sidebar";
-import AddProperty from "./components/AddProperty"
 import styles from "./PropertyPage.module.css"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import AddPropertyModal from "./components/AddPropertyModal";
-import Modal from "../../components/Modal/Modal";
+import PropertyCard from "./components/PropertyCard/PropertyCard";
 
+
+interface Property {
+    id: number
+    name: string
+    address: string
+    units: number
+    occupancyRate: number
+    tenants:[]
+  }
+const propertiesInitial:Property[] = [
+  { id: 1, name: "Appartment Hochelaga", address: "920 Rue Bossuet", units: 8, occupancyRate: 100, tenants:[] },
+]
 export default function PropertyPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const handleSubmit = (value) => {
         console.log('Submitted:', value);
         setIsModalOpen(false);
     };
+    const [properties, setProperties] = useState<Property[]>(propertiesInitial)
+  
+    const handleDelete = (id: number) => {
+      setProperties(properties.filter((property) => property.id !== id))
+    }
+    useEffect(()=> {
+
+    })
     return (
         <div className={styles.container}>
             <Sidebar />
@@ -27,7 +46,8 @@ export default function PropertyPage() {
                 submitButtonText="Create Property"
             />
             <main className={styles.main}>
-                <AddProperty />
+                {/* <AddProperty /> */}
+                <PropertyCard handleDelete={handleDelete} property={propertiesInitial[0]}/>
             </main>
         </div>
     )
