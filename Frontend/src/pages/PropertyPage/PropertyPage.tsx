@@ -3,6 +3,7 @@ import styles from "./PropertyPage.module.css"
 import { useEffect, useState } from "react"
 import AddPropertyModal from "./components/AddPropertyModal";
 import PropertyCard from "./components/PropertyCard/PropertyCard";
+import { fetchGet } from "../../services/FetchService";
 
 
 interface Property {
@@ -28,7 +29,12 @@ export default function PropertyPage() {
       setProperties(properties.filter((property) => property.id !== id))
     }
     useEffect(()=> {
-
+        let response;
+        const fetch = async () => {
+            response = await fetchGet("/api/v1/property");
+        }
+        fetch()
+        console.log(response)
     })
     return (
         <div className={styles.container}>
