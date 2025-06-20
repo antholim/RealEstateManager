@@ -15,4 +15,4 @@ docker start 955
 
 docker run --name RealEstateManager -e POSTGRES_DB=RealEstateDb -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -p 5432:5432
 
-docker exec -it RealEstateManager psql -U admin -d RealEstateDb
+docker exec -it postgresql psql -U admin -d RealEstateManagerDB
