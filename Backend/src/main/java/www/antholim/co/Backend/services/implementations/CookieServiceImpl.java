@@ -13,8 +13,6 @@ import www.antholim.co.Backend.dto.response.AuthenticationResponse;
 import www.antholim.co.Backend.enums.TokenType;
 import www.antholim.co.Backend.services.CookieService;
 
-import java.util.Arrays;
-
 @Service
 public class CookieServiceImpl implements CookieService {
 

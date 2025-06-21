@@ -1,7 +1,6 @@
 package www.antholim.co.Backend.dto.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.Column;
 import lombok.*;
 import lombok.experimental.Accessors;
 import www.antholim.co.Backend.enums.PropertyType;

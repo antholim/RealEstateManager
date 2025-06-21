@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.experimental.Accessors;
 import www.antholim.co.Backend.enums.UnitType;
-import www.antholim.co.Backend.models.Property;
 import www.antholim.co.Backend.models.Unit;
 
 import java.util.ArrayList;
