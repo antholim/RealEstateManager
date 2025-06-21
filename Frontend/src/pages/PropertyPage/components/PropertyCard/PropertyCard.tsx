@@ -4,7 +4,7 @@ import { Trash2 } from "lucide-react"
 
 interface Property {
     id: number
-    name: string
+    propertyName: string
     address: string
     units: number
     occupancyRate: number
@@ -16,11 +16,11 @@ function PropertyCard({handleDelete, property}) {
     return (
             <Card key={property.id} className={styles.card}>
               <div className={styles.cardHeader}>
-                <h3 className={styles.propertyName}>{property.name}</h3>
+                <h3 className={styles.propertyName}>{property.propertyName}</h3>
                 <button
                   onClick={() => handleDelete(property.id)}
                   className={styles.deleteButton}
-                  aria-label={`Delete ${property.name}`}
+                  aria-label={`Delete ${property.propertyName}`}
                 >
                   <Trash2 size={18} />
                 </button>
