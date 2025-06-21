@@ -6,7 +6,7 @@ spring:
     name: Backend
     datasource:
         #docker run --name RealEstateManager -e POSTGRES_DB=RealEstateDb -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -p 5432:5432 -d postgres
-        url: jdbc:postgresql://localhost:5432/RealEstateDb
+        url: jdbc:postgresql://localhost:5432/RealEstateManagerDB
         username: admin
         password: admin
         driver-class-name: org.postgresql.Driver

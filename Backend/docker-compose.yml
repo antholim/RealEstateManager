@@ -21,7 +21,7 @@ services:
     command: bin/pulsar standalone
     ports:
       - "6650:6650"  # Pulsar binary protocol
-      - "8080:8080"  # Pulsar Admin REST API
+      - "8081:8081"  # Pulsar Admin REST API
     networks:
       - backend
 
