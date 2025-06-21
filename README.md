@@ -2,17 +2,22 @@
 
 Db Schema : https://dbdiagram.io/d/RealEstateManager-68465ed70580734397556b91
 
+Open Windows Powershell
+
+Navigate to root project directory
+
 ## Start frontend
 
-1. npm run dev
+1. ```npm run dev``` in ./Frontend
 
 ## Start backend
 
-1. Run Postgres container
-docker start 955
+1. Docker compose in WSL Ubuntu
+
+```wsl start``` in Windows Powershell in ./Backend
+
+```docker compose up -d```
+
+```docker exec -it postgresql psql -U admin -d RealEstateManagerDB``` (Optional)
 
 2. Run Spring application
-
-docker run --name RealEstateManager -e POSTGRES_DB=RealEstateDb -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -p 5432:5432
-
-docker exec -it postgresql psql -U admin -d RealEstateManagerDB
