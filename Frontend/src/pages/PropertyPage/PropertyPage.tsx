@@ -1,13 +1,13 @@
 import Sidebar from "../../components/Sidebar/Sidebar";
 import styles from "./PropertyPage.module.css"
 import { useEffect, useState } from "react"
-import AddPropertyModal from "./components/AddPropertyModal";
+import AddPropertyModal from "./components/AddPropertyModal/AddPropertyModal";
 import PropertyCard from "./components/PropertyCard/PropertyCard";
 import { fetchGet } from "../../services/FetchService";
 
 interface Property {
     id: number
-    name: string
+    propertyName: string
     address: string
     units: number
     occupancyRate: number
@@ -15,7 +15,7 @@ interface Property {
 }
 
 const propertiesInitial: Property[] = [
-    { id: 1, name: "Appartment Hochelaga", address: "920 Rue Bossuet", units: 8, occupancyRate: 100, tenants: [] },
+    { id: 1, propertyName: "Appartment Hochelaga", address: "920 Rue Bossuet", units: 8, occupancyRate: 100, tenants: [] },
 ]
 
 export default function PropertyPage() {

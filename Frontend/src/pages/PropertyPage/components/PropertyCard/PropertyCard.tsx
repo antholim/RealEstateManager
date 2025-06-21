@@ -34,6 +34,7 @@ function PropertyCard({handleDelete, property}) {
               <p className={styles.propertyInfo}>
                 <strong>Occupancy Rate:</strong> {property.occupancyRate}%
               </p>
+              <button>Add Tenant</button>
             </Card>
           )
 }

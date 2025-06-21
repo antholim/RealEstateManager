@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './AddPropertyModal.css';
 import { TextField, Button, Typography, Container, Paper, MenuItem } from '@mui/material';
-import { propertyTypeOptions } from '../../../data/PropertyType/propertyType';
+import { propertyTypeOptions } from '../../../../data/PropertyType/propertyType';
 
 
 const AddPropertyModal = ({
@@ -125,23 +125,28 @@ const AddPropertyModal = ({
                                         onChange={handleChange}
                                         required
                                     />
-                                    <TextField
-                                        select
-                                        label="Property Type"
-                                        type="text"
-                                        fullWidth
-                                        name="propertyType"
-                                        margin="normal"
-                                        value={formData.propertyType}
-                                        onChange={handleChange}
-                                        required
-                                    >
-                                        {propertyTypeOptions.map((option) => (
-                                            <MenuItem key={option.value} value={option.value}>
-                                                {option.label}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
+                                    <div className="form-field">
+                                        <label htmlFor="propertyType">
+                                            Property Type *
+                                        </label>
+                                        <select
+                                            id="propertyType"
+                                            name="propertyType"
+                                            value={formData.propertyType}
+                                            onChange={handleChange}
+                                            required
+                                            className="form-select"
+                                        >
+                                            <option value="" disabled>
+                                                Select Property Type
+                                            </option>
+                                            {propertyTypeOptions.map((option) => (
+                                                <option key={option.value} value={option.value}>
+                                                    {option.label}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div className="modal-actions">

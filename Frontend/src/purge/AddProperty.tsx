@@ -1,7 +1,7 @@
 import type React from "react"
 
 import { useState } from "react"
-import { Card } from "../../Dashboard/components/ui/card"
+import { Card } from "../pages/Dashboard/components/ui/card"
 import styles from "./addProperty.module.css"
 import { TextField, Button, Typography, Container, Paper } from '@mui/material';
 
