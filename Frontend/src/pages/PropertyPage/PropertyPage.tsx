@@ -19,11 +19,9 @@ interface Tenant {
 
 interface Property {
     id: string;
-    propertyName: string;
+    propertName: string;
     address: string;
     type: string;
-    propertyType: string;
-    purchasePrice: number;
     totalUnits: number;
     occupiedUnits: number;
     monthlyRevenue: number;
@@ -33,11 +31,9 @@ interface Property {
 const propertiesInitial: Property[] = [
     {
         id: '1',
-        propertyName: 'Sunset Apartments',
+        propertName: 'Sunset Apartments',
         address: '123 Main St, Downtown',
         type: 'apartment',
-        propertyType: 'residential',
-        purchasePrice: 1200000,
         totalUnits: 12,
         occupiedUnits: 10,
         monthlyRevenue: 18000,
@@ -66,11 +62,9 @@ const propertiesInitial: Property[] = [
     },
     {
         id: '2',
-        propertyName: 'Oak Street House',
+        propertName: 'Oak Street House',
         address: '456 Oak Street, Suburbs',
         type: 'house',
-        propertyType: 'residential',
-        purchasePrice: 450000,
         totalUnits: 1,
         occupiedUnits: 1,
         monthlyRevenue: 2400,
@@ -88,11 +82,9 @@ const propertiesInitial: Property[] = [
     },
     {
         id: '3',
-        propertyName: 'Commerce Plaza',
+        propertName: 'Commerce Plaza',
         address: '789 Business Ave, Commercial District',
         type: 'commercial',
-        propertyType: 'commercial',
-        purchasePrice: 2500000,
         totalUnits: 8,
         occupiedUnits: 6,
         monthlyRevenue: 24000,
@@ -133,7 +125,6 @@ export default function PropertyPage() {
         const newProperty = {
             ...value,
             id: Date.now().toString(), // Simple ID generation - use proper UUID in production
-            propertyName: value.name || value.propertyName || '',
             totalUnits: parseInt(value.units) || 0,
             occupiedUnits: 0,
             monthlyRevenue: 0,
