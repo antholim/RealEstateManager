@@ -15,9 +15,11 @@ interface Tenant {
 
 interface Property {
     id: string;
-    name: string;
+    propertyName: string;
     address: string;
     type: string;
+    propertyType: string;
+    purchasePrice: number;
     totalUnits: number;
     occupiedUnits: number;
     monthlyRevenue: number;
@@ -58,7 +60,7 @@ function PropertyCard({ property, onDelete, onAddTenant }: PropertyCardProps) {
         <Card className={styles.card}>
             <div className={styles.cardHeader}>
                 <div className={styles.propertyInfo}>
-                    <h3 className={styles.propertyName}>{property.name}</h3>
+                    <h3 className={styles.propertyName}>{property.propertyName}</h3>
                     <div className={styles.propertyType}>
                         <Building size={14} />
                         <span style={{ color: getPropertyTypeColor(property.type) }}>
@@ -69,7 +71,7 @@ function PropertyCard({ property, onDelete, onAddTenant }: PropertyCardProps) {
                 <button
                     onClick={() => onDelete(property.id)}
                     className={styles.deleteButton}
-                    aria-label={`Delete ${property.name}`}
+                    aria-label={`Delete ${property.propertyName}`}
                 >
                     <Trash2 size={18} />
                 </button>
