@@ -1,30 +1,8 @@
+import { Property, Tenant } from "../../../../interfaces/Property";
 import { Card } from "../../../Dashboard/components/ui/card";
 import styles from "./PropertyCard.module.css"
 import { Trash2, Users, DollarSign, MapPin, Building } from "lucide-react"
 
-interface Tenant {
-    id: string;
-    name: string;
-    email: string;
-    phone: string;
-    leaseStart: string;
-    leaseEnd: string;
-    rentAmount: number;
-    unit?: string;
-}
-
-interface Property {
-    id: string;
-    propertyName: string;
-    address: string;
-    type: string;
-    propertyType: string;
-    purchasePrice: number;
-    totalUnits: number;
-    occupiedUnits: number;
-    monthlyRevenue: number;
-    tenants: Tenant[];
-}
 
 interface PropertyCardProps {
     property: Property;
@@ -33,6 +11,7 @@ interface PropertyCardProps {
 }
 
 function PropertyCard({ property, onDelete, onAddTenant }: PropertyCardProps) {
+    console.log(property + "HERE")
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
@@ -41,8 +20,8 @@ function PropertyCard({ property, onDelete, onAddTenant }: PropertyCardProps) {
         }).format(amount);
     };
 
-    const getPropertyTypeColor = (type: string) => {
-        switch (type.toLowerCase()) {
+    const getPropertyTypeColor = (propertyType: string) => {
+        switch (propertyType.toLowerCase()) {
             case 'apartment':
                 return '#3b82f6';
             case 'house':
@@ -63,8 +42,8 @@ function PropertyCard({ property, onDelete, onAddTenant }: PropertyCardProps) {
                     <h3 className={styles.propertyName}>{property.propertyName}</h3>
                     <div className={styles.propertyType}>
                         <Building size={14} />
-                        <span style={{ color: getPropertyTypeColor(property.type) }}>
-                            {property.type.charAt(0).toUpperCase() + property.type.slice(1)}
+                        <span style={{ color: getPropertyTypeColor(property.propertyType) }}>
+                            {property.propertyType.charAt(0).toUpperCase() + property.propertyType.slice(1)}
                         </span>
                     </div>
                 </div>
@@ -114,7 +93,7 @@ function PropertyCard({ property, onDelete, onAddTenant }: PropertyCardProps) {
                 </div>
             </div>
 
-            {property.tenants.length > 0 && (
+            {property?.tenants?.length > 0 && (
                 <div className={styles.tenantsSection}>
                     <h4 className={styles.tenantsTitle}>Current Tenants</h4>
                     <div className={styles.tenantsList}>

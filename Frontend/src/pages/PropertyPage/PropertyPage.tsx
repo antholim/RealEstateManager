@@ -5,38 +5,18 @@ import AddPropertyModal from "./components/AddPropertyModal/AddPropertyModal";
 import PropertyCard from "./components/PropertyCard/PropertyCard";
 import { fetchGet } from "../../services/FetchService";
 import { Building, TrendingUp, Users, DollarSign } from "lucide-react";
-
-interface Tenant {
-    id: string;
-    name: string;
-    email: string;
-    phone: string;
-    leaseStart: string;
-    leaseEnd: string;
-    rentAmount: number;
-    unit?: string;
-}
-
-interface Property {
-    id: string;
-    propertName: string;
-    address: string;
-    type: string;
-    totalUnits: number;
-    occupiedUnits: number;
-    monthlyRevenue: number;
-    tenants: Tenant[];
-}
+import { Property, Tenant } from "../../interfaces/Property";
 
 const propertiesInitial: Property[] = [
     {
         id: '1',
-        propertName: 'Sunset Apartments',
+        propertyName: 'Sunset Apartments',
         address: '123 Main St, Downtown',
-        type: 'apartment',
+        propertyType: 'apartment',
         totalUnits: 12,
         occupiedUnits: 10,
         monthlyRevenue: 18000,
+        purchasePrice: 600000,
         tenants: [
             {
                 id: '1',
@@ -62,12 +42,13 @@ const propertiesInitial: Property[] = [
     },
     {
         id: '2',
-        propertName: 'Oak Street House',
+        propertyName: 'Oak Street House',
         address: '456 Oak Street, Suburbs',
-        type: 'house',
+        propertyType: 'house',
         totalUnits: 1,
         occupiedUnits: 1,
         monthlyRevenue: 2400,
+        purchasePrice: 600000,
         tenants: [
             {
                 id: '3',
@@ -82,12 +63,13 @@ const propertiesInitial: Property[] = [
     },
     {
         id: '3',
-        propertName: 'Commerce Plaza',
+        propertyName: 'Commerce Plaza',
         address: '789 Business Ave, Commercial District',
-        type: 'commercial',
+        propertyType: 'commercial',
         totalUnits: 8,
         occupiedUnits: 6,
         monthlyRevenue: 24000,
+        purchasePrice: 600000,
         tenants: [
             {
                 id: '4',
@@ -177,6 +159,7 @@ export default function PropertyPage() {
                     // Fallback to initial data if API returns unexpected format
                     setProperties(propertiesInitial);
                 }
+                setProperties(propertiesInitial);
             } catch (error) {
                 console.error("Fetch failed:", error);
                 setError("Failed to load properties");
