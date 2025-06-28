@@ -22,6 +22,8 @@ public class PropertyDto {
     private PropertyType propertyType;
     private String address;
     private String propertyName;
+    private int totalUnits;
+    private double monthlyRevenue;
 
     public static PropertyDto toDto(Property property) {
         PropertyDto dto = new PropertyDto();
@@ -30,6 +32,7 @@ public class PropertyDto {
         dto.setPropertyName(property.getPropertyName());
         dto.setPurchasePrice(property.getPurchasePrice());
         dto.setPropertyType(property.getPropertyType());
+        dto.setTotalUnits(property.getUnits().size());
         return dto;
     }
     public static List<PropertyDto> toDto(List<Property> properties) {

@@ -8,6 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import www.antholim.co.Backend.enums.PropertyType;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Accessors(chain = true)
@@ -42,6 +44,9 @@ public class Property {
     @Column(name = "property_name", nullable = false)
     @ToString.Include
     private String propertyName;
+
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    private List<Unit> units = new ArrayList<>();
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
