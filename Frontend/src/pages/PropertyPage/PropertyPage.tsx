@@ -6,6 +6,7 @@ import PropertyCard from "./components/PropertyCard/PropertyCard";
 import { fetchGet } from "../../services/FetchService";
 import { Building, TrendingUp, Users, DollarSign } from "lucide-react";
 import { Property, Tenant } from "../../interfaces/Property";
+import ViewPropertyModal from "./components/ViewPropertyModal/ViewPropertyModal";
 
 const propertiesInitial: Property[] = [
     {
@@ -97,6 +98,7 @@ const propertiesInitial: Property[] = [
 
 export default function PropertyPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectProperty,setSelectProperty] = useState("");
     const [isPropertyModalOpen, setIsPropertyModalOpen] = useState(false);
     const [properties, setProperties] = useState<Property[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -303,7 +305,7 @@ export default function PropertyPage() {
                         submitButtonText="Create Property"
                     />
 
-                    <AddPropertyModal
+                    <ViewPropertyModal
                         isOpen={isPropertyModalOpen}
                         onClose={() => setIsPropertyModalOpen(false)}
                         onSubmit={handleSubmit}
@@ -327,6 +329,7 @@ export default function PropertyPage() {
                                     property={property}
                                     onDelete={handleDelete}
                                     onAddTenant={handleAddTenant}
+                                    setSelectProperty={setSelectProperty}
                                     setIsPropertyModalOpen={setIsPropertyModalOpen}
                                 />
                             ))

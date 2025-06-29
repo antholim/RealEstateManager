@@ -7,12 +7,12 @@ import { Trash2, Users, DollarSign, MapPin, Building, MoreVertical } from "lucid
 interface PropertyCardProps {
     property: Property;
     onDelete: (id: string) => void;
+    setSelectProperty: (id: string) => void;
     onAddTenant: (propertyId: string, newTenant: Tenant) => boolean;
     setIsPropertyModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function PropertyCard({ property, onDelete, onAddTenant, setIsPropertyModalOpen }: PropertyCardProps) {
-    console.log(property + "HERE")
+function PropertyCard({ property, onDelete, onAddTenant, setSelectProperty, setIsPropertyModalOpen }: PropertyCardProps) {
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
@@ -49,7 +49,10 @@ function PropertyCard({ property, onDelete, onAddTenant, setIsPropertyModalOpen 
                     </div>
                 </div>
                 <button
-                    onClick={() => setIsPropertyModalOpen(true)}
+                    onClick={() => {
+                        setSelectProperty(property.id)
+                        setIsPropertyModalOpen(true)
+                    }}
                     aria-label={`Delete ${property.propertyName}`}
                     className={styles.viewProperty}
                 >
