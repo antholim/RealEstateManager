@@ -90,46 +90,32 @@ function PropertyCard({ property, onDelete, onAddTenant, setSelectProperty, setI
                     </div>
                 </div>
 
-                <div className={styles.occupancyBar}>
-                    <div className={styles.occupancyInfo}>
-                        <span>Occupancy Rate</span>
-                        <span>{occupancyRate}%</span>
-                    </div>
-                    <div className={styles.progressBar}>
-                        <div
-                            className={styles.progressFill}
-                            style={{ width: `${occupancyRate}%` }}
-                        ></div>
-                    </div>
-                </div>
             </div>
 
-            {property?.tenants?.length > 0 && (
-                <div className={styles.tenantsSection}>
-                    <h4 className={styles.tenantsTitle}>Current Tenants</h4>
-                    <div className={styles.tenantsList}>
-                        {property.tenants.slice(0, 3).map((tenant) => (
-                            <div key={tenant.id} className={styles.tenantItem}>
-                                <div className={styles.tenantInfo}>
-                                    <span className={styles.tenantName}>{tenant.name}</span>
-                                    {tenant.unit && <span className={styles.tenantUnit}>{tenant.unit}</span>}
-                                </div>
-                                <span className={styles.tenantRent}>{formatCurrency(tenant.rentAmount)}</span>
-                            </div>
-                        ))}
-                        {property.tenants.length > 3 && (
-                            <div className={styles.moreTenants}>
-                                +{property.tenants.length - 3} more tenants
-                            </div>
-                        )}
-                    </div>
+                <div className={styles.addSection}>
+                            <button 
+                            type="button" 
+                            className={styles.addUnitButton} 
+                            onClick={() => null}
+                        >
+                            Add Unit
+                        </button>
+                            <button 
+                            type="button" 
+                            className={styles.addLeaseButton} 
+                            onClick={() => null}
+                        >
+                            Add Lease
+                        </button>
+                                                    <button 
+                            type="button" 
+                            className={styles.addTenantButton} 
+                            onClick={() => null}
+                        >
+                            Add Tenant
+                        </button>
                 </div>
-            )}
-
             <div className={styles.cardActions}>
-                <button className={styles.addTenantButton}>
-                    Add Tenant
-                </button>
             </div>
         </Card>
     )
