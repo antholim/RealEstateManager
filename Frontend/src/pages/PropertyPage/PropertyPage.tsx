@@ -97,6 +97,7 @@ const propertiesInitial: Property[] = [
 
 export default function PropertyPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isPropertyModalOpen, setIsPropertyModalOpen] = useState(false);
     const [properties, setProperties] = useState<Property[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -301,6 +302,14 @@ export default function PropertyPage() {
                         title="Add New Property"
                         submitButtonText="Create Property"
                     />
+
+                    <AddPropertyModal
+                        isOpen={isPropertyModalOpen}
+                        onClose={() => setIsPropertyModalOpen(false)}
+                        onSubmit={handleSubmit}
+                        title="Property Info"
+                        submitButtonText="Create Property"
+                    />
                     
                     <div className={styles.propertiesGrid}>
                         {error && (
@@ -318,6 +327,7 @@ export default function PropertyPage() {
                                     property={property}
                                     onDelete={handleDelete}
                                     onAddTenant={handleAddTenant}
+                                    setIsPropertyModalOpen={setIsPropertyModalOpen}
                                 />
                             ))
                         )}

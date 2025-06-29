@@ -1,16 +1,17 @@
 import { Property, Tenant } from "../../../../interfaces/Property";
 import { Card } from "../../../Dashboard/components/ui/card";
 import styles from "./PropertyCard.module.css"
-import { Trash2, Users, DollarSign, MapPin, Building } from "lucide-react"
+import { Trash2, Users, DollarSign, MapPin, Building, MoreVertical } from "lucide-react"
 
 
 interface PropertyCardProps {
     property: Property;
     onDelete: (id: string) => void;
-    onAddTenant: (propertyId: string, newTenant: Tenant) => void;
+    onAddTenant: (propertyId: string, newTenant: Tenant) => boolean;
+    setIsPropertyModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function PropertyCard({ property, onDelete, onAddTenant }: PropertyCardProps) {
+function PropertyCard({ property, onDelete, onAddTenant, setIsPropertyModalOpen }: PropertyCardProps) {
     console.log(property + "HERE")
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('en-US', {
@@ -47,6 +48,13 @@ function PropertyCard({ property, onDelete, onAddTenant }: PropertyCardProps) {
                         </span>
                     </div>
                 </div>
+                <button
+                    onClick={() => setIsPropertyModalOpen(true)}
+                    aria-label={`Delete ${property.propertyName}`}
+                    className={styles.viewProperty}
+                >
+                    <MoreVertical size={18} />
+                </button>
                 <button
                     onClick={() => onDelete(property.id)}
                     className={styles.deleteButton}
@@ -85,8 +93,8 @@ function PropertyCard({ property, onDelete, onAddTenant }: PropertyCardProps) {
                         <span>{occupancyRate}%</span>
                     </div>
                     <div className={styles.progressBar}>
-                        <div 
-                            className={styles.progressFill} 
+                        <div
+                            className={styles.progressFill}
                             style={{ width: `${occupancyRate}%` }}
                         ></div>
                     </div>
