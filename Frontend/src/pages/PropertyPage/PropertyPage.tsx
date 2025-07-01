@@ -7,7 +7,9 @@ import { fetchGet } from "../../services/FetchService";
 import { Building, TrendingUp, Users, DollarSign } from "lucide-react";
 import { Property, Tenant } from "../../interfaces/Property";
 import ViewPropertyModal from "./components/ViewPropertyModal/ViewPropertyModal";
-import AddTenantModal from "./components/AddTenant/AddTenantModal";
+import AddTenantModal from "./components/AddTenantModal/AddTenantModal";
+import AddUnitModal from "./components/AddUnitModal/AddUnitModal";
+import AddLeaseModal from "./components/AddLeaseModal/AddLeaseModal";
 
 const propertiesInitial: Property[] = [
     {
@@ -100,6 +102,9 @@ const propertiesInitial: Property[] = [
 export default function PropertyPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectProperty,setSelectProperty] = useState("");
+    const [isUnitModalOpen, setIsUnitModalOpen] = useState(false);
+    const [isTenantModalOpen, setIsTenantModalOpen] = useState(false);
+    const [isLeaseModalOpen, setIsLeaseModalOpen] = useState(false);
     const [isPropertyModalOpen, setIsPropertyModalOpen] = useState(false);
     const [properties, setProperties] = useState<Property[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -313,12 +318,24 @@ export default function PropertyPage() {
                         title="Property Info"
                         submitButtonText="Create Property"
                     />
+                    <AddUnitModal
+                        isOpen={isUnitModalOpen}
+                        onClose={() => setIsUnitModalOpen(false)}
+                        onSubmit={handleSubmit}
+                        title="Add Unit"
+                        submitButtonText="Add Unit"/>
+                    <AddLeaseModal
+                        isOpen={isLeaseModalOpen}
+                        onClose={() => setIsLeaseModalOpen(false)}
+                        onSubmit={handleSubmit}
+                        title="Add Lease"
+                        submitButtonText="Add Lease"/>
                     <AddTenantModal
-                        isOpen={isModalOpen}
-                        onClose={() => setIsModalOpen(false)}
+                        isOpen={isTenantModalOpen}
+                        onClose={() => setIsTenantModalOpen(false)}
                         onSubmit={handleSubmit}
                         title="Add Tenant"
-                        submitButtonText="Create Property"/>
+                        submitButtonText="Add Tenant"/>
                     
                     <div className={styles.propertiesGrid}>
                         {error && (
@@ -338,6 +355,9 @@ export default function PropertyPage() {
                                     onAddTenant={handleAddTenant}
                                     setSelectProperty={setSelectProperty}
                                     setIsPropertyModalOpen={setIsPropertyModalOpen}
+                                    setIsUnitModalOpen={()=>setIsUnitModalOpen(true)}
+                                    setIsLeaseModalOpen={()=>setIsLeaseModalOpen(true)}
+                                    setIsTenantModalOpen={()=>setIsTenantModalOpen(true)}
                                 />
                             ))
                         )}

@@ -10,9 +10,12 @@ interface PropertyCardProps {
     setSelectProperty: (id: string) => void;
     onAddTenant: (propertyId: string, newTenant: Tenant) => boolean;
     setIsPropertyModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsUnitModalOpen : any;
+    setIsLeaseModalOpen: any;
+    setIsTenantModalOpen: any;
 }
 
-function PropertyCard({ property, onDelete, onAddTenant, setSelectProperty, setIsPropertyModalOpen }: PropertyCardProps) {
+function PropertyCard({ property, onDelete, onAddTenant, setSelectProperty, setIsPropertyModalOpen, setIsUnitModalOpen, setIsLeaseModalOpen, setIsTenantModalOpen }: PropertyCardProps) {
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
@@ -96,21 +99,21 @@ function PropertyCard({ property, onDelete, onAddTenant, setSelectProperty, setI
                             <button 
                             type="button" 
                             className={styles.addUnitButton} 
-                            onClick={() => null}
+                            onClick={setIsUnitModalOpen}
                         >
                             Add Unit
                         </button>
                             <button 
                             type="button" 
                             className={styles.addLeaseButton} 
-                            onClick={() => null}
+                            onClick={setIsLeaseModalOpen}
                         >
                             Add Lease
                         </button>
                                                     <button 
                             type="button" 
                             className={styles.addTenantButton} 
-                            onClick={() => null}
+                            onClick={setIsTenantModalOpen}
                         >
                             Add Tenant
                         </button>
