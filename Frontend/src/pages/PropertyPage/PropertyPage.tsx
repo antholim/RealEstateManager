@@ -10,6 +10,7 @@ import ViewPropertyModal from "./components/ViewPropertyModal/ViewPropertyModal"
 import AddTenantModal from "./components/AddTenantModal/AddTenantModal";
 import AddUnitModal from "./components/AddUnitModal/AddUnitModal";
 import AddLeaseModal from "./components/AddLeaseModal/AddLeaseModal";
+import { usePropertyModal } from "../../hooks/usePropertyModal";
 
 const propertiesInitial: Property[] = [
     {
@@ -101,11 +102,21 @@ const propertiesInitial: Property[] = [
 
 export default function PropertyPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectProperty,setSelectProperty] = useState("");
-    const [isUnitModalOpen, setIsUnitModalOpen] = useState(false);
-    const [isTenantModalOpen, setIsTenantModalOpen] = useState(false);
-    const [isLeaseModalOpen, setIsLeaseModalOpen] = useState(false);
+
+    const {
+        selectedProperty,
+        isTenantModalOpen,
+        isUnitModalOpen,
+        isLeaseModalOpen,
+        openTenantModal,
+        openUnitModal,
+        openLeaseModal,
+        setIsTenantModalOpen,
+        setIsUnitModalOpen,
+        setIsLeaseModalOpen,
+      } = usePropertyModal();
     const [isPropertyModalOpen, setIsPropertyModalOpen] = useState(false);
+    
     const [properties, setProperties] = useState<Property[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -319,7 +330,9 @@ export default function PropertyPage() {
                         submitButtonText="Create Property"
                     />
                     <AddUnitModal
+
                         isOpen={isUnitModalOpen}
+                        property={selectedProperty}
                         onClose={() => setIsUnitModalOpen(false)}
                         onSubmit={handleSubmit}
                         title="Add Unit"
@@ -349,15 +362,16 @@ export default function PropertyPage() {
                         ) : (
                             properties.map(property => (
                                 <PropertyCard 
+                                    selectedProperty={selectedProperty}
                                     key={property.id}
                                     property={property}
                                     onDelete={handleDelete}
                                     onAddTenant={handleAddTenant}
-                                    setSelectProperty={setSelectProperty}
+                                    onSelectProperty={openTenantModal}
                                     setIsPropertyModalOpen={setIsPropertyModalOpen}
-                                    setIsUnitModalOpen={()=>setIsUnitModalOpen(true)}
-                                    setIsLeaseModalOpen={()=>setIsLeaseModalOpen(true)}
-                                    setIsTenantModalOpen={()=>setIsTenantModalOpen(true)}
+                                    setIsUnitModalOpen={openUnitModal}
+                                    setIsLeaseModalOpen={openLeaseModal}
+                                    setIsTenantModalOpen={openTenantModal}
                                 />
                             ))
                         )}

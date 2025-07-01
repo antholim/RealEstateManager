@@ -9,7 +9,8 @@ const AddUnitModal = ({
     onClose,
     onSubmit,
     title = "Title",
-    submitButtonText = 'Submit'
+    submitButtonText = 'Submit',
+    property
 }) => {
     const [inputValue, setInputValue] = useState('');
 
@@ -78,7 +79,7 @@ const AddUnitModal = ({
                 <div className="modal-overlay" onClick={handleOverlayClick}>
                     <div className="modal-container">
                         <div className="modal-header">
-                            <h2 className="modal-title">{title}</h2>
+                            <h2 className="modal-title">{title} {property?.propertyName ? property.propertyName : "Invalid"} </h2>
                             <button className="modal-close" onClick={onClose}>×</button>
                         </div>
                         <form onSubmit={handleSubmit}>

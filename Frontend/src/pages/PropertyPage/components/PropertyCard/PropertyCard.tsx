@@ -15,7 +15,7 @@ interface PropertyCardProps {
     setIsTenantModalOpen: any;
 }
 
-function PropertyCard({ property, onDelete, onAddTenant, setSelectProperty, setIsPropertyModalOpen, setIsUnitModalOpen, setIsLeaseModalOpen, setIsTenantModalOpen }: PropertyCardProps) {
+function PropertyCard({ property, onDelete, onAddTenant, setSelectProperty, setIsPropertyModalOpen, setIsUnitModalOpen, setIsLeaseModalOpen, setIsTenantModalOpen}: PropertyCardProps) {
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
