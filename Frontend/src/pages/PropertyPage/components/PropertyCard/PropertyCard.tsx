@@ -8,14 +8,13 @@ interface PropertyCardProps {
     property: Property;
     onDelete: (id: string) => void;
     setSelectProperty: (id: string) => void;
-    onAddTenant: (propertyId: string, newTenant: Tenant) => boolean;
     setIsPropertyModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    setIsUnitModalOpen : any;
-    setIsLeaseModalOpen: any;
-    setIsTenantModalOpen: any;
+    openUnitModal ?: (property: Property) => void;
+    openLeaseModal ?: (property: Property) => void;
+    openTenantModal ?: (property: Property) => void;
 }
 
-function PropertyCard({ property, onDelete, onAddTenant, setSelectProperty, setIsPropertyModalOpen, setIsUnitModalOpen, setIsLeaseModalOpen, setIsTenantModalOpen}: PropertyCardProps) {
+function PropertyCard({ property, onDelete, setSelectProperty, setIsPropertyModalOpen, openUnitModal, openLeaseModal, openTenantModal}: PropertyCardProps) {
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
@@ -99,21 +98,21 @@ function PropertyCard({ property, onDelete, onAddTenant, setSelectProperty, setI
                             <button 
                             type="button" 
                             className={styles.addUnitButton} 
-                            onClick={setIsUnitModalOpen}
+                            onClick={() => openUnitModal(property)}
                         >
                             Add Unit
                         </button>
                             <button 
                             type="button" 
                             className={styles.addLeaseButton} 
-                            onClick={setIsLeaseModalOpen}
+                            onClick={() => openLeaseModal(property)}
                         >
                             Add Lease
                         </button>
                                                     <button 
                             type="button" 
                             className={styles.addTenantButton} 
-                            onClick={setIsTenantModalOpen}
+                            onClick={() => openTenantModal(property)}
                         >
                             Add Tenant
                         </button>

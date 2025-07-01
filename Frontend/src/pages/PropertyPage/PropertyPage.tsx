@@ -140,26 +140,6 @@ export default function PropertyPage() {
         setProperties(properties.filter((property) => property.id !== id))
     }
 
-    const handleAddTenant = (propertyId: string, newTenant: Tenant) => {
-        setProperties(prevProperties =>
-            prevProperties.map(property => {
-                if (property.id === propertyId) {
-                    const updatedTenants = [...property.tenants, newTenant];
-                    const newOccupiedUnits = Math.min(updatedTenants.length, property.totalUnits);
-                    const newMonthlyRevenue = updatedTenants.reduce((sum, tenant) => sum + tenant.rentAmount, 0);
-                    
-                    return {
-                        ...property,
-                        tenants: updatedTenants,
-                        occupiedUnits: newOccupiedUnits,
-                        monthlyRevenue: newMonthlyRevenue
-                    };
-                }
-                return property;
-            })
-        );
-    };
-
     useEffect(() => {
         const fetchProperties = async () => {
             try {
@@ -366,12 +346,11 @@ export default function PropertyPage() {
                                     key={property.id}
                                     property={property}
                                     onDelete={handleDelete}
-                                    onAddTenant={handleAddTenant}
-                                    onSelectProperty={openTenantModal}
+                                    // onSelectProperty={openTenantModal}
                                     setIsPropertyModalOpen={setIsPropertyModalOpen}
-                                    setIsUnitModalOpen={openUnitModal}
-                                    setIsLeaseModalOpen={openLeaseModal}
-                                    setIsTenantModalOpen={openTenantModal}
+                                    openUnitModal={openUnitModal}
+                                    openLeaseModal={openLeaseModal}
+                                    openTenantModal={openTenantModal}
                                 />
                             ))
                         )}
