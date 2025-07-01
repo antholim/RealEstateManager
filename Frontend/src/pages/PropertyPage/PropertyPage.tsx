@@ -7,6 +7,7 @@ import { fetchGet } from "../../services/FetchService";
 import { Building, TrendingUp, Users, DollarSign } from "lucide-react";
 import { Property, Tenant } from "../../interfaces/Property";
 import ViewPropertyModal from "./components/ViewPropertyModal/ViewPropertyModal";
+import AddTenantModal from "./components/AddTenant/AddTenantModal";
 
 const propertiesInitial: Property[] = [
     {
@@ -312,6 +313,12 @@ export default function PropertyPage() {
                         title="Property Info"
                         submitButtonText="Create Property"
                     />
+                    <AddTenantModal
+                        isOpen={isModalOpen}
+                        onClose={() => setIsModalOpen(false)}
+                        onSubmit={handleSubmit}
+                        title="Add Tenant"
+                        submitButtonText="Create Property"/>
                     
                     <div className={styles.propertiesGrid}>
                         {error && (
