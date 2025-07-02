@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './AddUnitModal.css';
 import { TextField, MenuItem } from '@mui/material';
-import { propertyTypeOptions } from '../../../../data/PropertyType/propertyType'; 
+import { unitTypeOptions } from '../../../../data/UnitType/unitType';
+import { IProperty } from '../../../../interfaces/Property';
 
 interface AddUnitModalProps {
     isOpen: boolean;
@@ -9,7 +10,7 @@ interface AddUnitModalProps {
     onSubmit: (unitData: any) => void;
     title?: string;
     submitButtonText?: string;
-    property: { id: number; propertyName: string };  // Expect a valid property object
+    property: IProperty;  // Expect a valid property object
 }
 
 const AddUnitModal: React.FC<AddUnitModalProps> = ({
@@ -22,8 +23,6 @@ const AddUnitModal: React.FC<AddUnitModalProps> = ({
 }) => {
     const [formData, setFormData] = useState({
         unitNumber: '',
-        rentAmount: '',
-        depositAmount: '',
         unitType: ''
     });
 
@@ -33,8 +32,6 @@ const AddUnitModal: React.FC<AddUnitModalProps> = ({
         if (isOpen) {
             setFormData({
                 unitNumber: '',
-                rentAmount: '',
-                depositAmount: '',
                 unitType: ''
             });
             setErrors({});
@@ -49,8 +46,6 @@ const AddUnitModal: React.FC<AddUnitModalProps> = ({
     const validateForm = () => {
         const newErrors: Record<string, string> = {};
         if (!formData.unitNumber.trim()) newErrors.unitNumber = "Unit number is required";
-        if (!formData.rentAmount || isNaN(Number(formData.rentAmount))) newErrors.rentAmount = "Valid rent is required";
-        if (!formData.depositAmount || isNaN(Number(formData.depositAmount))) newErrors.depositAmount = "Valid deposit is required";
         if (!formData.unitType) newErrors.unitType = "Unit type is required";
         return newErrors;
     };
@@ -95,53 +90,32 @@ const AddUnitModal: React.FC<AddUnitModalProps> = ({
                             helperText={errors.unitNumber}
                         />
                         <TextField
-                            label="Rent Amount"
-                            name="rentAmount"
-                            type="number"
+                            select
+                            label="Unit Type"
+                            name="unitType"
                             fullWidth
                             margin="normal"
-                            value={formData.rentAmount}
+                            value={formData.unitType}
                             onChange={handleChange}
-                            error={!!errors.rentAmount}
-                            helperText={errors.rentAmount}
-                        />
-                        <TextField
-                            label="Deposit Amount"
-                            name="depositAmount"
-                            type="number"
-                            fullWidth
-                            margin="normal"
-                            value={formData.depositAmount}
-                            onChange={handleChange}
-                            error={!!errors.depositAmount}
-                            helperText={errors.depositAmount}
-                        />
-                        <TextField
-    select
-    label="Unit Type"
-    name="unitType"
-    fullWidth
-    margin="normal"
-    value={formData.unitType}
-    onChange={handleChange}
-    error={!!errors.unitType}
-    helperText={errors.unitType}
-    SelectProps={{
-        MenuProps: {
-            PaperProps: {
-                style: {
-                    zIndex: 2147483647, // Higher than any modal layer
-                },
-            },
-        },
-    }}
->
-    {propertyTypeOptions.map(option => (
-        <MenuItem key={option.value} value={option.value}>
-            {option.label}
-        </MenuItem>
-    ))}
-</TextField>
+                            error={!!errors.unitType}
+                            helperText={errors.unitType}
+                            SelectProps={{
+                                MenuProps: {
+                                    disablePortal: true,
+                                    PaperProps: {
+                                        style: {
+                                            zIndex: 2147483647,
+                                        },
+                                    },
+                                },
+                            }}
+                        >
+                            {unitTypeOptions.map((option) => (
+                                <MenuItem key={option.value} value={option.value}>
+                                    {option.label}
+                                </MenuItem>
+                            ))}
+                        </TextField>
 
                     </div>
                     <div className="modal-actions">

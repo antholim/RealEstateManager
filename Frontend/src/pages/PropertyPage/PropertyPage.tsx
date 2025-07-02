@@ -5,14 +5,14 @@ import AddPropertyModal from "./components/AddPropertyModal/AddPropertyModal";
 import PropertyCard from "./components/PropertyCard/PropertyCard";
 import { fetchGet } from "../../services/FetchService";
 import { Building, TrendingUp, Users, DollarSign } from "lucide-react";
-import { Property, Tenant } from "../../interfaces/Property";
+import { IProperty, Tenant } from "../../interfaces/Property";
 import ViewPropertyModal from "./components/ViewPropertyModal/ViewPropertyModal";
 import AddTenantModal from "./components/AddTenantModal/AddTenantModal";
 import AddUnitModal from "./components/AddUnitModal/AddUnitModal";
 import AddLeaseModal from "./components/AddLeaseModal/AddLeaseModal";
 import { usePropertyModal } from "../../hooks/usePropertyModal";
 
-const propertiesInitial: Property[] = [
+const propertiesInitial: IProperty[] = [
     {
         id: '1',
         propertyName: 'Sunset Apartments',
@@ -117,7 +117,7 @@ export default function PropertyPage() {
       } = usePropertyModal();
     const [isPropertyModalOpen, setIsPropertyModalOpen] = useState(false);
     
-    const [properties, setProperties] = useState<Property[]>([]);
+    const [properties, setProperties] = useState<IProperty[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -319,12 +319,14 @@ export default function PropertyPage() {
                         submitButtonText="Add Unit"/>
                     <AddLeaseModal
                         isOpen={isLeaseModalOpen}
+                        property={selectedProperty}
                         onClose={() => setIsLeaseModalOpen(false)}
                         onSubmit={handleSubmit}
                         title="Add Lease"
                         submitButtonText="Add Lease"/>
                     <AddTenantModal
                         isOpen={isTenantModalOpen}
+                        property={selectedProperty}
                         onClose={() => setIsTenantModalOpen(false)}
                         onSubmit={handleSubmit}
                         title="Add Tenant"
