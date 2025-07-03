@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import www.antholim.co.Backend.enums.PropertyType;
 import www.antholim.co.Backend.models.Property;
+import www.antholim.co.Backend.models.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class PropertyDto {
     private String propertyName;
     private int totalUnits;
     private double monthlyRevenue;
+    private List<Unit> unitList;
 
     public static PropertyDto toDto(Property property) {
         PropertyDto dto = new PropertyDto();
@@ -33,6 +35,7 @@ public class PropertyDto {
         dto.setPurchasePrice(property.getPurchasePrice());
         dto.setPropertyType(property.getPropertyType());
         dto.setTotalUnits(property.getUnits().size());
+        dto.setUnitList(property.getUnits());
         return dto;
     }
     public static List<PropertyDto> toDto(List<Property> properties) {

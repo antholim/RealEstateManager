@@ -1,12 +1,12 @@
 export interface IProperty {
     id: string;
-    propertyName: string;
-    address: string;
     purchasePrice: number;
     propertyType: string;
+    address: string;
+    propertyName: string;
     totalUnits: number;
-    occupiedUnits: number;
     monthlyRevenue: number;
+    occupiedUnits: number;
     tenants: Tenant[];
 }
 

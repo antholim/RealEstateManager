@@ -46,7 +46,7 @@ public class Property {
     private String propertyName;
 
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
-    private List<Unit> units = new ArrayList<>();
+    private List<Unit> units;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

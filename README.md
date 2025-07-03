@@ -20,4 +20,8 @@ Navigate to root project directory
 
 ```docker exec -it postgresql psql -U admin -d RealEstateManagerDB``` (Optional)
 
+```\dt``` (Optional)
+
+Write SQL queries (Optional)
+
 2. Run Spring application
