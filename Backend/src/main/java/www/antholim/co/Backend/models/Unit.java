@@ -31,14 +31,6 @@ public class Unit {
     @ToString.Include
     private String unitNumber;
 
-    @Column(name = "rent_amount", nullable = false)
-    @ToString.Include
-    private double rentAmount;
-
-    @Column(name = "deposit_amount", nullable = false)
-    @ToString.Include
-    private double depositAmount;
-
     @Column(name = "unit_type", nullable = false)
     @ToString.Include
     private UnitType unitType;

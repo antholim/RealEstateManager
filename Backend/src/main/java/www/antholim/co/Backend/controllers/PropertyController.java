@@ -16,7 +16,6 @@ import www.antholim.co.Backend.services.TokenService;
 import java.util.List;
 
 @Slf4j
-@Controller
 @RestController
 public class PropertyController {
     private final PropertyService propertyService;

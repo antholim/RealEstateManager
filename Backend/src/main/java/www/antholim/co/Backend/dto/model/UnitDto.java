@@ -24,10 +24,6 @@ public class UnitDto {
 
     private String unitNumber;
 
-    private double rentAmount;
-
-    private double depositAmount;
-
     private UnitType unitType;
 
     public static UnitDto toDto(Unit unit) {
@@ -35,8 +31,6 @@ public class UnitDto {
                 .setId(unit.getId())
                 .setPropertyId(unit.getProperty().getId())
                 .setUnitNumber(unit.getUnitNumber())
-                .setRentAmount(unit.getRentAmount())
-                .setDepositAmount(unit.getDepositAmount())
                 .setUnitType(unit.getUnitType());
     }
     public static List<UnitDto> toDto(List<Unit> units) {
