@@ -9,7 +9,7 @@ import www.antholim.co.Backend.models.Property;
 import java.util.List;
 
 @Repository
-public interface PropertyRepository extends JpaRepository<Property, Integer> {
+public interface PropertyRepository extends JpaRepository<Property, Long> {
     @Query("SELECT DISTINCT p FROM Property p LEFT JOIN FETCH p.units WHERE p.user.id = :userId")
     List<Property> findByUserId(@Param("userId") Long userId);
 }

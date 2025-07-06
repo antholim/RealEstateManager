@@ -13,8 +13,6 @@ public enum UnitType {
     FOUR_BR_TWO_BA,
     FOUR_BR_THREE_BA,
     FOUR_BR_FOUR_BA,
-
-    // House Types
     SINGLE_FAMILY_HOME,
     TOWNHOUSE,
     DUPLEX_UNIT,
@@ -22,8 +20,6 @@ public enum UnitType {
     IN_LAW_SUITE,
     LOFT,
     PENTHOUSE,
-
-    // Commercial Units
     SMALL_OFFICE,
     EXECUTIVE_SUITE,
     OPEN_OFFICE,
@@ -36,8 +32,6 @@ public enum UnitType {
     STORAGE_UNIT,
     SHOWROOM,
     WORKSHOP,
-
-    // Special Types
     PARKING_SPACE,
     GARAGE,
     OTHER

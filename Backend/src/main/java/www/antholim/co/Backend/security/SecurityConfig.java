@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 import java.util.Arrays;
 
 @Configuration
@@ -23,10 +24,12 @@ public class SecurityConfig {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -35,10 +38,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
 //                        .requestMatchers("/api-docs").permitAll()
 //                        .requestMatchers("/swagger-ui.html").permitAll()
-                        .requestMatchers("/api/v1/register").permitAll()
+                                .requestMatchers("/api/v1/register").permitAll()
                                 .requestMatchers("/api/v1/property").permitAll()
-                        .requestMatchers("/api/v1/login").permitAll()
-                        .requestMatchers("/api/v1/hello-world").permitAll()
+                                .requestMatchers("/api/v1/login").permitAll()
+                                .requestMatchers("/api/v1/hello-world").permitAll()
+                                .requestMatchers("/api/v1/unit").permitAll()
+                                .requestMatchers("/api/v1/lease").permitAll()
+                                .requestMatchers("/api/v1/tenant").permitAll()
                                 .requestMatchers("/api/v1/users").permitAll()
                                 .anyRequest().authenticated()
                 )
@@ -50,6 +56,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .build();
     }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

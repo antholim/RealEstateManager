@@ -27,7 +27,7 @@ public class UnitController {
     }
 
     @PostMapping("/api/v1/unit")
-    public Response<?> addUnitToProperty(@RequestBody CreateUnitRequest createUnitRequest, HttpServletRequest request) {
+    public Response<?> addUnitToProperty(@RequestBody UnitDto unitDto, HttpServletRequest request) {
         String jwt = cookieService.getTokenFromCookie(request, "authToken");
         if (jwt == null) {
             return Response.error(Response.Status.UNAUTHORIZED,"Authentication required");
@@ -35,7 +35,7 @@ public class UnitController {
         Long userId = tokenService.extractUserId(jwt);
         //Check if property belongs to userId
 
-        UnitDto unitDto = unitService.createUnit(createUnitRequest.getUnitDto(), createUnitRequest.getPropertyId());
-        return Response.ok().setPayload(unitDto);
+        UnitDto unit = unitService.createUnit(unitDto, unitDto.getPropertyId());
+        return Response.ok().setPayload(unit);
     }
 }
