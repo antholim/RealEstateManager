@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './AddPropertyModal.css';
 import { TextField, Button, Typography, Container, Paper, MenuItem } from '@mui/material';
 import { propertyTypeOptions } from '../../../../data/PropertyType/propertyType';
+import { fetchPost } from '../../../../services/FetchService';
 
 
 const AddPropertyModal = ({
@@ -13,17 +14,22 @@ const AddPropertyModal = ({
 }) => {
     const [inputValue, setInputValue] = useState('');
 
+
     useEffect(() => {
         if (isOpen) {
-            // Reset input value when modal opens
-            setInputValue('');
+            setFormData({
+                name: "",
+                address: "",
+                purchasePrice: "",
+                propertyType: ""
+            });
+            setErrors({});
         }
     }, [isOpen]);
 
     const [formData, setFormData] = useState({
         name: "",
         address: "",
-        units: "",
         purchasePrice: "",
         propertyType: ""
     })
@@ -42,25 +48,30 @@ const AddPropertyModal = ({
         const newErrors: Record<string, string> = {}
         if (!formData.name.trim()) newErrors.name = "Name is required"
         if (!formData.address.trim()) newErrors.address = "Address is required"
-        if (!formData.units.trim()) newErrors.units = "Number of units is required"
-        else if (isNaN(Number(formData.units))) newErrors.units = "Units must be a number"
         return newErrors
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         const newErrors = validateForm()
         if (Object.keys(newErrors).length === 0) {
-            // Here you would typically send the data to your backend
-            console.log("Form submitted:", formData)
-            // Reset form after submission
-            setFormData({
-                name: "",
-                address: "",
-                units: "",
-                purchasePrice: "",
-                propertyType: ""
-            })
+            try {
+                const response = await fetchPost("/api/v1/property", {
+                    body: {
+                        formData
+                    }
+                });
+                console.log("Form submitted:", formData);
+                // Reset form after submission
+                setFormData({
+                    name: "",
+                    address: "",
+                    purchasePrice: "",
+                    propertyType: ""
+                });
+            } catch (e) {
+                console.error(e);
+            }
         } else {
             setErrors(newErrors)
         }
@@ -104,17 +115,6 @@ const AddPropertyModal = ({
                                         onChange={handleChange}
                                         required
                                     />
-
-                                    <TextField
-                                        label="Number of Units"
-                                        type="number"
-                                        fullWidth
-                                        margin="normal"
-                                        name="units"
-                                        value={formData.units}
-                                        onChange={handleChange}
-                                        required
-                                    />
                                     <TextField
                                         label="Purchase Price"
                                         type="text"
@@ -125,28 +125,33 @@ const AddPropertyModal = ({
                                         onChange={handleChange}
                                         required
                                     />
-                                    <div className="form-field">
-                                        <label htmlFor="propertyType">
-                                            Property Type *
-                                        </label>
-                                        <select
-                                            id="propertyType"
-                                            name="propertyType"
-                                            value={formData.propertyType}
-                                            onChange={handleChange}
-                                            required
-                                            className="form-select"
-                                        >
-                                            <option value="" disabled>
-                                                Select Property Type
-                                            </option>
-                                            {propertyTypeOptions.map((option) => (
-                                                <option key={option.value} value={option.value}>
-                                                    {option.label}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
+                                    <TextField
+                                        select
+                                        label="Property Type"
+                                        name="propertyType"
+                                        fullWidth
+                                        margin="normal"
+                                        value={formData.propertyType}
+                                        onChange={handleChange}
+                                        error={!!errors.propertyType}
+                                        helperText={errors.propertyType}
+                                        SelectProps={{
+                                            MenuProps: {
+                                                disablePortal: true,
+                                                PaperProps: {
+                                                    style: {
+                                                        zIndex: 2147483647,
+                                                    },
+                                                },
+                                            },
+                                        }}
+                                    >
+                                        {propertyTypeOptions.map((option) => (
+                                            <MenuItem key={option.value} value={option.value}>
+                                                {option.label}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
                                 </div>
                             </div>
                             <div className="modal-actions">
@@ -160,7 +165,6 @@ const AddPropertyModal = ({
                                 <button
                                     type="submit"
                                     className="modal-button modal-button-submit"
-                                    disabled={!inputValue.trim()}
                                 >
                                     {submitButtonText}
                                 </button>
