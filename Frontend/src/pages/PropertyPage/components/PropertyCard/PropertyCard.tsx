@@ -1,17 +1,17 @@
-import { Property, Tenant } from "../../../../interfaces/Property";
+import { IProperty, Tenant } from "../../../../interfaces/Property";
 import { Card } from "../../../Dashboard/components/ui/card";
 import styles from "./PropertyCard.module.css"
 import { Trash2, Users, DollarSign, MapPin, Building, MoreVertical } from "lucide-react"
 
 
 interface PropertyCardProps {
-    property: Property;
+    property: IProperty;
     onDelete: (id: string) => void;
     setSelectProperty: (id: string) => void;
     setIsPropertyModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    openUnitModal ?: (property: Property) => void;
-    openLeaseModal ?: (property: Property) => void;
-    openTenantModal ?: (property: Property) => void;
+    openUnitModal: (property: IProperty) => void;
+    openLeaseModal: (property: IProperty) => void;
+    openTenantModal: (property: IProperty) => void;
 }
 
 function PropertyCard({ property, onDelete, setSelectProperty, setIsPropertyModalOpen, openUnitModal, openLeaseModal, openTenantModal}: PropertyCardProps) {

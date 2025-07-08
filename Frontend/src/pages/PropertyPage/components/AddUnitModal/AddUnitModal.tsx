@@ -60,7 +60,7 @@ const AddUnitModal: React.FC<AddUnitModalProps> = ({
                 rentAmount: parseFloat(formData.rentAmount),
                 depositAmount: parseFloat(formData.depositAmount),
             };
-            onSubmit(payload);
+            // onSubmit(payload);
         } else {
             setErrors(newErrors);
         }

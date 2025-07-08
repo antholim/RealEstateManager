@@ -350,7 +350,6 @@ export default function PropertyPage() {
                         submitButtonText="Add Lease" />
                     <AddTenantModal
                         isOpen={isTenantModalOpen}
-                        property={selectedProperty}
                         onClose={() => setIsTenantModalOpen(false)}
                         onSubmit={handleSubmit}
                         title="Add Tenant"
