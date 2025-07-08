@@ -9,6 +9,7 @@ import www.antholim.co.Backend.models.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -25,7 +26,7 @@ public class PropertyDto {
     private String propertyName;
     private int totalUnits;
     private double monthlyRevenue;
-    private List<Unit> unitList;
+    private List<UnitDto> units;
 
     public static PropertyDto toDto(Property property) {
         PropertyDto dto = new PropertyDto();
@@ -35,7 +36,8 @@ public class PropertyDto {
         dto.setPurchasePrice(property.getPurchasePrice());
         dto.setPropertyType(property.getPropertyType());
         dto.setTotalUnits(property.getUnits().size());
-        dto.setUnitList(property.getUnits());
+        List<UnitDto> unitDtos = UnitDto.toDto(property.getUnits());
+        dto.setUnits(unitDtos);
         return dto;
     }
     public static List<PropertyDto> toDto(List<Property> properties) {
