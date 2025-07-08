@@ -24,7 +24,7 @@ function PropertyCard({ property, onDelete, setSelectProperty, setIsPropertyModa
     };
 
     const getPropertyTypeColor = (propertyType: string) => {
-        switch (propertyType.toLowerCase()) {
+        switch (propertyType?.toLowerCase()) {
             case 'apartment':
                 return '#3b82f6';
             case 'house':
@@ -45,7 +45,7 @@ function PropertyCard({ property, onDelete, setSelectProperty, setIsPropertyModa
                     <h3 className={styles.propertyName}>{property.propertyName}</h3>
                     <div className={styles.propertyType}>
                         <Building size={14} />
-                        <span style={{ color: getPropertyTypeColor(property.propertyType) }}>
+                        <span style={{ color: getPropertyTypeColor(property?.propertyType) }}>
                             {property.propertyType.charAt(0).toUpperCase() + property.propertyType.slice(1)}
                         </span>
                     </div>

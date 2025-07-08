@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import './AddTenantModal.css';
 import { TextField, Button, Typography, Container, Paper, MenuItem } from '@mui/material';
-import { propertyTypeOptions } from '../../../../data/PropertyType/propertyType';
 
 
-const AddTenantModal = ({
+interface AddTenantModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    onSubmit: (unitData: any) => void;
+    title?: string;
+    submitButtonText?: string;
+}
+
+const AddTenantModal : React.FC<AddTenantModalProps> = ({
     isOpen,
     onClose,
     onSubmit,
-    title = "Title",
-    submitButtonText = 'Submit'
+    title = "Add Tenant",
+    submitButtonText = 'Add Tenant'
 }) => {
     const [inputValue, setInputValue] = useState('');
 
@@ -21,11 +28,11 @@ const AddTenantModal = ({
     }, [isOpen]);
 
     const [formData, setFormData] = useState({
-        name: "",
-        address: "",
-        units: "",
-        purchasePrice: "",
-        propertyType: ""
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        status: "PROSPECT"
     })
 
     const [errors, setErrors] = useState<Record<string, string>>({})
@@ -40,27 +47,38 @@ const AddTenantModal = ({
 
     const validateForm = () => {
         const newErrors: Record<string, string> = {}
-        if (!formData.name.trim()) newErrors.name = "Name is required"
-        if (!formData.address.trim()) newErrors.address = "Address is required"
-        if (!formData.units.trim()) newErrors.units = "Number of units is required"
-        else if (isNaN(Number(formData.units))) newErrors.units = "Units must be a number"
+        if (!formData.firstName.trim()) newErrors.firstName = "First name is required"
+        if (!formData.lastName.trim()) newErrors.lastName = "Last name is required"
+        if (!formData.email.trim()) {
+            newErrors.email = "Email is required"
+        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+            newErrors.email = "Email format is invalid"
+        }
+        if (!formData.phone.trim()) {
+            newErrors.phone = "Phone number is required"
+        } else if (!/^\+?[\d\s\-\(\)]{10,}$/.test(formData.phone)) {
+            newErrors.phone = "Phone number format is invalid"
+        }
         return newErrors
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e) => {
         e.preventDefault()
         const newErrors = validateForm()
         if (Object.keys(newErrors).length === 0) {
             // Here you would typically send the data to your backend
             console.log("Form submitted:", formData)
+            onSubmit(formData)
             // Reset form after submission
             setFormData({
-                name: "",
-                address: "",
-                units: "",
-                purchasePrice: "",
-                propertyType: ""
+                firstName: "",
+                lastName: "",
+                email: "",
+                phone: "",
+                status: "PROSPECT"
             })
+            setInputValue('')
+            onClose()
         } else {
             setErrors(newErrors)
         }
@@ -85,68 +103,54 @@ const AddTenantModal = ({
                             <div className="modal-content">
                                 <div className="modal-input-group">
                                     <TextField
-                                        label="Property Name"
+                                        label="First Name"
                                         type="text"
                                         fullWidth
                                         margin="normal"
-                                        name="name"
-                                        value={formData.name}
+                                        name="firstName"
+                                        value={formData.firstName}
                                         onChange={handleChange}
+                                        error={!!errors.firstName}
+                                        helperText={errors.firstName}
                                         required
                                     />
                                     <TextField
-                                        label="Address"
+                                        label="Last Name"
                                         type="text"
                                         fullWidth
                                         margin="normal"
-                                        name="address"
-                                        value={formData.address}
+                                        name="lastName"
+                                        value={formData.lastName}
                                         onChange={handleChange}
-                                        required
-                                    />
-
-                                    <TextField
-                                        label="Number of Units"
-                                        type="number"
-                                        fullWidth
-                                        margin="normal"
-                                        name="units"
-                                        value={formData.units}
-                                        onChange={handleChange}
+                                        error={!!errors.lastName}
+                                        helperText={errors.lastName}
                                         required
                                     />
                                     <TextField
-                                        label="Purchase Price"
-                                        type="text"
+                                        label="Email"
+                                        type="email"
                                         fullWidth
-                                        name="purchasePrice"
                                         margin="normal"
-                                        value={formData.purchasePrice}
+                                        name="email"
+                                        value={formData.email}
                                         onChange={handleChange}
+                                        error={!!errors.email}
+                                        helperText={errors.email}
                                         required
                                     />
-                                    <div className="form-field">
-                                        <label htmlFor="propertyType">
-                                            Property Type *
-                                        </label>
-                                        <select
-                                            id="propertyType"
-                                            name="propertyType"
-                                            value={formData.propertyType}
-                                            onChange={handleChange}
-                                            required
-                                            className="form-select"
-                                        >
-                                            <option value="" disabled>
-                                                Select Property Type
-                                            </option>
-                                            {propertyTypeOptions.map((option) => (
-                                                <option key={option.value} value={option.value}>
-                                                    {option.label}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
+                                    <TextField
+                                        label="Phone Number"
+                                        type="tel"
+                                        fullWidth
+                                        margin="normal"
+                                        name="phone"
+                                        value={formData.phone}
+                                        onChange={handleChange}
+                                        error={!!errors.phone}
+                                        helperText={errors.phone}
+                                        placeholder="(555) 123-4567"
+                                        required
+                                    />
                                 </div>
                             </div>
                             <div className="modal-actions">
@@ -160,7 +164,6 @@ const AddTenantModal = ({
                                 <button
                                     type="submit"
                                     className="modal-button modal-button-submit"
-                                    disabled={!inputValue.trim()}
                                 >
                                     {submitButtonText}
                                 </button>

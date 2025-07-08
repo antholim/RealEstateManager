@@ -8,8 +8,15 @@ export interface IProperty {
     monthlyRevenue: number;
     occupiedUnits: number;
     tenants: Tenant[];
+    units: IUnit[]
 }
 
+export interface IUnit {
+    id: number;
+    propertyId: number;
+    unitNumber: string;
+    unitType: string;
+}
 export interface Tenant {
     id: string;
     name: string;

@@ -43,6 +43,14 @@ const propertiesInitial: IProperty[] = [
                 rentAmount: 1650,
                 unit: '1B'
             }
+        ],
+        units: [
+            {
+                id: 2,
+                propertyId: 1,
+                unitNumber: "",
+                unitType: "ONE_BR_ONE_BA"
+            },
         ]
     },
     {
@@ -64,6 +72,14 @@ const propertiesInitial: IProperty[] = [
                 leaseEnd: '2025-02-14',
                 rentAmount: 2400,
             }
+        ],
+        units: [
+            {
+                id: 2,
+                propertyId: 2,
+                unitNumber: "",
+                unitType: "ONE_BR_ONE_BA"
+            },
         ]
     },
     {
@@ -96,6 +112,14 @@ const propertiesInitial: IProperty[] = [
                 rentAmount: 3200,
                 unit: 'Ground Floor'
             }
+        ],
+        units: [
+            {
+                id: 2,
+                propertyId: 3,
+                unitNumber: "",
+                unitType: "ONE_BR_ONE_BA"
+            },
         ]
     }
 ];
@@ -114,9 +138,9 @@ export default function PropertyPage() {
         setIsTenantModalOpen,
         setIsUnitModalOpen,
         setIsLeaseModalOpen,
-      } = usePropertyModal();
+    } = usePropertyModal();
     const [isPropertyModalOpen, setIsPropertyModalOpen] = useState(false);
-    
+
     const [properties, setProperties] = useState<IProperty[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -145,11 +169,11 @@ export default function PropertyPage() {
             try {
                 setIsLoading(true);
                 setError(null);
-                
+
                 const response = await fetchGet("/api/v1/property", {
                     credentials: "include"
                 });
-                
+
                 console.log("Fetched response:", response);
                 const propertiesList = response?.payload || response;
                 // Update properties state with fetched data
@@ -169,7 +193,7 @@ export default function PropertyPage() {
                 setIsLoading(false);
             }
         };
-        
+
         fetchProperties();
     }, []);
 
@@ -285,15 +309,15 @@ export default function PropertyPage() {
                 <div className={styles.propertiesSection}>
                     <div className={styles.propertiesHeader}>
                         <h2 className={styles.propertiesTitle}>Your Properties</h2>
-                        <button 
-                            type="button" 
-                            className={styles.addPropertyButton} 
+                        <button
+                            type="button"
+                            className={styles.addPropertyButton}
                             onClick={() => setIsModalOpen(true)}
                         >
                             Add Property
                         </button>
                     </div>
-                    
+
                     <AddPropertyModal
                         isOpen={isModalOpen}
                         onClose={() => setIsModalOpen(false)}
@@ -316,34 +340,34 @@ export default function PropertyPage() {
                         onClose={() => setIsUnitModalOpen(false)}
                         onSubmit={handleSubmit}
                         title="Add Unit"
-                        submitButtonText="Add Unit"/>
+                        submitButtonText="Add Unit" />
                     <AddLeaseModal
                         isOpen={isLeaseModalOpen}
                         property={selectedProperty}
                         onClose={() => setIsLeaseModalOpen(false)}
                         onSubmit={handleSubmit}
                         title="Add Lease"
-                        submitButtonText="Add Lease"/>
+                        submitButtonText="Add Lease" />
                     <AddTenantModal
                         isOpen={isTenantModalOpen}
                         property={selectedProperty}
                         onClose={() => setIsTenantModalOpen(false)}
                         onSubmit={handleSubmit}
                         title="Add Tenant"
-                        submitButtonText="Add Tenant"/>
-                    
+                        submitButtonText="Add Tenant" />
+
                     <div className={styles.propertiesGrid}>
                         {error && (
                             <div className={styles.error}>
                                 {error}
                             </div>
                         )}
-                        
+
                         {properties.length === 0 ? (
                             <div className={styles.noProperties}>No properties found</div>
                         ) : (
                             properties.map(property => (
-                                <PropertyCard 
+                                <PropertyCard
                                     selectedProperty={selectedProperty}
                                     key={property.id}
                                     property={property}
