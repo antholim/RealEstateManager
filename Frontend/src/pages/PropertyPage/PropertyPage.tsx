@@ -309,13 +309,22 @@ export default function PropertyPage() {
                 <div className={styles.propertiesSection}>
                     <div className={styles.propertiesHeader}>
                         <h2 className={styles.propertiesTitle}>Your Properties</h2>
-                        <button
-                            type="button"
-                            className={styles.addPropertyButton}
-                            onClick={() => setIsModalOpen(true)}
-                        >
-                            Add Property
-                        </button>
+                        <div>
+                            <button
+                                type="button"
+                                className={styles.addPropertyButton}
+                                onClick={() => setIsModalOpen(true)}
+                            >
+                                Add Property
+                            </button>
+                            <button
+                                type="button"
+                                className={styles.addPropertyButton}
+                                onClick={() => setIsTenantModalOpen(true)}
+                            >
+                                Add Tenant
+                            </button>
+                        </div>
                     </div>
 
                     <AddPropertyModal
@@ -375,7 +384,6 @@ export default function PropertyPage() {
                                     setIsPropertyModalOpen={setIsPropertyModalOpen}
                                     openUnitModal={openUnitModal}
                                     openLeaseModal={openLeaseModal}
-                                    openTenantModal={openTenantModal}
                                 />
                             ))
                         )}
