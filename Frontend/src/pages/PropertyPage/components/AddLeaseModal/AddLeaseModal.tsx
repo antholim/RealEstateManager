@@ -12,7 +12,7 @@ interface AddLeaseModalProps {
     submitButtonText?: string;
     property: IProperty;  // Expect a valid property object
 }
-const AddLeaseModal : React.FC<AddLeaseModalProps> = ({
+const AddLeaseModal: React.FC<AddLeaseModalProps> = ({
     isOpen,
     onClose,
     onSubmit,
@@ -29,13 +29,13 @@ const AddLeaseModal : React.FC<AddLeaseModalProps> = ({
         }
     }, [isOpen]);
 
-const [formData, setFormData] = useState({
-    startDate: '',
-    endDate: '',
-    monthlyRent: '',
-    depositPaid: '',
-    status: ''
-});
+    const [formData, setFormData] = useState({
+        startDate: '',
+        endDate: '',
+        monthlyRent: '',
+        depositPaid: '',
+        status: ''
+    });
 
     const [errors, setErrors] = useState<Record<string, string>>({})
 
@@ -85,66 +85,77 @@ const [formData, setFormData] = useState({
                         </div>
                         <form onSubmit={handleSubmit}>
                             <div className="modal-content">
-<div className="modal-content">
-    <TextField
-        label="Start Date"
-        type="date"
-        name="startDate"
-        fullWidth
-        margin="normal"
-        value={formData.startDate}
-        onChange={handleChange}
-        InputLabelProps={{ shrink: true }}
-        required
-    />
+                                <div className="modal-content">
+                                    <TextField
+                                        label="Start Date"
+                                        type="date"
+                                        name="startDate"
+                                        fullWidth
+                                        margin="normal"
+                                        value={formData.startDate}
+                                        onChange={handleChange}
+                                        InputLabelProps={{ shrink: true }}
+                                        required
+                                    />
 
-    <TextField
-        label="End Date"
-        type="date"
-        name="endDate"
-        fullWidth
-        margin="normal"
-        value={formData.endDate}
-        onChange={handleChange}
-        InputLabelProps={{ shrink: true }}
-    />
+                                    <TextField
+                                        label="End Date"
+                                        type="date"
+                                        name="endDate"
+                                        fullWidth
+                                        margin="normal"
+                                        value={formData.endDate}
+                                        onChange={handleChange}
+                                        InputLabelProps={{ shrink: true }}
+                                    />
 
-    <TextField
-        label="Monthly Rent"
-        type="number"
-        name="monthlyRent"
-        fullWidth
-        margin="normal"
-        value={formData.monthlyRent}
-        onChange={handleChange}
-        required
-    />
+                                    <TextField
+                                        label="Monthly Rent"
+                                        type="number"
+                                        name="monthlyRent"
+                                        fullWidth
+                                        margin="normal"
+                                        value={formData.monthlyRent}
+                                        onChange={handleChange}
+                                        required
+                                    />
 
-    <TextField
-        label="Deposit Paid"
-        type="number"
-        name="depositPaid"
-        fullWidth
-        margin="normal"
-        value={formData.depositPaid}
-        onChange={handleChange}
-    />
+                                    <TextField
+                                        label="Deposit Paid"
+                                        type="number"
+                                        name="depositPaid"
+                                        fullWidth
+                                        margin="normal"
+                                        value={formData.depositPaid}
+                                        onChange={handleChange}
+                                    />
 
-    <TextField
-        select
-        label="Status"
-        name="status"
-        fullWidth
-        margin="normal"
-        value={formData.status}
-        onChange={handleChange}
-        required
-    >
-        <MenuItem value="ACTIVE">Active</MenuItem>
-        <MenuItem value="INACTIVE">Inactive</MenuItem>
-        <MenuItem value="TERMINATED">Terminated</MenuItem>
-    </TextField>
-</div>
+                                    <TextField
+                                        select
+                                        label="Status"
+                                        name="status"
+                                        fullWidth
+                                        margin="normal"
+                                        value={formData.status}
+                                        onChange={handleChange}
+                                        error={!!errors.unitType}
+                                        helperText={errors.unitType}
+                                        SelectProps={{
+                                            MenuProps: {
+                                                disablePortal: true,
+                                                PaperProps: {
+                                                    style: {
+                                                        zIndex: 2147483647,
+                                                    },
+                                                },
+                                            },
+                                        }}
+                                    >
+                                        <MenuItem value="ACTIVE">Active</MenuItem>
+                                        <MenuItem value="INACTIVE">Inactive</MenuItem>
+                                        <MenuItem value="TERMINATED">Terminated</MenuItem>
+                                    </TextField>
+                                </div>
                             </div>
                             <div className="modal-actions">
                                 <button
