@@ -1,5 +1,6 @@
 package www.antholim.co.Backend.services.implementations;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import www.antholim.co.Backend.dto.model.UnitDto;
 import www.antholim.co.Backend.models.Property;
@@ -11,14 +12,10 @@ import www.antholim.co.Backend.services.UnitService;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UnitServiceImpl implements UnitService {
     private final PropertyRepository propertyRepository;
     private final UnitRepository unitRepository;
-
-    public UnitServiceImpl(PropertyRepository propertyRepository, UnitRepository unitRepository) {
-        this.propertyRepository = propertyRepository;
-        this.unitRepository = unitRepository;
-    }
 
     @Override
     public Unit getUnit(Long id) {

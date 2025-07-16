@@ -1,7 +1,9 @@
 package www.antholim.co.Backend.services.implementations;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import www.antholim.co.Backend.dto.model.PropertyDto;
+import www.antholim.co.Backend.dto.summary.PropertySummaryDto;
 import www.antholim.co.Backend.models.Property;
 import www.antholim.co.Backend.models.User;
 import www.antholim.co.Backend.repository.PropertyRepository;
@@ -11,14 +13,11 @@ import www.antholim.co.Backend.services.PropertyService;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PropertyServiceImpl implements PropertyService {
     private final UserRepository userRepository;
     private final PropertyRepository propertyRepository;
 
-    public PropertyServiceImpl(UserRepository userRepository, PropertyRepository propertyRepository) {
-        this.propertyRepository = propertyRepository;
-        this.userRepository = userRepository;
-    }
     @Override
     public Property getProperty(Long id) {
         return null;
@@ -28,6 +27,10 @@ public class PropertyServiceImpl implements PropertyService {
     public List<PropertyDto> getProperties(Long userId) {
         System.out.println(propertyRepository.findByUserId(userId));
         return PropertyDto.toDto(propertyRepository.findByUserId(userId));
+    }
+    @Override
+    public List<PropertySummaryDto> getPropertiesSummary(Long userId) {
+        return null;
     }
 
     @Override
