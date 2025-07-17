@@ -3,6 +3,7 @@ import './AddUnitModal.css';
 import { TextField, MenuItem } from '@mui/material';
 import { unitTypeOptions } from '../../../../data/UnitType/unitType';
 import { IProperty } from '../../../../interfaces/Property';
+import { fetchPost } from '../../../../services/FetchService';
 
 interface AddUnitModalProps {
     isOpen: boolean;
@@ -50,19 +51,31 @@ const AddUnitModal: React.FC<AddUnitModalProps> = ({
         return newErrors;
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const newErrors = validateForm();
         if (Object.keys(newErrors).length === 0) {
-            const payload = {
-                ...formData,
-                propertyId: property.id,
-                rentAmount: parseFloat(formData.rentAmount),
-                depositAmount: parseFloat(formData.depositAmount),
-            };
-            // onSubmit(payload);
+            try {
+                const response = await fetchPost("/api/v1/unit", {
+                    body: {
+                        ...formData,
+                        "propertyId" : property.id
+                    }
+                });
+                console.log("Form submitted:", {
+                        ...formData,
+                        "propertyId" : property.id
+                    });
+                // Reset form after submission
+                setFormData({
+                unitNumber: '',
+                unitType: ''
+                });
+            } catch (e) {
+                console.error(e);
+            }
         } else {
-            setErrors(newErrors);
+            setErrors(newErrors)
         }
     };
 

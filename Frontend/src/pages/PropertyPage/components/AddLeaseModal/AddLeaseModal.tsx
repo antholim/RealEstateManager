@@ -30,6 +30,7 @@ const AddLeaseModal: React.FC<AddLeaseModalProps> = ({
     }, [isOpen]);
 
     const [formData, setFormData] = useState({
+        tenant: "",
         startDate: '',
         endDate: '',
         monthlyRent: '',
@@ -49,7 +50,7 @@ const AddLeaseModal: React.FC<AddLeaseModalProps> = ({
 
     const validateForm = () => {
         const newErrors: Record<string, string> = {}
-        if (!formData.name.trim()) newErrors.name = "Name is required"
+        if (!formData.tenant.trim()) newErrors.name = "Tenant is required"
         return newErrors
     }
 
@@ -61,7 +62,12 @@ const AddLeaseModal: React.FC<AddLeaseModalProps> = ({
             console.log("Form submitted:", formData)
             // Reset form after submission
             setFormData({
-                name: "",
+                tenant: "",
+                startDate: '',
+                endDate: '',
+                monthlyRent: '',
+                depositPaid: '',
+                status: ''
             })
         } else {
             setErrors(newErrors)
@@ -86,6 +92,17 @@ const AddLeaseModal: React.FC<AddLeaseModalProps> = ({
                         <form onSubmit={handleSubmit}>
                             <div className="modal-content">
                                 <div className="modal-content">
+                                    <TextField
+                                        label="Tenant"
+                                        type="text"
+                                        name="tenant"
+                                        fullWidth
+                                        margin="normal"
+                                        value={formData.tenant}
+                                        onChange={handleChange}
+                                        InputLabelProps={{ shrink: true }}
+                                        required
+                                    />
                                     <TextField
                                         label="Start Date"
                                         type="date"
@@ -168,7 +185,6 @@ const AddLeaseModal: React.FC<AddLeaseModalProps> = ({
                                 <button
                                     type="submit"
                                     className="modal-button modal-button-submit"
-                                    disabled={!inputValue.trim()}
                                 >
                                     {submitButtonText}
                                 </button>
