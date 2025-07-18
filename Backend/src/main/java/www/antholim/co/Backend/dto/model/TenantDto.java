@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Getter
 @Setter
 @Accessors
@@ -15,5 +18,8 @@ public class TenantDto {
     private Long id;
     private String firstName;
     private String lastName;
-    private double rentPayment;
+    private String email;
+    private String phone;
+    private LocalDateTime createdAt;
+    private List<Long> leaseIds; // or List<LeaseDto> if you need nested data
 }

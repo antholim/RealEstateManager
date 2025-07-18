@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class Response<T> {
     public enum Status {
-        OK, BAD_REQUEST, UNAUTHORIZED, VALIDATION_EXCEPTION, EXCEPTION, WRONG_CREDENTIALS, ACCESS_DENIED, NOT_FOUND, DUPLICATE_ENTITY
+        OK, BAD_REQUEST, UNAUTHORIZED, VALIDATION_EXCEPTION, EXCEPTION, WRONG_CREDENTIALS, ACCESS_DENIED, NOT_FOUND, DUPLICATE_ENTITY, CREATED
     }
     private Status status;
     private T payload;
@@ -19,6 +19,11 @@ public class Response<T> {
     public static <T> Response<T> ok() {
         Response<T> response = new Response<>();
         response.setStatus(Status.OK);
+        return response;
+    }
+    public static <T> Response<T> created() {
+        Response<T> response = new Response<>();
+        response.setStatus(Status.CREATED);
         return response;
     }
     public static <T> Response<T> error(Status status) {

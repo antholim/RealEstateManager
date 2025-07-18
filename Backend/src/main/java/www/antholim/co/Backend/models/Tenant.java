@@ -1,6 +1,5 @@
 package www.antholim.co.Backend.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -10,12 +9,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "tenants")
+@Accessors(chain = true)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(onlyExplicitlyIncluded = true)
+@Table(name = "tenants")
 public class Tenant {
 
     @Id
@@ -31,16 +31,24 @@ public class Tenant {
     @ToString.Include
     private String lastName;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "email",nullable = false, unique = true)
+    @ToString.Include
     private String email;
 
     @Column(nullable = false)
+    @ToString.Include
     private String phone;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
+    @ToString.Include
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Include
     private List<Lease> leases;
+
+    @Version
+    @Column(name = "version")
+    private Integer version;
 }
