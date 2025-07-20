@@ -10,7 +10,7 @@ import www.antholim.co.Backend.repository.PropertyRepository;
 import www.antholim.co.Backend.repository.UserRepository;
 import www.antholim.co.Backend.services.PropertyService;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -25,12 +25,15 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public List<PropertyDto> getProperties(Long userId) {
-        System.out.println(propertyRepository.findByUserId(userId));
         return PropertyDto.toDto(propertyRepository.findByUserId(userId));
     }
     @Override
     public List<PropertySummaryDto> getPropertiesSummary(Long userId) {
-        return null;
+        List<PropertySummaryDto> propertySummaryDtoList = new ArrayList<>();
+
+        List<Property> propertyList = propertyRepository.findByUserId(userId);
+
+        return propertySummaryDtoList;
     }
 
     @Override

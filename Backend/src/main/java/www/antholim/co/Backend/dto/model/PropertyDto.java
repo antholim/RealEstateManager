@@ -7,6 +7,7 @@ import www.antholim.co.Backend.enums.PropertyType;
 import www.antholim.co.Backend.models.Property;
 import www.antholim.co.Backend.models.Unit;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,12 +21,12 @@ import java.util.stream.Collectors;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PropertyDto {
     private Long id;
-    private double purchasePrice;
+    private BigDecimal purchasePrice;
     private PropertyType propertyType;
     private String address;
     private String propertyName;
     private int totalUnits;
-    private double monthlyRevenue;
+    private BigDecimal monthlyRevenue;
     private List<UnitDto> units;
 
     public static PropertyDto toDto(Property property) {

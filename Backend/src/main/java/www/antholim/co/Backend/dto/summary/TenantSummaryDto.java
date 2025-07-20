@@ -11,5 +11,4 @@ public class TenantSummaryDto {
     private LocalDate leaseStart;
     private LocalDate leaseEnd;
     private BigDecimal rentAmount;
-    private String unit;
 }

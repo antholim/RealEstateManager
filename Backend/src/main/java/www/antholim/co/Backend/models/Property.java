@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import www.antholim.co.Backend.enums.PropertyType;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class Property {
 
     @Column(name = "purchase_price", nullable = false)
     @ToString.Include
-    private double purchasePrice;
+    private BigDecimal purchasePrice;
 
     @Column(name = "property_type", nullable = false)
     @ToString.Include
