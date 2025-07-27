@@ -9,4 +9,6 @@ public interface LeaseService {
     Optional<LeaseDto> getLease(Long id);
     List<LeaseDto> getAllLeases(Long id);
     LeaseDto createLease(LeaseDto leaseDto);
+    List<LeaseDto> getLeasesByUnitId(Long unitId);
+    Optional<LeaseDto> getActiveLease(Long id);
 }

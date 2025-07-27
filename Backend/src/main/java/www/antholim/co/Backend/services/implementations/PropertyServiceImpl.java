@@ -2,12 +2,18 @@ package www.antholim.co.Backend.services.implementations;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import www.antholim.co.Backend.dto.model.LeaseDto;
 import www.antholim.co.Backend.dto.model.PropertyDto;
 import www.antholim.co.Backend.dto.summary.PropertySummaryDto;
+import www.antholim.co.Backend.dto.summary.TenantSummaryDto;
+import www.antholim.co.Backend.enums.LeaseStatus;
 import www.antholim.co.Backend.models.Property;
+import www.antholim.co.Backend.models.Unit;
 import www.antholim.co.Backend.models.User;
+import www.antholim.co.Backend.repository.LeaseRepository;
 import www.antholim.co.Backend.repository.PropertyRepository;
 import www.antholim.co.Backend.repository.UserRepository;
+import www.antholim.co.Backend.services.LeaseService;
 import www.antholim.co.Backend.services.PropertyService;
 
 import java.util.*;
@@ -15,8 +21,10 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class PropertyServiceImpl implements PropertyService {
+    private final LeaseService leaseService;
     private final UserRepository userRepository;
     private final PropertyRepository propertyRepository;
+    private final LeaseRepository leaseRepository;
 
     @Override
     public Property getProperty(Long id) {
@@ -29,9 +37,31 @@ public class PropertyServiceImpl implements PropertyService {
     }
     @Override
     public List<PropertySummaryDto> getPropertiesSummary(Long userId) {
-        List<PropertySummaryDto> propertySummaryDtoList = new ArrayList<>();
+        List<Property> properties = propertyRepository.findByUserId(userId);
+        int size = properties.size();
 
-        List<Property> propertyList = propertyRepository.findByUserId(userId);
+        List<PropertySummaryDto> propertySummaryDtoList = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            TenantSummaryDto tenantSummaryDto = null;
+            for (Unit unit : properties.get(i).getUnits()) {
+                List<LeaseDto> leases = leaseService.getAllLeases(unit.getId());
+                Optional<LeaseDto> activeLease = leases.stream()
+                        .filter(lease -> lease.getStatus() == LeaseStatus.ACTIVE)
+                        .findFirst();
+
+                if (activeLease.isPresent()) {
+                    LeaseDto lease = activeLease.get();
+                    tenantSummaryDto = new TenantSummaryDto(
+                            null, "", "", "",
+                            lease.getStartDate(),
+                            lease.getEndDate(),
+                            lease.getMonthlyRent()
+                    );
+                    break;
+                }
+            }
+        }
+
 
         return propertySummaryDtoList;
     }

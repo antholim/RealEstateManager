@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 public class PropertySummaryDto {
 
-    private String id;
+    private Long id;
     private String propertyName;
     private String address;
     private PropertyType propertyType;
