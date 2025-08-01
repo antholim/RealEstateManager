@@ -51,7 +51,7 @@ public class PropertyServiceImpl implements PropertyService {
             LeaseDto leaseDto = null;
             for (Unit unit : properties.get(i).getUnits()) {
                 TenantSummaryDto tenantSummaryDto = null;
-                Optional<TenantDto> tenantDto = tenantService.getTenant(unit.getId()); //false
+                //false
                 List<LeaseDto> leases = leaseService.getLeasesByUnitId(unit.getId());
                 System.out.println(unit.getId());
                 System.out.println(leases.size());
@@ -60,19 +60,23 @@ public class PropertyServiceImpl implements PropertyService {
                         .filter(lease -> lease.getStatus() == LeaseStatus.ACTIVE)
                         .findFirst();
                 System.out.println(activeLease.isPresent() + "IS PRESENT lease");
-                System.out.println(tenantDto.isPresent() + "IS PRESENT tenant");
-                if (activeLease.isPresent() && tenantDto.isPresent()) {
+                if (activeLease.isPresent()) {
                     leaseDto = activeLease.get();
-                    tenantsSummaryDtoList.add(new TenantSummaryDto(
-                            null,
-                            tenantDto.get().getFirstName() + " " + tenantDto.get().getLastName(),
-                            tenantDto.get().getEmail(),
-                            tenantDto.get().getPhone(),
-                            leaseDto.getStartDate(),
-                            leaseDto.getEndDate(),
-                            leaseDto.getMonthlyRent()
-                    ));
-                    break;
+                    Optional<TenantDto> optionalTenantDto = tenantService.getTenant(leaseDto.getTenantId());
+                    TenantDto tenantDto;
+                    if (optionalTenantDto.isPresent()) {
+                        tenantDto = optionalTenantDto.get();
+                        tenantsSummaryDtoList.add(new TenantSummaryDto(
+                                null,
+                                tenantDto.getFirstName() + " " + tenantDto.getLastName(),
+                                tenantDto.getEmail(),
+                                tenantDto.getPhone(),
+                                leaseDto.getStartDate(),
+                                leaseDto.getEndDate(),
+                                leaseDto.getMonthlyRent()
+                        ));
+                        break;
+                    }
                 }
             }
             propertySummaryDtoList.add(new PropertySummaryDto(
