@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface TenantService {
     Optional<TenantDto> getTenant(Long id);
+    Optional<TenantDto> getTenantByLeaseId(Long id);
     Optional<List<TenantDto>> getTenants();
     Boolean createTenant(TenantDto tenantDto);
 }

@@ -22,6 +22,11 @@ public class TenantServiceImpl implements TenantService {
                 .map(tenantMapper::tenantToTenantDto);
     }
 
+    @Override
+    public Optional<TenantDto> getTenantByLeaseId(Long unitId) {
+        return tenantRepository.findTenantByLeaseId(unitId).map(tenantMapper::tenantToTenantDto);
+    }
+
 
     @Override
     public Optional<List<TenantDto>> getTenants() {

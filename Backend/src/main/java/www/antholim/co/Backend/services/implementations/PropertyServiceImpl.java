@@ -51,12 +51,16 @@ public class PropertyServiceImpl implements PropertyService {
             LeaseDto leaseDto = null;
             for (Unit unit : properties.get(i).getUnits()) {
                 TenantSummaryDto tenantSummaryDto = null;
-                Optional<TenantDto> tenantDto = tenantService.getTenant(unit.getId());
+                Optional<TenantDto> tenantDto = tenantService.getTenant(unit.getId()); //false
                 List<LeaseDto> leases = leaseService.getLeasesByUnitId(unit.getId());
+                System.out.println(unit.getId());
+                System.out.println(leases.size());
+                System.out.println(leases + "ABDEL");
                 Optional<LeaseDto> activeLease = leases.stream()
                         .filter(lease -> lease.getStatus() == LeaseStatus.ACTIVE)
                         .findFirst();
-
+                System.out.println(activeLease.isPresent() + "IS PRESENT lease");
+                System.out.println(tenantDto.isPresent() + "IS PRESENT tenant");
                 if (activeLease.isPresent() && tenantDto.isPresent()) {
                     leaseDto = activeLease.get();
                     tenantsSummaryDtoList.add(new TenantSummaryDto(
@@ -80,7 +84,7 @@ public class PropertyServiceImpl implements PropertyService {
                     0,
                     leaseDto != null ? leaseDto.getMonthlyRent() : null,
                     properties.get(i).getPurchasePrice(),
-                    null,
+                    tenantsSummaryDtoList,
                     unitMapper.unitsToUnitDtos(properties.get(i).getUnits())
             ));
         }
