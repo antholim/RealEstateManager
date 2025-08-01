@@ -53,13 +53,9 @@ public class PropertyServiceImpl implements PropertyService {
                 TenantSummaryDto tenantSummaryDto = null;
                 //false
                 List<LeaseDto> leases = leaseService.getLeasesByUnitId(unit.getId());
-                System.out.println(unit.getId());
-                System.out.println(leases.size());
-                System.out.println(leases + "ABDEL");
                 Optional<LeaseDto> activeLease = leases.stream()
                         .filter(lease -> lease.getStatus() == LeaseStatus.ACTIVE)
                         .findFirst();
-                System.out.println(activeLease.isPresent() + "IS PRESENT lease");
                 if (activeLease.isPresent()) {
                     leaseDto = activeLease.get();
                     Optional<TenantDto> optionalTenantDto = tenantService.getTenant(leaseDto.getTenantId());
@@ -67,7 +63,8 @@ public class PropertyServiceImpl implements PropertyService {
                     if (optionalTenantDto.isPresent()) {
                         tenantDto = optionalTenantDto.get();
                         tenantsSummaryDtoList.add(new TenantSummaryDto(
-                                null,
+                                unit.getId(),
+                                unit.getUnitNumber(),
                                 tenantDto.getFirstName() + " " + tenantDto.getLastName(),
                                 tenantDto.getEmail(),
                                 tenantDto.getPhone(),

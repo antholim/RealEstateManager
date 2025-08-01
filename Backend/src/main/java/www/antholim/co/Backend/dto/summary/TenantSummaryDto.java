@@ -11,7 +11,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class TenantSummaryDto {
-    private Long id;
+    private Long unitId;
+    private String unitNumber;
     private String name;
     private String email;
     private String phone;
