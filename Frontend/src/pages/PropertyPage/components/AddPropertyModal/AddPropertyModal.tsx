@@ -18,7 +18,7 @@ const AddPropertyModal = ({
     useEffect(() => {
         if (isOpen) {
             setFormData({
-                name: "",
+                propertyName: "",
                 address: "",
                 purchasePrice: "",
                 propertyType: ""
@@ -28,7 +28,7 @@ const AddPropertyModal = ({
     }, [isOpen]);
 
     const [formData, setFormData] = useState({
-        name: "",
+        propertyName: "",
         address: "",
         purchasePrice: "",
         propertyType: ""
@@ -46,7 +46,7 @@ const AddPropertyModal = ({
 
     const validateForm = () => {
         const newErrors: Record<string, string> = {}
-        if (!formData.name.trim()) newErrors.name = "Name is required"
+        if (!formData.propertyName.trim()) newErrors.name = "Property name is required"
         if (!formData.address.trim()) newErrors.address = "Address is required"
         return newErrors
     }
@@ -56,6 +56,7 @@ const AddPropertyModal = ({
         const newErrors = validateForm()
         if (Object.keys(newErrors).length === 0) {
             try {
+                console.log("Form submitted:", formData);
                 const response = await fetchPost("/api/v1/property", {
                     body: {
                         formData
@@ -64,11 +65,12 @@ const AddPropertyModal = ({
                 console.log("Form submitted:", formData);
                 // Reset form after submission
                 setFormData({
-                    name: "",
+                    propertyName: "",
                     address: "",
                     purchasePrice: "",
                     propertyType: ""
                 });
+                console.log(response)
             } catch (e) {
                 console.error(e);
             }
@@ -100,8 +102,8 @@ const AddPropertyModal = ({
                                         type="text"
                                         fullWidth
                                         margin="normal"
-                                        name="name"
-                                        value={formData.name}
+                                        name="propertyName"
+                                        value={formData.propertyName}
                                         onChange={handleChange}
                                         required
                                     />

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import www.antholim.co.Backend.dto.model.PropertyDto;
+import www.antholim.co.Backend.dto.request.PropertyRequestDto;
 import www.antholim.co.Backend.dto.response.Response;
 import www.antholim.co.Backend.dto.summary.PropertySummaryDto;
 import www.antholim.co.Backend.services.CookieService;
@@ -51,13 +52,15 @@ public class PropertyController {
         return Response.ok().setPayload(propertiesSummary);
     }
     @PostMapping("/api/v1/property")
-    public Response<?> createProperty(@RequestBody PropertyDto propertyDto, HttpServletRequest request) {
+    public Response<?> createProperty(@RequestBody PropertyRequestDto propertyRequestDto, HttpServletRequest request) {
         String jwt = cookieService.getTokenFromCookie(request, "authToken");
         if (jwt == null) {
             return Response.error(Response.Status.UNAUTHORIZED,"Authentication required");
         }
         Long userId = tokenService.extractUserId(jwt);
-        PropertyDto property = propertyService.createProperty(propertyDto, userId);
+        log.info(propertyRequestDto.toString());
+        System.out.println(propertyRequestDto.toString() + "ABDEL");
+        PropertyDto property = propertyService.createProperty(propertyRequestDto, userId);
         return Response.ok().setPayload(property);
     }
 

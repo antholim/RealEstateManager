@@ -23,9 +23,11 @@ export async function fetchGet<T>(
   const response = await fetch(url, {
     method: 'GET',
     headers: {
+      withCredentials: true,
       'Content-Type': 'application/json',
       ...(headers || {}),
     },
+    credentials: 'include',
     ...rest,
   });
 
@@ -51,6 +53,7 @@ export async function fetchPost<T>(
       'Content-Type': 'application/json',
       ...(headers || {}),
     },
+    credentials: 'include',
     body: typeof body === 'string' ? body : JSON.stringify(body),
     ...rest,
   });

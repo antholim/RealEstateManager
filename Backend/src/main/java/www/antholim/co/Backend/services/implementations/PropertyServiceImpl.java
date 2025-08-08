@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import www.antholim.co.Backend.dto.model.LeaseDto;
 import www.antholim.co.Backend.dto.model.PropertyDto;
 import www.antholim.co.Backend.dto.model.TenantDto;
+import www.antholim.co.Backend.dto.request.PropertyRequestDto;
 import www.antholim.co.Backend.dto.summary.PropertySummaryDto;
 import www.antholim.co.Backend.dto.summary.TenantSummaryDto;
 import www.antholim.co.Backend.enums.LeaseStatus;
@@ -95,13 +96,13 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public PropertyDto createProperty(PropertyDto propertyDto, Long userId) {
+    public PropertyDto createProperty(PropertyRequestDto propertyRequestDto, Long userId) {
         User userReference = userRepository.getReferenceById(userId);
         Property newProperty = new Property();
-        newProperty.setPropertyName(propertyDto.getPropertyName())
-                .setPropertyType(propertyDto.getPropertyType())
-                .setPurchasePrice(propertyDto.getPurchasePrice())
-                .setAddress(propertyDto.getAddress())
+        newProperty.setPropertyName(propertyRequestDto.getPropertyName())
+                .setPropertyType(propertyRequestDto.getPropertyType())
+                .setPurchasePrice(propertyRequestDto.getPurchasePrice())
+                .setAddress(propertyRequestDto.getAddress())
                 .setUser(userReference);
 
         Property savedProperty = propertyRepository.save(newProperty);  // Save the entity, not the DTO
