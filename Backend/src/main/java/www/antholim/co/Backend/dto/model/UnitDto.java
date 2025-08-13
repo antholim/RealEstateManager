@@ -35,8 +35,10 @@ public class UnitDto {
     }
     public static List<UnitDto> toDto(List<Unit> units) {
         List<UnitDto> dtos = new ArrayList<>();
-        for (Unit unit : units) {
-            dtos.add(toDto(unit));
+        if (units != null) {
+            for (Unit unit : units) {
+                dtos.add(toDto(unit));
+            }
         }
         return dtos;
     }

@@ -36,7 +36,7 @@ public class PropertyDto {
         dto.setPropertyName(property.getPropertyName());
         dto.setPurchasePrice(property.getPurchasePrice());
         dto.setPropertyType(property.getPropertyType());
-        dto.setTotalUnits(property.getUnits().size());
+        dto.setTotalUnits(property.getUnits() != null ? property.getUnits().size() : 0);
         List<UnitDto> unitDtos = UnitDto.toDto(property.getUnits());
         dto.setUnits(unitDtos);
         return dto;
