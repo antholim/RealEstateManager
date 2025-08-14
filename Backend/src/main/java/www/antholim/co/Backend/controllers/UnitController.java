@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import www.antholim.co.Backend.dto.model.PropertyDto;
 import www.antholim.co.Backend.dto.model.UnitDto;
 import www.antholim.co.Backend.dto.request.CreateUnitRequest;
+import www.antholim.co.Backend.dto.request.UnitRequestDto;
 import www.antholim.co.Backend.dto.response.Response;
 import www.antholim.co.Backend.services.CookieService;
 import www.antholim.co.Backend.services.TokenService;
@@ -27,14 +28,13 @@ public class UnitController {
     }
 
     @PostMapping("/api/v1/unit")
-    public Response<?> addUnitToProperty(@RequestBody UnitDto unitDto, HttpServletRequest request) {
+    public Response<?> addUnitToProperty(@RequestBody UnitRequestDto unitDto, HttpServletRequest request) {
         String jwt = cookieService.getTokenFromCookie(request, "authToken");
         if (jwt == null) {
             return Response.error(Response.Status.UNAUTHORIZED,"Authentication required");
         }
         Long userId = tokenService.extractUserId(jwt);
         //Check if property belongs to userId
-
         UnitDto unit = unitService.createUnit(unitDto, unitDto.getPropertyId());
         return Response.ok().setPayload(unit);
     }

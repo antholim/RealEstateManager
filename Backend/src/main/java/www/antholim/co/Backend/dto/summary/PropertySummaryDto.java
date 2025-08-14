@@ -23,5 +23,5 @@ public class PropertySummaryDto {
     private BigDecimal monthlyRevenue;
     private BigDecimal purchasePrice;
     private List<TenantSummaryDto> tenantsSummaryDto;
-    private List<UnitDto> unitsDto;
+    private List<UnitDto> units;
 }

@@ -3,6 +3,7 @@ package www.antholim.co.Backend.services.implementations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import www.antholim.co.Backend.dto.model.UnitDto;
+import www.antholim.co.Backend.dto.request.UnitRequestDto;
 import www.antholim.co.Backend.models.Property;
 import www.antholim.co.Backend.models.Unit;
 import www.antholim.co.Backend.repository.PropertyRepository;
@@ -28,11 +29,11 @@ public class UnitServiceImpl implements UnitService {
     }
 
     @Override
-    public UnitDto createUnit(UnitDto unitDto, Long propertyId) {
+    public UnitDto createUnit(UnitRequestDto unitRequestDto, Long propertyId) {
         Property propertyReference = propertyRepository.getReferenceById(propertyId);
         Unit unit = new Unit();
-        unit.setUnitNumber(unitDto.getUnitNumber())
-                .setUnitType(unitDto.getUnitType())
+        unit.setUnitNumber(unitRequestDto.getUnitNumber())
+                .setUnitType(unitRequestDto.getUnitType())
                 .setProperty(propertyReference);
         Unit savedUnit = unitRepository.save(unit);
         return UnitDto.toDto(savedUnit);
