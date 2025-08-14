@@ -22,7 +22,7 @@ const propertiesInitial: IProperty[] = [
         occupiedUnits: 10,
         monthlyRevenue: 18000,
         purchasePrice: 600000,
-        tenants: [
+        tenantsSummaryDto: [
             {
                 id: '1',
                 name: 'John Smith',
@@ -62,7 +62,7 @@ const propertiesInitial: IProperty[] = [
         occupiedUnits: 1,
         monthlyRevenue: 2400,
         purchasePrice: 600000,
-        tenants: [
+        tenantsSummaryDto: [
             {
                 id: '3',
                 name: 'Michael Brown',
@@ -91,7 +91,7 @@ const propertiesInitial: IProperty[] = [
         occupiedUnits: 6,
         monthlyRevenue: 24000,
         purchasePrice: 600000,
-        tenants: [
+        tenantsSummaryDto: [
             {
                 id: '4',
                 name: 'Tech Solutions LLC',
@@ -141,7 +141,7 @@ export default function PropertyPage() {
     } = usePropertyModal();
     const [isPropertyModalOpen, setIsPropertyModalOpen] = useState(false);
 
-    const [properties, setProperties] = useState<IProperty[]>([]);
+    const [properties, setProperties] = useState<IProperty[]>(propertiesInitial);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -170,20 +170,13 @@ export default function PropertyPage() {
                 setIsLoading(true);
                 setError(null);
 
-                const response = await fetchGet("/api/v1/property", {
+                const response = await fetchGet("/api/v1/property-summary", {
                     credentials: "include"
                 });
 
                 console.log("Fetched response:", response);
                 const propertiesList = response?.payload || response;
-                // Update properties state with fetched data
-                if (propertiesList && Array.isArray(propertiesList)) {
-                    setProperties(propertiesList);
-                } else {
-                    // Fallback to initial data if API returns unexpected format
-                    setProperties(propertiesInitial);
-                }
-                setProperties(propertiesInitial);
+                setProperties([...propertiesInitial, ...propertiesList]);
             } catch (error) {
                 console.error("Fetch failed:", error);
                 setError("Failed to load properties");
