@@ -13,9 +13,6 @@ public class Response<T> {
     }
     private Status status;
     private T payload;
-    private Object errors;
-    private Object metadata;
-    private String token;
     public static <T> Response<T> ok() {
         Response<T> response = new Response<>();
         response.setStatus(Status.OK);
@@ -33,7 +30,6 @@ public class Response<T> {
     }
     public static <T> Response<T> error(String message) {
         Response<T> response = new Response<>();
-        response.setErrors(message);
         return response;
     }
 
@@ -41,7 +37,6 @@ public class Response<T> {
     public static <T> Response<T> error(Status status, String message) {
         Response<T> response = new Response<>();
         response.setStatus(status);
-        response.setErrors(message);
         return response;
     }
 
@@ -49,7 +44,6 @@ public class Response<T> {
     public static <T> Response<T> error(Status status, Object errors) {
         Response<T> response = new Response<>();
         response.setStatus(status);
-        response.setErrors(errors);
         return response;
     }
     public static <T> Response<T> duplicateEntity() {
@@ -62,10 +56,5 @@ public class Response<T> {
         Response<T> response = new Response<>();
         response.setStatus(Status.EXCEPTION);
         return response;
-    }
-
-    // Method to add error messages (used in your exception handler)
-    public void addErrorMsgToResponse(String message, Exception ex) {
-        this.setErrors(message);
     }
 }
