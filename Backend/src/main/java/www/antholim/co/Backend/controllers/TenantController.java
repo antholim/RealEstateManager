@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import www.antholim.co.Backend.dto.model.TenantDto;
+import www.antholim.co.Backend.dto.request.TenantRequestDto;
 import www.antholim.co.Backend.dto.response.Response;
 import www.antholim.co.Backend.services.TenantService;
 
@@ -19,8 +20,8 @@ public class TenantController {
 //        return Response.ok().setPayload(properties);
 //    }
     @PostMapping("/api/v1/tenant")
-    public Response<?> createProperty(@RequestBody TenantDto tenantDto, HttpServletRequest request) {
-        tenantService.createTenant(tenantDto);
-        return Response.created().setPayload(tenantDto);
+    public Response<?> createProperty(@RequestBody TenantRequestDto tenantRequestDto, HttpServletRequest request) {
+        tenantService.createTenant(tenantRequestDto);
+        return Response.created().setPayload(tenantRequestDto);
     }
 }

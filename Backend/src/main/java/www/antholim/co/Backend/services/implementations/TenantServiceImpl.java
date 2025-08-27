@@ -3,6 +3,7 @@ package www.antholim.co.Backend.services.implementations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import www.antholim.co.Backend.dto.model.TenantDto;
+import www.antholim.co.Backend.dto.request.TenantRequestDto;
 import www.antholim.co.Backend.mappers.TenantMapper;
 import www.antholim.co.Backend.models.Tenant;
 import www.antholim.co.Backend.repository.TenantRepository;
@@ -34,13 +35,14 @@ public class TenantServiceImpl implements TenantService {
     }
 
     @Override
-    public Boolean createTenant(TenantDto tenantDto) {
-        System.out.println(tenantDto.toString() + "DTO ABDEL");
-        Tenant tenant = tenantMapper.tenantDtoToTenant(tenantDto);
-        System.out.println(tenant.toString() + "ABDEL");
-        tenant.setId(null);         // ensure it's treated as a new entity
-        tenant.setVersion(1);    // let Hibernate handle versioning
-        tenantRepository.save(tenant);
+    public Boolean createTenant(TenantRequestDto tenantRequestDto) {
+        Tenant newTenant = new Tenant();
+        newTenant.setFirstName(tenantRequestDto.getFirstName())
+        .setLastName(tenantRequestDto.getLastName())
+        .setEmail(tenantRequestDto.getEmail())
+        .setPhone(tenantRequestDto.getPhone());
+
+        Tenant savedTenant = tenantRepository.save(newTenant);
         return true;
     }
 }

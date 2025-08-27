@@ -1,10 +1,11 @@
 package www.antholim.co.Backend.dto.request;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.experimental.Accessors;
-import www.antholim.co.Backend.enums.PropertyType;
 
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,9 +14,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PropertyRequestDto {
-    private String propertyName;
-    private String address;
-    private BigDecimal purchasePrice;
-    private PropertyType propertyType;
+public class TenantRequestDto {
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
 }
