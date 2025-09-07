@@ -38,8 +38,7 @@ public class TenantServiceImpl implements TenantService {
         List<TenantDto> tenantDtos = tenants.stream()
                 .map(tenantMapper::tenantToTenantDto)
                 .toList();
-        return Optional.of(tenantDtous
-                s);
+        return Optional.of(tenantDtos);
     }
 
     @Override
