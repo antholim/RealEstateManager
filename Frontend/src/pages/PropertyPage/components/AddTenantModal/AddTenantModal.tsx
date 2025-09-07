@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './AddTenantModal.css';
 import { TextField, Button, Typography, Container, Paper, MenuItem } from '@mui/material';
+import { fetchPost } from '../../../../services/FetchService';
 
 
 interface AddTenantModalProps {
@@ -11,7 +12,7 @@ interface AddTenantModalProps {
     submitButtonText?: string;
 }
 
-const AddTenantModal : React.FC<AddTenantModalProps> = ({
+const AddTenantModal: React.FC<AddTenantModalProps> = ({
     isOpen,
     onClose,
     onSubmit,
@@ -62,10 +63,15 @@ const AddTenantModal : React.FC<AddTenantModalProps> = ({
         return newErrors
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         const newErrors = validateForm()
         if (Object.keys(newErrors).length === 0) {
+            const response = await fetchPost("/api/v1/tenant", {
+                body: {
+                    ...formData,
+                }
+            });
             // Here you would typically send the data to your backend
             console.log("Form submitted:", formData)
             onSubmit(formData)

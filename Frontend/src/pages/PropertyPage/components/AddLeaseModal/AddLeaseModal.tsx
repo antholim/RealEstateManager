@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './AddLeaseModal.css';
 import { TextField, Button, Typography, Container, Paper, MenuItem } from '@mui/material';
 import { IProperty } from '../../../../interfaces/Property';
+import { fetchPost } from '../../../../services/FetchService';
 
 
 interface AddLeaseModalProps {
@@ -30,7 +31,8 @@ const AddLeaseModal: React.FC<AddLeaseModalProps> = ({
     }, [isOpen]);
 
     const [formData, setFormData] = useState({
-        tenant: "",
+        unitId:"",
+        tenantId: "",
         startDate: '',
         endDate: '',
         monthlyRent: '',
@@ -50,19 +52,25 @@ const AddLeaseModal: React.FC<AddLeaseModalProps> = ({
 
     const validateForm = () => {
         const newErrors: Record<string, string> = {}
-        if (!formData.tenant.trim()) newErrors.name = "Tenant is required"
+        if (!formData.tenantId.trim()) newErrors.name = "Tenant is required"
         return newErrors
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         const newErrors = validateForm()
         if (Object.keys(newErrors).length === 0) {
             // Here you would typically send the data to your backend
+            const response = await fetchPost("/api/v1/lease", {
+                body: {
+                    ...formData,
+                }
+            });
             console.log("Form submitted:", formData)
             // Reset form after submission
             setFormData({
-                tenant: "",
+                unitId:"",
+                tenantId: "",
                 startDate: '',
                 endDate: '',
                 monthlyRent: '',
@@ -98,7 +106,7 @@ const AddLeaseModal: React.FC<AddLeaseModalProps> = ({
                                         name="tenant"
                                         fullWidth
                                         margin="normal"
-                                        value={formData.tenant}
+                                        value={formData.tenantId}
                                         onChange={handleChange}
                                         InputLabelProps={{ shrink: true }}
                                         required

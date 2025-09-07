@@ -45,7 +45,7 @@ function PropertyCard({ property, onDelete, setSelectProperty, setIsPropertyModa
                     <div className={styles.propertyType}>
                         <Building size={14} />
                         <span style={{ color: getPropertyTypeColor(property?.propertyType) }}>
-                            {property.propertyType.charAt(0).toUpperCase() + property.propertyType.slice(1)}
+                            {property?.propertyType?.charAt(0)?.toUpperCase() + property?.propertyType?.slice(1)}
                         </span>
                     </div>
                 </div>

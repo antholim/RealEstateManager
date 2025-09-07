@@ -31,7 +31,15 @@ public class TenantServiceImpl implements TenantService {
 
     @Override
     public Optional<List<TenantDto>> getTenants() {
-        return Optional.empty();
+        List<Tenant> tenants = tenantRepository.findAll();
+        if (tenants.isEmpty()) {
+            return Optional.empty();
+        }
+        List<TenantDto> tenantDtos = tenants.stream()
+                .map(tenantMapper::tenantToTenantDto)
+                .toList();
+        return Optional.of(tenantDtous
+                s);
     }
 
     @Override
