@@ -48,6 +48,11 @@ public class Tenant {
     @ToString.Include
     private List<Lease> leases;
 
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     @Version
     @Column(name = "version")
     private Integer version;

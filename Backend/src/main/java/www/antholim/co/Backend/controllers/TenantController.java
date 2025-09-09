@@ -21,14 +21,14 @@ public class TenantController {
     private final TenantService tenantService;
 
     @GetMapping("/api/v1/tenant")
-    public Response<?> getProperty(HttpServletRequest request) {
+    public Response<?> getTenants(HttpServletRequest request) {
         List<TenantDto> tenants = tenantService.getTenants()
                 .orElseThrow(() -> new ResourceNotFoundException("No tenants found"));
         return Response.ok().setPayload(tenants);
     }
 
     @PostMapping("/api/v1/tenant")
-    public Response<?> createProperty(@RequestBody TenantRequestDto tenantRequestDto, HttpServletRequest request) {
+    public Response<?> createTenant(@RequestBody TenantRequestDto tenantRequestDto, HttpServletRequest request) {
         tenantService.createTenant(tenantRequestDto);
         return Response.created().setPayload(tenantRequestDto);
     }

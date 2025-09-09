@@ -6,7 +6,9 @@ import www.antholim.co.Backend.dto.model.TenantDto;
 import www.antholim.co.Backend.dto.request.TenantRequestDto;
 import www.antholim.co.Backend.mappers.TenantMapper;
 import www.antholim.co.Backend.models.Tenant;
+import www.antholim.co.Backend.models.User;
 import www.antholim.co.Backend.repository.TenantRepository;
+import www.antholim.co.Backend.repository.UserRepository;
 import www.antholim.co.Backend.services.TenantService;
 
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TenantServiceImpl implements TenantService {
     private final TenantRepository tenantRepository;
+    private final UserRepository userRepository;
     private final TenantMapper tenantMapper;
     @Override
     public Optional<TenantDto> getTenant(Long id) {
@@ -43,12 +46,13 @@ public class TenantServiceImpl implements TenantService {
 
     @Override
     public Boolean createTenant(TenantRequestDto tenantRequestDto) {
+        User userReference = userRepository.getReferenceById(tenantRequestDto.getUserId());
         Tenant newTenant = new Tenant();
         newTenant.setFirstName(tenantRequestDto.getFirstName())
         .setLastName(tenantRequestDto.getLastName())
         .setEmail(tenantRequestDto.getEmail())
-        .setPhone(tenantRequestDto.getPhone());
-
+        .setPhone(tenantRequestDto.getPhone())
+        .setUser(userReference);
         Tenant savedTenant = tenantRepository.save(newTenant);
         return true;
     }
