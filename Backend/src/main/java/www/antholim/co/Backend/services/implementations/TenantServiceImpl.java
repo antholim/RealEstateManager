@@ -33,8 +33,8 @@ public class TenantServiceImpl implements TenantService {
 
 
     @Override
-    public Optional<List<TenantDto>> getTenants() {
-        List<Tenant> tenants = tenantRepository.findAll();
+    public Optional<List<TenantDto>> getTenants(Long userId) {
+        List<Tenant> tenants = tenantRepository.findTenantsByUserId(userId);
         if (tenants.isEmpty()) {
             return Optional.empty();
         }

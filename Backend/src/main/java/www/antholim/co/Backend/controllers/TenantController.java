@@ -10,7 +10,9 @@ import www.antholim.co.Backend.dto.model.TenantDto;
 import www.antholim.co.Backend.dto.request.TenantRequestDto;
 import www.antholim.co.Backend.dto.response.Response;
 import www.antholim.co.Backend.exceptions.custom.ResourceNotFoundException;
+import www.antholim.co.Backend.services.CookieService;
 import www.antholim.co.Backend.services.TenantService;
+import www.antholim.co.Backend.services.TokenService;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,10 +21,17 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TenantController {
     private final TenantService tenantService;
+    private final TokenService tokenService;
+    private final CookieService cookieService;
 
     @GetMapping("/api/v1/tenant")
     public Response<?> getTenants(HttpServletRequest request) {
-        List<TenantDto> tenants = tenantService.getTenants()
+        String jwt = cookieService.getTokenFromCookie(request, "authToken");
+        if (jwt == null) {
+            return Response.error(Response.Status.UNAUTHORIZED,"Authentication required");
+        }
+        Long userId = tokenService.extractUserId(jwt);
+        List<TenantDto> tenants = tenantService.getTenants(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("No tenants found"));
         return Response.ok().setPayload(tenants);
     }
