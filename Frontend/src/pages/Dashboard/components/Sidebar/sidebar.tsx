@@ -1,17 +1,17 @@
-import { Home, Users, FileText, PenToolIcon as Tool, BarChart, Building } from "lucide-react"
+import { Home, Users, Building, DollarSign, Receipt, BarChart } from "lucide-react"
 import styles from "./sidebar.module.css"
 import { useNavigate } from "react-router-dom"
 
 const navItems = [
-  { icon: Home, label: "Dashboard", route : "/dashboard" },
-  { icon: Building, label: "Properties", route : "/properties" },
-  { icon: Users, label: "Tenants", route : "/tenants" },
-  { icon: FileText, label: "Documents", route : "/dashboard"  },
-  { icon: Tool, label: "Maintenance", route : "/dashboard" },
-  { icon: BarChart, label: "Analytics", route : "/dashboard" },
+  { icon: Home, label: "Dashboard", route: "/dashboard", isDashboardContent: true },
+  { icon: Building, label: "Properties", route: "/property", isDashboardContent: false },
+  { icon: Users, label: "Tenants", route: "/dashboard", isDashboardContent: true },
+  { icon: DollarSign, label: "Rent Tracking", route: "/rent-tracking", isDashboardContent: false },
+  { icon: Receipt, label: "Expenses", route: "/expenses", isDashboardContent: false },
+  { icon: BarChart, label: "Reports", route: "/reports", isDashboardContent: false },
 ]
 
-export function Sidebar({setDashboardContent, dashboardContent}) {
+export function Sidebar({setDashboardContent, dashboardContent}: {setDashboardContent: (content: string) => void, dashboardContent: string}) {
   const navigate = useNavigate();
   return (
     <div className={styles.sidebar}>
@@ -23,7 +23,11 @@ export function Sidebar({setDashboardContent, dashboardContent}) {
           {navItems.map((item, index) => (
             <li key={index}>
               <div onClick={()=> {
-                setDashboardContent(item.label)
+                if (item.isDashboardContent) {
+                  setDashboardContent(item.label);
+                } else {
+                  navigate(item.route);
+                }
               }} className={`${styles.navItem} ${item.label === dashboardContent ? styles.active : ""}`}>
                 <item.icon className={styles.icon} />
                 {item.label}
@@ -35,4 +39,3 @@ export function Sidebar({setDashboardContent, dashboardContent}) {
     </div>
   )
 }
-

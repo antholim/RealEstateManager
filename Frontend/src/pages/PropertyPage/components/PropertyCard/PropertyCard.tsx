@@ -1,19 +1,20 @@
 import { IProperty, Tenant } from "../../../../interfaces/Property";
 import { Card } from "../../../Dashboard/components/ui/card";
 import styles from "./PropertyCard.module.css"
-import { Trash2, Users, DollarSign, MapPin, Building, MoreVertical } from "lucide-react"
+import { Trash2, Users, DollarSign, MapPin, Building, Edit2 } from "lucide-react"
 
 
 interface PropertyCardProps {
     property: IProperty;
+    selectedProperty?: IProperty | null;
     onDelete: (id: string) => void;
-    setSelectProperty: (id: string) => void;
+    onEdit?: (property: IProperty) => void;
     setIsPropertyModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
     openUnitModal: (property: IProperty) => void;
     openLeaseModal: (property: IProperty) => void;
 }
 
-function PropertyCard({ property, onDelete, setSelectProperty, setIsPropertyModalOpen, openUnitModal, openLeaseModal}: PropertyCardProps) {
+function PropertyCard({ property, onDelete, onEdit, setIsPropertyModalOpen, openUnitModal, openLeaseModal}: PropertyCardProps) {
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
@@ -50,14 +51,11 @@ function PropertyCard({ property, onDelete, setSelectProperty, setIsPropertyModa
                     </div>
                 </div>
                 <button
-                    onClick={() => {
-                        setSelectProperty(property.id)
-                        setIsPropertyModalOpen(true)
-                    }}
-                    aria-label={`Delete ${property.propertyName}`}
+                    onClick={() => onEdit?.(property)}
+                    aria-label={`Edit ${property.propertyName}`}
                     className={styles.viewProperty}
                 >
-                    <MoreVertical size={18} />
+                    <Edit2 size={18} />
                 </button>
                 <button
                     onClick={() => onDelete(property.id)}
@@ -94,16 +92,16 @@ function PropertyCard({ property, onDelete, setSelectProperty, setIsPropertyModa
             </div>
 
                 <div className={styles.addSection}>
-                            <button 
-                            type="button" 
-                            className={styles.addUnitButton} 
+                            <button
+                            type="button"
+                            className={styles.addUnitButton}
                             onClick={() => openUnitModal(property)}
                         >
                             Add Unit
                         </button>
-                            <button 
-                            type="button" 
-                            className={styles.addLeaseButton} 
+                            <button
+                            type="button"
+                            className={styles.addLeaseButton}
                             onClick={() => openLeaseModal(property)}
                         >
                             Add Lease

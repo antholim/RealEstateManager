@@ -2,10 +2,7 @@ package www.antholim.co.Backend.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import www.antholim.co.Backend.dto.model.TenantDto;
 import www.antholim.co.Backend.dto.request.TenantRequestDto;
 import www.antholim.co.Backend.dto.response.Response;
@@ -16,6 +13,7 @@ import www.antholim.co.Backend.services.TokenService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +28,7 @@ public class TenantController {
         if (jwt == null) {
             return Response.error(Response.Status.UNAUTHORIZED,"Authentication required");
         }
-        Long userId = tokenService.extractUserId(jwt);
+        UUID userId = tokenService.extractUserId(jwt);
         List<TenantDto> tenants = tenantService.getTenants(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("No tenants found"));
         return Response.ok().setPayload(tenants);
@@ -40,5 +38,27 @@ public class TenantController {
     public Response<?> createTenant(@RequestBody TenantRequestDto tenantRequestDto, HttpServletRequest request) {
         tenantService.createTenant(tenantRequestDto);
         return Response.created().setPayload(tenantRequestDto);
+    }
+
+    @PutMapping("/api/v1/tenant/{id}")
+    public Response<?> updateTenant(@PathVariable Long id, @RequestBody TenantRequestDto tenantRequestDto, HttpServletRequest request) {
+        String jwt = cookieService.getTokenFromCookie(request, "authToken");
+        if (jwt == null) {
+            return Response.error(Response.Status.UNAUTHORIZED, "Authentication required");
+        }
+        UUID userId = tokenService.extractUserId(jwt);
+        TenantDto tenant = tenantService.updateTenant(id, tenantRequestDto, userId);
+        return Response.ok().setPayload(tenant);
+    }
+
+    @DeleteMapping("/api/v1/tenant/{id}")
+    public Response<?> deleteTenant(@PathVariable Long id, HttpServletRequest request) {
+        String jwt = cookieService.getTokenFromCookie(request, "authToken");
+        if (jwt == null) {
+            return Response.error(Response.Status.UNAUTHORIZED, "Authentication required");
+        }
+        UUID userId = tokenService.extractUserId(jwt);
+        tenantService.deleteTenant(id, userId);
+        return Response.ok().setPayload("Tenant marked as former");
     }
 }

@@ -3,126 +3,14 @@ import styles from "./PropertyPage.module.css"
 import { useEffect, useState } from "react"
 import AddPropertyModal from "./components/AddPropertyModal/AddPropertyModal";
 import PropertyCard from "./components/PropertyCard/PropertyCard";
-import { fetchGet } from "../../services/FetchService";
+import { fetchGet, fetchDelete } from "../../services/FetchService";
 import { Building, TrendingUp, Users, DollarSign } from "lucide-react";
-import { IProperty, Tenant } from "../../interfaces/Property";
+import { IProperty } from "../../interfaces/Property";
 import ViewPropertyModal from "./components/ViewPropertyModal/ViewPropertyModal";
 import AddTenantModal from "./components/AddTenantModal/AddTenantModal";
 import AddUnitModal from "./components/AddUnitModal/AddUnitModal";
 import AddLeaseModal from "./components/AddLeaseModal/AddLeaseModal";
 import { usePropertyModal } from "../../hooks/usePropertyModal";
-
-const propertiesInitial: IProperty[] = [
-    {
-        id: '1',
-        propertyName: 'Sunset Apartments',
-        address: '123 Main St, Downtown',
-        propertyType: 'apartment',
-        totalUnits: 12,
-        occupiedUnits: 10,
-        monthlyRevenue: 18000,
-        purchasePrice: 600000,
-        tenantsSummaryDto: [
-            {
-                id: '1',
-                name: 'John Smith',
-                email: 'john.smith@email.com',
-                phone: '(555) 123-4567',
-                leaseStart: '2024-01-01',
-                leaseEnd: '2024-12-31',
-                rentAmount: 1800,
-                unit: '2A'
-            },
-            {
-                id: '2',
-                name: 'Sarah Johnson',
-                email: 'sarah.j@email.com',
-                phone: '(555) 987-6543',
-                leaseStart: '2024-03-01',
-                leaseEnd: '2025-02-28',
-                rentAmount: 1650,
-                unit: '1B'
-            }
-        ],
-        units: [
-            {
-                id: 2,
-                propertyId: 1,
-                unitNumber: "",
-                unitType: "ONE_BR_ONE_BA"
-            },
-        ]
-    },
-    {
-        id: '2',
-        propertyName: 'Oak Street House',
-        address: '456 Oak Street, Suburbs',
-        propertyType: 'house',
-        totalUnits: 1,
-        occupiedUnits: 1,
-        monthlyRevenue: 2400,
-        purchasePrice: 600000,
-        tenantsSummaryDto: [
-            {
-                id: '3',
-                name: 'Michael Brown',
-                email: 'mike.brown@email.com',
-                phone: '(555) 456-7890',
-                leaseStart: '2024-02-15',
-                leaseEnd: '2025-02-14',
-                rentAmount: 2400,
-            }
-        ],
-        units: [
-            {
-                id: 2,
-                propertyId: 2,
-                unitNumber: "",
-                unitType: "ONE_BR_ONE_BA"
-            },
-        ]
-    },
-    {
-        id: '3',
-        propertyName: 'Commerce Plaza',
-        address: '789 Business Ave, Commercial District',
-        propertyType: 'commercial',
-        totalUnits: 8,
-        occupiedUnits: 6,
-        monthlyRevenue: 24000,
-        purchasePrice: 600000,
-        tenantsSummaryDto: [
-            {
-                id: '4',
-                name: 'Tech Solutions LLC',
-                email: 'contact@techsolutions.com',
-                phone: '(555) 111-2222',
-                leaseStart: '2024-01-01',
-                leaseEnd: '2026-12-31',
-                rentAmount: 4000,
-                unit: 'Suite 201'
-            },
-            {
-                id: '5',
-                name: 'Green Coffee Co.',
-                email: 'hello@greencoffee.com',
-                phone: '(555) 333-4444',
-                leaseStart: '2024-06-01',
-                leaseEnd: '2025-05-31',
-                rentAmount: 3200,
-                unit: 'Ground Floor'
-            }
-        ],
-        units: [
-            {
-                id: 2,
-                propertyId: 3,
-                unitNumber: "",
-                unitType: "ONE_BR_ONE_BA"
-            },
-        ]
-    }
-];
 
 export default function PropertyPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -140,57 +28,54 @@ export default function PropertyPage() {
         setIsLeaseModalOpen,
     } = usePropertyModal();
     const [isPropertyModalOpen, setIsPropertyModalOpen] = useState(false);
+    const [editProperty, setEditProperty] = useState<IProperty | null>(null);
 
-    const [properties, setProperties] = useState<IProperty[]>(propertiesInitial);
+    const [properties, setProperties] = useState<IProperty[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    const fetchProperties = async () => {
+        try {
+            setIsLoading(true);
+            setError(null);
+            const response = await fetchGet<any>("/api/v1/property-summary", {
+                credentials: "include"
+            });
+            const propertiesList = response?.payload || response;
+            setProperties(propertiesList);
+        } catch (error) {
+            console.error("Fetch failed:", error);
+            setError("Failed to load properties");
+            setProperties([]);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const handleSubmit = (value: any) => {
-        console.log('Submitted:', value);
-        // Add the new property to the list
-        const newProperty = {
-            ...value,
-            id: Date.now().toString(), // Simple ID generation - use proper UUID in production
-            totalUnits: parseInt(value.units) || 0,
-            occupiedUnits: 0,
-            monthlyRevenue: 0,
-            tenants: []
-        };
-        setProperties(prev => [...prev, newProperty]);
+        fetchProperties();
         setIsModalOpen(false);
     };
 
-    const handleDelete = (id: string) => {
-        setProperties(properties.filter((property) => property.id !== id))
-    }
+    const handleDelete = async (id: string) => {
+        if (!window.confirm('Are you sure you want to delete this property?')) return;
+        try {
+            await fetchDelete(`/api/v1/property/${id}`);
+            fetchProperties();
+        } catch (error) {
+            console.error('Failed to delete property:', error);
+        }
+    };
+
+    const handleEditProperty = (property: IProperty) => {
+        setEditProperty(property);
+        setIsPropertyModalOpen(true);
+    };
 
     useEffect(() => {
-        const fetchProperties = async () => {
-            try {
-                setIsLoading(true);
-                setError(null);
-
-                const response = await fetchGet("/api/v1/property-summary", {
-                    credentials: "include"
-                });
-
-                console.log("Fetched response:", response);
-                const propertiesList = response?.payload || response;
-                setProperties([...propertiesInitial, ...propertiesList]);
-            } catch (error) {
-                console.error("Fetch failed:", error);
-                setError("Failed to load properties");
-                // Fallback to initial data on error
-                setProperties(propertiesInitial);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
         fetchProperties();
     }, []);
 
-    // Calculate dashboard statistics
     const totalProperties = properties.length;
     const totalUnits = properties.reduce((sum, property) => sum + property.totalUnits, 0);
     const occupiedUnits = properties.reduce((sum, property) => sum + property.occupiedUnits, 0);
@@ -231,7 +116,6 @@ export default function PropertyPage() {
         <div className={styles.container}>
             <Sidebar />
             <div className={styles.content}>
-                {/* Header */}
                 <div className={styles.header}>
                     <div className={styles.headerContent}>
                         <Building className={styles.headerIcon} />
@@ -242,7 +126,6 @@ export default function PropertyPage() {
                     </div>
                 </div>
 
-                {/* Dashboard Stats */}
                 <div className={styles.statsContainer}>
                     <div className={styles.statsGrid}>
                         <div className={styles.statCard}>
@@ -256,7 +139,6 @@ export default function PropertyPage() {
                                 </div>
                             </div>
                         </div>
-
                         <div className={styles.statCard}>
                             <div className={styles.statContent}>
                                 <div className={styles.statIcon}>
@@ -269,7 +151,6 @@ export default function PropertyPage() {
                                 </div>
                             </div>
                         </div>
-
                         <div className={styles.statCard}>
                             <div className={styles.statContent}>
                                 <div className={styles.statIcon}>
@@ -281,7 +162,6 @@ export default function PropertyPage() {
                                 </div>
                             </div>
                         </div>
-
                         <div className={styles.statCard}>
                             <div className={styles.statContent}>
                                 <div className={styles.statIcon}>
@@ -298,7 +178,6 @@ export default function PropertyPage() {
                     </div>
                 </div>
 
-                {/* Properties Grid */}
                 <div className={styles.propertiesSection}>
                     <div className={styles.propertiesHeader}>
                         <h2 className={styles.propertiesTitle}>Your Properties</h2>
@@ -330,13 +209,13 @@ export default function PropertyPage() {
 
                     <ViewPropertyModal
                         isOpen={isPropertyModalOpen}
-                        onClose={() => setIsPropertyModalOpen(false)}
-                        onSubmit={handleSubmit}
-                        title="Property Info"
-                        submitButtonText="Create Property"
+                        onClose={() => { setIsPropertyModalOpen(false); setEditProperty(null); }}
+                        onSubmit={() => fetchProperties()}
+                        title="Edit Property"
+                        submitButtonText="Update Property"
+                        property={editProperty}
                     />
                     <AddUnitModal
-
                         isOpen={isUnitModalOpen}
                         property={selectedProperty}
                         onClose={() => setIsUnitModalOpen(false)}
@@ -355,15 +234,14 @@ export default function PropertyPage() {
                         onClose={() => setIsTenantModalOpen(false)}
                         onSubmit={handleSubmit}
                         title="Add Tenant"
-                        submitButtonText="Add Tenant" />
+                        submitButtonText="Add Tenant"
+                        properties={properties}
+                        selectedPropertyId={selectedProperty?.id} />
 
                     <div className={styles.propertiesGrid}>
                         {error && (
-                            <div className={styles.error}>
-                                {error}
-                            </div>
+                            <div className={styles.error}>{error}</div>
                         )}
-
                         {properties.length === 0 ? (
                             <div className={styles.noProperties}>No properties found</div>
                         ) : (
@@ -373,7 +251,7 @@ export default function PropertyPage() {
                                     key={property.id}
                                     property={property}
                                     onDelete={handleDelete}
-                                    // onSelectProperty={openTenantModal}
+                                    onEdit={handleEditProperty}
                                     setIsPropertyModalOpen={setIsPropertyModalOpen}
                                     openUnitModal={openUnitModal}
                                     openLeaseModal={openLeaseModal}

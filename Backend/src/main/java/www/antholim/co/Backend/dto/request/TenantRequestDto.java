@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -19,5 +20,6 @@ public class TenantRequestDto {
     private String lastName;
     private String email;
     private String phone;
-    private Long userId;
+    private UUID userId;
+    private Long propertyId;
 }

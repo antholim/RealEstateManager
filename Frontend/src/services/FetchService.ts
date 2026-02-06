@@ -67,37 +67,55 @@ export async function fetchPost<T>(
 }
 
 
-// interface User {
-//   id: number;
-//   name: string;
-//   email: string;
-// }
+export async function fetchPut<T>(
+  endpoint: string,
+  options: FetchOptions = {}
+): Promise<T> {
+  const { queryParams, headers, body, ...rest } = options;
 
-// const getUser = async (userId: number) => {
-//   const user = await fetchGet<User>(`/users/${userId}`);
-//   console.log('User:', user);
-// };
+  const url = `${BASE_URL}${endpoint}${buildQueryParams(queryParams)}`;
 
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(headers || {}),
+    },
+    credentials: 'include',
+    body: typeof body === 'string' ? body : JSON.stringify(body),
+    ...rest,
+  });
 
-// interface LoginResponse {
-//   token: string;
-//   userId: number;
-// }
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Error ${response.status}: ${errorText}`);
+  }
 
-// const loginUser = async (email: string, password: string) => {
-//   const response = await fetchPost<LoginResponse>('/auth/login', {
-//     body: {
-//       email,
-//       password,
-//     },
-//   });
+  return response.json() as Promise<T>;
+}
 
-//   console.log('Login success:', response.token);
-// };
+export async function fetchDelete<T>(
+  endpoint: string,
+  options: FetchOptions = {}
+): Promise<T> {
+  const { queryParams, headers, ...rest } = options;
 
-// const searchUsers = async () => {
-//   const users = await fetchGet<User[]>('/users/search', {
-//     queryParams: { name: 'John' },
-//   });
-//   console.log('Matching users:', users);
-// };
+  const url = `${BASE_URL}${endpoint}${buildQueryParams(queryParams)}`;
+
+  const response = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(headers || {}),
+    },
+    credentials: 'include',
+    ...rest,
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Error ${response.status}: ${errorText}`);
+  }
+
+  return response.json() as Promise<T>;
+}

@@ -24,6 +24,7 @@ import www.antholim.co.Backend.services.TokenService;
 import www.antholim.co.Backend.services.UserService;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 @Slf4j
 //@RequiredArgsConstructor
@@ -71,7 +72,8 @@ public class UserServiceImpl implements UserService {
             }
 
             User newUser = new User();
-            newUser.setUsername(userDto.getUsername())
+            newUser.setId(UUID.randomUUID())
+                    .setUsername(userDto.getUsername())
                     .setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()))
                     .setEmail(userDto.getEmail());
 

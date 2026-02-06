@@ -9,6 +9,7 @@ export interface IProperty {
     occupiedUnits: number;
     tenants: Tenant[];
     units: IUnit[]
+    notes?: string;
 }
 
 export interface IUnit {
@@ -19,6 +20,8 @@ export interface IUnit {
 }
 export interface Tenant {
     id: string;
+    firstName?: string;
+    lastName?: string;
     name: string;
     email: string;
     phone: string;
@@ -26,4 +29,6 @@ export interface Tenant {
     leaseEnd: string;
     rentAmount: number;
     unit?: string;
+    propertyId?: number;
+    propertyName?: string;
 }

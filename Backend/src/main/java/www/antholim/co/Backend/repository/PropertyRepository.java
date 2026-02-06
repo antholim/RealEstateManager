@@ -7,9 +7,10 @@ import org.springframework.stereotype.Repository;
 import www.antholim.co.Backend.models.Property;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Long> {
     @Query("SELECT DISTINCT p FROM Property p LEFT JOIN FETCH p.units WHERE p.user.id = :userId")
-    List<Property> findByUserId(@Param("userId") Long userId);
+    List<Property> findByUserId(@Param("userId") UUID userId);
 }

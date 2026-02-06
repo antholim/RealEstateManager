@@ -18,4 +18,5 @@ public class PropertyRequestDto {
     private String address;
     private BigDecimal purchasePrice;
     private PropertyType propertyType;
+    private String notes;
 }

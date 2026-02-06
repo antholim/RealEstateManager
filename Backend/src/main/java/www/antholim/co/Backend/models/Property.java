@@ -49,6 +49,12 @@ public class Property {
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
     private List<Unit> units;
 
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    private List<Tenant> tenants;
+
+    @Column(name = "notes")
+    private String notes;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

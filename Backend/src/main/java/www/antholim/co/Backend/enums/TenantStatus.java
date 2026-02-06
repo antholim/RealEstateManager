@@ -1,0 +1,6 @@
+package www.antholim.co.Backend.enums;
+
+public enum TenantStatus {
+    ACTIVE,
+    FORMER
+}

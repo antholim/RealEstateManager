@@ -1,0 +1,13 @@
+.container {
+    width: 100%;
+    min-height: 300px;
+}
+
+.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    color: #6b7280;
+    font-size: 0.875rem;
+}

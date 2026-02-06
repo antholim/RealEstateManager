@@ -5,6 +5,8 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 
+import www.antholim.co.Backend.enums.TenantStatus;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -49,9 +51,17 @@ public class Tenant {
     private List<Lease> leases;
 
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private TenantStatus status = TenantStatus.ACTIVE;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "property_id")
+    private Property property;
 
     @Version
     @Column(name = "version")

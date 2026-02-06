@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import www.antholim.co.Backend.enums.TenantStatus;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,4 +24,7 @@ public class TenantDto {
     private String phone;
     private LocalDateTime createdAt;
     private List<Long> leaseIds; // or List<LeaseDto> if you need nested data
+    private Long propertyId;
+    private String propertyName;
+    private TenantStatus status;
 }

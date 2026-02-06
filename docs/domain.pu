@@ -1,0 +1,70 @@
+@startuml
+title RealEstateManager Domain Model
+
+hide circle
+hide methods
+skinparam classAttributeIconSize 0
+
+class User {
+	+id: integer <<PK>>
+	username: varchar
+	email: varchar
+	password: varchar
+	created_at: timestamp
+}
+
+class Property {
+	+id: integer <<PK>>
+	user_id: integer <<FK>>
+	purchase_price: double
+	type: text
+	address: varchar
+	property_name: varchar
+	created_at: timestamp
+}
+
+class Tenant {
+	+id: integer <<PK>>
+	first_name: varchar
+	last_name: varchar
+	email: varchar
+	phone: varchar
+	created_at: timestamp
+}
+
+class Unit {
+	+id: int <<PK>>
+	property_id: int <<FK>>
+	unit_number: varchar(50)
+	unit_type: varchar(50)
+	created_at: timestamp
+}
+
+enum LeaseStatus {
+	ACTIVE
+	EXPIRED
+	TERMINATED
+}
+
+class Lease {
+	+id: bigint <<PK>>
+	unit_id: bigint <<FK>>
+	tenant_id: bigint <<FK>>
+	start_date: date
+	end_date: date
+	monthly_rent: decimal(10,2)
+	deposit_paid: decimal(10,2)
+	status: LeaseStatus
+	created_at: timestamp
+}
+
+Property "*" --> "1" User : owned by
+Unit "*" --> "1" Property : part of
+Lease "*" --> "1" Unit : covers
+Lease "*" --> "1" Tenant : occupied by
+
+note right of Property::user_id
+	Derived from DBML: properties.user_id > users.id
+end note
+
+@enduml

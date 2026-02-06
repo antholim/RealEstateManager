@@ -19,6 +19,7 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 
@@ -68,7 +69,7 @@ public class TokenServiceImpl implements TokenService {
         return extractClaim(token, Claims::getSubject, tokenType);
     }
     @Override
-    public Long extractUserId(String token) {
+    public UUID extractUserId(String token) {
         return extractUserId(token, TokenType.ACCESS_TOKEN);
     }
 
@@ -80,8 +81,9 @@ public class TokenServiceImpl implements TokenService {
      * @return The userId extracted from the token.
      */
     @Override
-    public Long extractUserId(String token, TokenType tokenType) {
-        return extractClaim(token, claims -> claims.get("userId", Long.class), tokenType);
+    public UUID extractUserId(String token, TokenType tokenType) {
+        String userIdStr = extractClaim(token, claims -> claims.get("userId", String.class), tokenType);
+        return userIdStr != null ? UUID.fromString(userIdStr) : null;
     }
     /**
      * Extracts a specific claim from a token.
@@ -103,9 +105,9 @@ public class TokenServiceImpl implements TokenService {
      * @param tokenType   The type of the token (ACCESS or REFRESH).
      * @return A new JWT token.
      */
-    public String generateToken(Long userId,UserDetails userDetails, TokenType tokenType) {
+    public String generateToken(UUID userId,UserDetails userDetails, TokenType tokenType) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("userId", userId);
+        claims.put("userId", userId.toString());
         return generateToken(claims, userDetails, tokenType);
     }
 

@@ -14,6 +14,8 @@ import www.antholim.co.Backend.services.CookieService;
 import www.antholim.co.Backend.services.TokenService;
 import www.antholim.co.Backend.services.UnitService;
 
+import java.util.UUID;
+
 @Slf4j
 @RestController
 public class UnitController {
@@ -33,7 +35,7 @@ public class UnitController {
         if (jwt == null) {
             return Response.error(Response.Status.UNAUTHORIZED,"Authentication required");
         }
-        Long userId = tokenService.extractUserId(jwt);
+        UUID userId = tokenService.extractUserId(jwt);
         //Check if property belongs to userId
         UnitDto unit = unitService.createUnit(unitDto, unitDto.getPropertyId());
         return Response.ok().setPayload(unit);

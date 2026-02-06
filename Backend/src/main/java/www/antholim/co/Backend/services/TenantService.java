@@ -6,10 +6,13 @@ import www.antholim.co.Backend.models.Tenant;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface TenantService {
     Optional<TenantDto> getTenant(Long id);
     Optional<TenantDto> getTenantByLeaseId(Long id);
-    Optional<List<TenantDto>> getTenants(Long userId);
+    Optional<List<TenantDto>> getTenants(UUID userId);
     Boolean createTenant(TenantRequestDto tenantRequestDto);
+    TenantDto updateTenant(Long tenantId, TenantRequestDto tenantRequestDto, UUID userId);
+    void deleteTenant(Long tenantId, UUID userId);
 }

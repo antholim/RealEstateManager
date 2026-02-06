@@ -1,111 +1,102 @@
+import { useState, useEffect } from 'react';
 import { Card } from "../ui/card"
 import styles from "./tenantList.module.css"
-import { ITenant } from "../../interfaces/interfaces"
-import { AddTenant } from "./addTenant"
 import { Select } from "../ui/select"
+import { fetchGet, fetchDelete } from "../../../../services/FetchService"
+import TenantDetailModal from "./TenantDetailModal/TenantDetailModal"
 
-const tenants:ITenant[] = [
-  {
-    id: 1,
-    name: "John Doe",
-    phone: "123-456-7890",
-    property: "Apartment Hochelaga",
-    unit: "#1",
-    rent:"1200"
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    phone: "234-567-8901",
-    property: "Apartment Hochelaga",
-    unit: "#2",
-    rent:"1200"
-  },
-  {
-    id: 3,
-    name: "Bob Johnson",
-    phone: "345-678-9012",
-    property: "Apartment Hochelaga",
-    unit: "#3",
-    rent:"1200"
-  },
-  {
-    id: 4,
-    name: "Alice Brown",
-    phone: "456-789-0123",
-    property: "Apartment Hochelaga",
-    unit: "#4",
-    rent:"1200"
-  },
-  {
-    id: 5,
-    name: "Charlie Davis",
-    phone: "567-890-1234",
-    property: "Apartment Hochelaga",
-    unit: "#5",
-    rent:"1200"
-  },
-  {
-    id: 6,
-    name: "Charlie Davis",
-    phone: "567-890-1234",
-    property: "Apartment Hochelaga",
-    unit: "#6",
-    rent:"1200"
-  },
-  {
-    id: 7,
-    name: "Charlie Davis",
-    phone: "567-890-1234",
-    property: "Apartment Hochelaga",
-    unit: "#7",
-    rent:"1200"
-  },
-  {
-    id: 8,
-    name: "Charlie Davis",
-    phone: "567-890-1234",
-    property: "Apartment Hochelaga",
-    unit: "#8",
-    rent:"1200"
-  },
-]
+interface TenantData {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    propertyId?: number;
+    propertyName?: string;
+    status?: string;
+}
 
 const options = [
-  {value : "All Tenants", label : "All Tenants"},
-  {value : "Apartment Hochelaga", label : "Apartment Hochelaga"}
+  {value : "All", label : "All Tenants"},
+  {value : "ACTIVE", label : "Active"},
+  {value : "FORMER", label : "Former"},
 ]
 
 export function TenantList() {
+  const [tenants, setTenants] = useState<TenantData[]>([]);
+  const [filter, setFilter] = useState('All');
+  const [selectedTenant, setSelectedTenant] = useState<TenantData | null>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+
+  const loadTenants = async () => {
+    try {
+      const res = await fetchGet<any>('/api/v1/tenant');
+      setTenants(res?.payload || []);
+    } catch (error) {
+      console.error('Failed to load tenants:', error);
+    }
+  };
+
+  useEffect(() => {
+    loadTenants();
+  }, []);
+
+  const handleDelete = async (id: number) => {
+    if (!window.confirm('Mark this tenant as former?')) return;
+    try {
+      await fetchDelete(`/api/v1/tenant/${id}`);
+      loadTenants();
+    } catch (error) {
+      console.error('Failed to delete tenant:', error);
+    }
+  };
+
+  const filteredTenants = filter === 'All'
+    ? tenants
+    : tenants.filter(t => (t.status || 'ACTIVE') === filter);
+
   return (
     <div className={styles.container}>
-      <Select options={options} onChange={()=> {
-        
-      }}/>
+      <Select options={options} onChange={(e: any) => setFilter(e.target.value)} />
       <div className={styles.grid}>
-        {tenants.map((tenant:ITenant) => (
+        {filteredTenants.map((tenant) => (
           <Card key={tenant.id} className={styles.card}>
-            <h3 className={styles.tenantName}>{tenant.name}</h3>
+            <div className={styles.cardHeader}>
+              <h3 className={styles.tenantName}>{tenant.firstName} {tenant.lastName}</h3>
+              <span className={`${styles.statusBadge} ${(tenant.status || 'ACTIVE') === 'ACTIVE' ? styles.statusActive : styles.statusFormer}`}>
+                {tenant.status || 'ACTIVE'}
+              </span>
+            </div>
             <p className={styles.tenantInfo}>
-              <strong>Email:</strong> {tenant?.email || "N/A"}
+              <strong>Email:</strong> {tenant.email || "N/A"}
             </p>
             <p className={styles.tenantInfo}>
               <strong>Phone:</strong> {tenant.phone}
             </p>
             <p className={styles.tenantInfo}>
-              <strong>Property:</strong> {tenant.property}
+              <strong>Property:</strong> {tenant.propertyName || "N/A"}
             </p>
-            <p className={styles.tenantInfo}>
-              <strong>Unit:</strong> {tenant.unit}
-            </p>
-            <p className={styles.tenantInfo}>
-              <strong>Rent:</strong> {tenant.rent} $
-            </p>
+            <div className={styles.cardActions}>
+              <button className={styles.viewBtn} onClick={() => { setSelectedTenant(tenant); setIsDetailOpen(true); }}>
+                View Details
+              </button>
+              {(tenant.status || 'ACTIVE') === 'ACTIVE' && (
+                <button className={styles.deleteBtn} onClick={() => handleDelete(tenant.id)}>
+                  Mark Former
+                </button>
+              )}
+            </div>
           </Card>
         ))}
+        {filteredTenants.length === 0 && (
+          <p className={styles.empty}>No tenants found.</p>
+        )}
       </div>
-      <AddTenant/>
+      <TenantDetailModal
+        isOpen={isDetailOpen}
+        onClose={() => { setIsDetailOpen(false); setSelectedTenant(null); }}
+        tenant={selectedTenant}
+      />
     </div>
   )
 }
-

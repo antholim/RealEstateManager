@@ -21,6 +21,8 @@ import www.antholim.co.Backend.services.LeaseService;
 import www.antholim.co.Backend.services.PropertyService;
 import www.antholim.co.Backend.services.TenantService;
 
+import www.antholim.co.Backend.exceptions.custom.ResourceNotFoundException;
+
 import java.util.*;
 
 @Service
@@ -39,11 +41,11 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public List<PropertyDto> getProperties(Long userId) {
+    public List<PropertyDto> getProperties(UUID userId) {
         return PropertyDto.toDto(propertyRepository.findByUserId(userId));
     }
     @Override
-    public List<PropertySummaryDto> getPropertiesSummary(Long userId) {
+    public List<PropertySummaryDto> getPropertiesSummary(UUID userId) {
         List<Property> properties = propertyRepository.findByUserId(userId);
 
         List<PropertySummaryDto> propertySummaryDtoList = new ArrayList<>();
@@ -96,16 +98,39 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public PropertyDto createProperty(PropertyRequestDto propertyRequestDto, Long userId) {
+    public PropertyDto createProperty(PropertyRequestDto propertyRequestDto, UUID userId) {
         User userReference = userRepository.getReferenceById(userId);
         Property newProperty = new Property();
         newProperty.setPropertyName(propertyRequestDto.getPropertyName())
                 .setPropertyType(propertyRequestDto.getPropertyType())
                 .setPurchasePrice(propertyRequestDto.getPurchasePrice())
                 .setAddress(propertyRequestDto.getAddress())
+                .setNotes(propertyRequestDto.getNotes())
                 .setUser(userReference);
 
-        Property savedProperty = propertyRepository.save(newProperty);  // Save the entity, not the DTO
+        Property savedProperty = propertyRepository.save(newProperty);
         return PropertyDto.toDto(savedProperty);
+    }
+
+    @Override
+    public PropertyDto updateProperty(Long propertyId, PropertyRequestDto propertyRequestDto, UUID userId) {
+        Property property = propertyRepository.findById(propertyId)
+                .orElseThrow(() -> new ResourceNotFoundException("Property not found"));
+
+        if (propertyRequestDto.getPropertyName() != null) property.setPropertyName(propertyRequestDto.getPropertyName());
+        if (propertyRequestDto.getAddress() != null) property.setAddress(propertyRequestDto.getAddress());
+        if (propertyRequestDto.getPurchasePrice() != null) property.setPurchasePrice(propertyRequestDto.getPurchasePrice());
+        if (propertyRequestDto.getPropertyType() != null) property.setPropertyType(propertyRequestDto.getPropertyType());
+        if (propertyRequestDto.getNotes() != null) property.setNotes(propertyRequestDto.getNotes());
+
+        Property saved = propertyRepository.save(property);
+        return PropertyDto.toDto(saved);
+    }
+
+    @Override
+    public void deleteProperty(Long propertyId, UUID userId) {
+        Property property = propertyRepository.findById(propertyId)
+                .orElseThrow(() -> new ResourceNotFoundException("Property not found"));
+        propertyRepository.delete(property);
     }
 }

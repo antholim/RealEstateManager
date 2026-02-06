@@ -9,6 +9,7 @@ import www.antholim.co.Backend.models.Tenant;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface TenantRepository extends JpaRepository<Tenant, Long> {
@@ -16,5 +17,5 @@ public interface TenantRepository extends JpaRepository<Tenant, Long> {
     Optional<Tenant> findTenantByLeaseId(@Param("leaseId") Long leaseId);
 
     @Query("SELECT t FROM Tenant t WHERE t.user.id = :userId")
-    List<Tenant> findTenantsByUserId(@Param("userId") Long userId);
+    List<Tenant> findTenantsByUserId(@Param("userId") UUID userId);
 }
